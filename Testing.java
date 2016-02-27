@@ -36,29 +36,37 @@ UDPosition
 		 
 		 
 		 */
+		newPiece.singleDrop(board);
+		newPiece.singleDrop(board);
+		newPiece.singleDrop(board);
+		board.print();
+		
+		Piece p2 = new Piece();
+		p2.putPieceInto(board);
 		
 		newPiece.moveLeft(board);
 		board.print();
-		newPiece.moveRight(board);
+		p2.singleDrop(board);
+		p2.singleDrop(board);
+		p2.singleDrop(board);
+		/*System.out.println(newPiece.getA().getLR());
+		System.out.println(newPiece.getA().getUD());
+		System.out.println(newPiece.getB().getLR());
+		System.out.println(newPiece.getB().getUD());
+		*/
 		board.print();
-		newPiece.singleDrop(board);
+		p2.rotateCounter(board);
 		board.print();
-		newPiece.singleDrop(board);
-		newPiece.singleDrop(board);
-		newPiece.singleDrop(board);
-		newPiece.singleDrop(board);
-		newPiece.singleDrop(board);
-		newPiece.singleDrop(board);
-		newPiece.singleDrop(board);
-		newPiece.singleDrop(board);
-		newPiece.singleDrop(board);
-		newPiece.singleDrop(board);
-		newPiece.singleDrop(board);
+		p2.rotateCounter(board);
 		board.print();
-		newPiece.moveRight(board);
-		newPiece.singleDrop(board);
-		newPiece.moveRight(board);
+		p2.rotateCounter(board);
 		board.print();
+		p2.rotateCounter(board);
+		board.print();
+		p2.rotateCounter(board);
+		board.print();
+		
+	
 	}
 
 }
