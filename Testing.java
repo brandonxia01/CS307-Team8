@@ -63,6 +63,18 @@ UDPosition
 		board.print();
 		p2.rotateCounter(board);
 		board.print();
+		System.out.println("time");
+		p2.singleDrop(board);
+		board.print();
+		newPiece.singleDrop(board);
+		board.print();
+		p2.singleDrop(board);
+		
+		board.print();
+		p2.singleDrop(board);
+		board.print();
+		p2.singleDrop(board);
+		board.print();
 		board.allDrop();
 		board.print();
 	

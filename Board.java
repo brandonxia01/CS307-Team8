@@ -18,10 +18,7 @@ public class Board {
 
 	
 	public boolean isGameOver() { // checks if the starting block position is blocked
-		if (board[2][2] == null) {
-			return true;
-		}
-		return false;
+		 return (board[2][2] != null);
 	}
 	
 	
@@ -41,6 +38,9 @@ public class Board {
 	}
 	
 	public void moveBlock(int currentLR, int currentUD, int newLR, int newUD) {
+		if (currentLR == newLR && currentUD == newUD) {
+			return;
+		}
 		Block temp = board[currentUD][currentLR];
 		board[newUD][newLR] = temp;
 		temp.setLR(newLR);
@@ -55,17 +55,18 @@ public class Board {
 		}
 	} 
 	
-	public void destroyGroups() {
+	public void destroyGroups() { // go through the block, destroy groups
 		
 	}
 	
 	public void allDrop() {
 		int temp;
 		for (int i = 0; i < length -1 ; ++i) {
-			temp = 13;
+			temp = height - 1;
 			for (int j = height - 1; j > 0; --j) {
 				if (board[j][i] != null) {
-					moveBlock(i, j, i, temp --);
+					moveBlock(i, j, i, temp);
+					temp --;
 				}
 			}
 		}

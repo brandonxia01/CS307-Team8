@@ -54,8 +54,8 @@ public class Piece {
 			// they can move in either order
 			if ((blockB.getUD() != h && board.board[blockB.getUD() + 1][blockB.getLR()] == null)) {
 				if (blockA.getUD() != h && board.board[blockA.getUD() + 1][blockA.getLR()] == null) {
-					board.moveBlock(blockA.getLR(), blockA.getUD(), blockA.getLR() + 1, blockA.getUD()); 
-					board.moveBlock(blockB.getLR(), blockB.getUD(), blockB.getLR() + 1, blockB.getUD());
+					board.moveBlock(blockA.getLR(), blockA.getUD(), blockA.getLR(), blockA.getUD() + 1); 
+					board.moveBlock(blockB.getLR(), blockB.getUD(), blockB.getLR(), blockB.getUD() + 1);
 				}
 				else { control = false; }
 			}
@@ -67,9 +67,23 @@ public class Piece {
 		if (!control) {
 		 	// send a message to the game telling it to move on?
 			//drop both to the bottom quickly
+			dropBoth(board);
 		}
-		
-		
+	}
+	
+	public void dropBoth(Board board) {
+	
+		for (int i = 0; i < board.getHeight(); ++i) {
+			if (isDownEmpty(board)) {
+				board.moveBlock(blockA.getLR(), blockA.getUD(), blockA.getLR(), blockA.getUD() + 1); 
+			}
+			if (isDownEmpty(board, 1)) {
+				board.moveBlock(blockB.getLR(), blockB.getUD(), blockB.getLR(), blockB.getUD() + 1);
+			}
+			if (!isDownEmpty(board) && !isDownEmpty(board, 1)) {
+				return;
+			}
+		}
 	}
 	
 	public void rotateCounter(Board board) { 
@@ -240,7 +254,11 @@ public class Piece {
 		return (blockA.getUD() > 0 && board.board[blockA.getUD() - 1][blockA.getLR()] == null);
 	}
 	public boolean isDownEmpty(Board board) {
-		return (blockA.getUD() < board.getHeight() && board.board[blockA.getUD()+1][blockA.getLR()] == null);
+		return (blockA.getUD() < board.getHeight() - 1 && board.board[blockA.getUD()+1][blockA.getLR()] == null);
+	}
+	public boolean isDownEmpty(Board board, int a) {
+		return (blockB.getUD() < board.getHeight() - 1 && board.board[blockB.getUD()+1][blockB.getLR()] == null);
+
 	}
 	
 	
