@@ -18,10 +18,7 @@ public class Board {
 
 	
 	public boolean isGameOver() { // checks if the starting block position is blocked
-		if (board[2][2] == null) {
-			return true;
-		}
-		return false;
+		 return (board[2][2] != null);
 	}
 	
 	
@@ -41,12 +38,38 @@ public class Board {
 	}
 	
 	public void moveBlock(int currentLR, int currentUD, int newLR, int newUD) {
+		if (currentLR == newLR && currentUD == newUD) {
+			return;
+		}
 		Block temp = board[currentUD][currentLR];
 		board[newUD][newLR] = temp;
 		temp.setLR(newLR);
 		temp.setUD(newUD);
 		board[currentUD][currentLR] = null;
 		
+	}
+	
+	public void removeTopRow() {   // removes blocks on the top row. may allow for vanishing trick)
+		for (int i = 0; i < 6; ++i) {
+			board[0][i] = null;
+		}
+	} 
+	
+	public void destroyGroups() { // go through the block, destroy groups
+		
+	}
+	
+	public void allDrop() {
+		int temp;
+		for (int i = 0; i < length -1 ; ++i) {
+			temp = height - 1;
+			for (int j = height - 1; j > 0; --j) {
+				if (board[j][i] != null) {
+					moveBlock(i, j, i, temp);
+					temp --;
+				}
+			}
+		}
 	}
 	
 	public int getLength() {

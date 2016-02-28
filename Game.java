@@ -10,7 +10,7 @@ public class Game {
 									   // only the rows 2-13 are visible to the user
 									   // rows 0, 1 are ghostly
 		
-		//while (true) {
+		//while (!board.isGameOver()) {
 		
 		Piece p = new Piece();
 		// arraylist of pieces maybe to get the same order
