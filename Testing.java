@@ -46,9 +46,7 @@ UDPosition
 		
 		newPiece.moveLeft(board);
 		board.print();
-		p2.singleDrop(board);
-		p2.singleDrop(board);
-		p2.singleDrop(board);
+		
 		/*System.out.println(newPiece.getA().getLR());
 		System.out.println(newPiece.getA().getUD());
 		System.out.println(newPiece.getB().getLR());
@@ -65,7 +63,8 @@ UDPosition
 		board.print();
 		p2.rotateCounter(board);
 		board.print();
-		
+		board.allDrop();
+		board.print();
 	
 	}
 

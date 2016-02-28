@@ -49,6 +49,28 @@ public class Board {
 		
 	}
 	
+	public void removeTopRow() {   // removes blocks on the top row. may allow for vanishing trick)
+		for (int i = 0; i < 6; ++i) {
+			board[0][i] = null;
+		}
+	} 
+	
+	public void destroyGroups() {
+		
+	}
+	
+	public void allDrop() {
+		int temp;
+		for (int i = 0; i < length -1 ; ++i) {
+			temp = 13;
+			for (int j = height - 1; j > 0; --j) {
+				if (board[j][i] != null) {
+					moveBlock(i, j, i, temp --);
+				}
+			}
+		}
+	}
+	
 	public int getLength() {
 		return this.length;
 	}
