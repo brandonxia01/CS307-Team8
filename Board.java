@@ -23,11 +23,13 @@ public class Board {
 		}
 		return false;
 	}
+	
+	
 	public void print() {
 		for (int i = 0; i < height; ++i) {
 			for (int j = 0; j < length; ++j) {
 				if (board[i][j] == null) {
-					System.out.print("G ");
+					System.out.print("D ");
 				}
 				else {
 					System.out.print(board[i][j].getColor() + " ");

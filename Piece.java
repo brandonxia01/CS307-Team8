@@ -30,6 +30,9 @@ public class Piece {
 	
 	public void singleDrop(Board board) { // drops each block by one, checks if its valid.
 		// the piece will lose control when it tries to fall and there is something underneath
+
+		
+		
 		int h = board.getHeight() - 1;
 		if (blockA.getUD() > blockB.getUD()) {// X X B X X X    // must move A first
 			//								     X X A X X X
@@ -60,47 +63,201 @@ public class Piece {
 		}
 		
 		
-		/*
-		 if (!control) {
+	
+		if (!control) {
 		 	// send a message to the game telling it to move on?
-		 	
-		 }
-		 
-		 
-		 */
+			//drop both to the bottom quickly
+		}
+		
 		
 	}
 	
-	public void rotatePiece(Board board, boolean clockwise) { 
+	public void rotateCounter(Board board) { 
 		// if both blocks are still falling, rotate one of the blocks around the other. otherwise does nothing.
 		if (!control) { return; }
 		
-			int lr = blockA.getLR();
-			int ud = blockA.getUD();
-			
-			
-			
-   			//   X X X       X B X         X X X      X X X         X X X     
-			//   X A B   ->  X A X    ->   B A X  ->  X A X   ->    X A B           
-			//   X X X       X X X         X O X      X B X         X X X       
-            //                               ^			
-			
-			
-			/*
-			int tempLR = blockA.getLR();
-			int tempUD = blockA.getUD();
-			
-			blockA.setUD(blockB.getUD());
-			blockA.setLR(blockB.getLR());
-			
-			blockB.setUD(tempUD);
-			blockB.setLR(tempLR);
-			
-			board.board[blockA.getUD()][blockA.getLR()] = blockB;
-			board.board[blockB.getUD()][blockB.getLR()] = blockA;
-			
-			*/
+		int lr1 = blockA.getLR();
+		int ud1 = blockA.getUD();
+		int lr2 = blockB.getLR();
+		int ud2 = blockB.getUD();
 		
+		int position = checkBPosition();
+
+			//	  X 1 X
+			//    2 A 4
+			//    X 3 X
+		switch (position) {
+		case 1: 
+			if (isLeftEmpty(board)) {
+				board.moveBlock(lr2, ud2, lr2-1, ud2+1);	
+			}
+			else if (isRightEmpty(board)) { // wallkick
+				board.moveBlock(lr1, ud1, lr1+1, ud1);
+				board.moveBlock(lr2,ud2, lr2, ud2 +1);
+			}
+			else if (isDownEmpty(board)) {
+				board.moveBlock(lr2, ud2,  lr2, ud2+2);
+			}
+			else {
+				swap(board);
+			}
+		break;
+		case 2:
+			if (isDownEmpty(board)) {
+				board.moveBlock(lr2,ud2, lr2+1, ud2+1);
+			}
+			else if (isUpEmpty(board)) { //floor kick
+				board.moveBlock(lr1, ud2, lr1, ud1-1);
+				board.moveBlock(lr2, ud2, lr2+1, ud2);
+			}
+			else if (isRightEmpty(board)) {
+				board.moveBlock(lr2, ud2, lr2+2, ud2);
+			}
+			else {
+				swap(board);
+			}
+		break;
+		case 3:
+			//	  X 1 X
+			//    2 A 4
+			//    X 3 X
+			if (isRightEmpty(board)) {
+				board.moveBlock(lr2, ud2, lr2+1, ud2-1);
+			}
+			else if (isLeftEmpty(board)) {
+				board.moveBlock(lr1, ud1, lr1 - 1, ud1);
+				board.moveBlock(lr2, ud2, lr2, ud2 -1);
+			}
+			else if (isUpEmpty(board)) {
+				board.moveBlock(lr2, ud2, lr2, ud2 - 2);
+			}
+			else {
+				swap(board);
+			}
+		break;
+		case 4: 
+			board.moveBlock(lr2, ud2, lr2-1, ud2-1); // up will always be empty (HOPEFULLY)
+		break;
+		}	
+		
+		//   X X X       X B X         X X X      X A X         X X X     
+		//   X A B   ->  X A X    ->   B A X  ->  X B X   ->    X A B           
+		//   X X X       X X X         X O X      X O X         X X X       
+        //                               ^			
+					
+	}
+	
+	public void rotateClockwise(Board board) {
+		if (!control) { return; }
+//	  X 1 X
+//    2 A 4   //cycle goes from 1-4-3-2-1
+//    X 3 X  
+		int lr1 = blockA.getLR();
+		int ud1 = blockA.getUD();
+		int lr2 = blockB.getLR();
+		int ud2 = blockB.getUD();
+		//System.out.println("" + lr1 + " " + ud1 + " " + lr2 + " " + ud2);
+		int position = checkBPosition();
+		//System.out.println(position + "P");
+			//	  X 1 X
+			//    2 A 4
+			//    X 3 X
+		switch (position) {
+		case 1: 
+			if (isRightEmpty(board)) {
+				board.moveBlock(lr2, ud2, lr2+1, ud2+1);
+			}
+			else if (isLeftEmpty(board)) { // wall kick
+				board.moveBlock(lr1, ud1, lr1-1, ud1);
+				board.moveBlock(lr2, ud2, lr2, ud2+1);
+			}
+			else if (isDownEmpty(board)) {
+				board.moveBlock(lr2,ud2, lr2, ud2+2);
+			}
+			else {
+				swap(board);
+			}
+		break;
+		case 2: 
+			board.moveBlock(lr2,ud2, lr2 +1, ud2 -1); // UP is always available HOPEFULLY
+		break;
+		case 3:
+			if (isLeftEmpty(board)) {
+				board.moveBlock(lr2, ud2, lr2 -1, ud2 -1);
+			}
+			else if (isRightEmpty(board)) {
+				board.moveBlock(lr1, ud1, lr1+1, ud1);
+				board.moveBlock(lr2, ud2, lr2, ud2-1);				
+			}
+			else if (isUpEmpty(board)) {
+				board.moveBlock(lr2, ud2, lr2, ud2-2);
+			}
+			else {
+				swap(board);
+			}
+		break;
+		//	  X 1 X
+		//    2 A 4
+		//    X 3 X
+		case 4: 
+			if (isDownEmpty(board)) {
+				board.moveBlock(lr2, ud2, lr2 - 1, ud2 + 1);
+			}
+			else if (isUpEmpty(board)) {
+				board.moveBlock(lr1, ud1, lr1, ud1-1);
+				board.moveBlock(lr2, ud2, lr2-1, ud2);
+			}
+			else if (isLeftEmpty(board)) {
+				board.moveBlock(lr2, ud2, lr2-2, ud2);
+			}
+			else {
+				swap(board);
+			}
+		break;
+			
+		}
+		
+		
+	}
+	
+	public void swap(Board board) {
+		int lr = blockA.getLR();
+		int ud = blockA.getUD();
+		int lr2= blockB.getLR();
+		int ud2= blockB.getUD();
+		board.moveBlock(blockA.getLR(), blockA.getUD(), 0, 0);
+		board.moveBlock(blockB.getLR(), blockB.getUD(), lr, ud);
+		board.moveBlock(0, 0, lr2, ud2);
+		
+	}
+	public boolean isRightEmpty(Board board) {
+		return (blockA.getLR() < board.getLength() && board.board[blockA.getUD()][blockA.getLR() + 1] == null);
+	}
+	public boolean isLeftEmpty(Board board) {
+		return (blockA.getLR() > 0 && board.board[blockA.getUD()][blockA.getLR() - 1] == null);
+	}
+	public boolean isUpEmpty(Board board) {  // might be unnecessary 
+		return (blockA.getUD() > 0 && board.board[blockA.getUD() - 1][blockA.getLR()] == null);
+	}
+	public boolean isDownEmpty(Board board) {
+		return (blockA.getUD() < board.getHeight() && board.board[blockA.getUD()+1][blockA.getLR()] == null);
+	}
+	
+	
+	public int checkBPosition() {
+		if (blockA.getLR() == blockB.getLR() - 1) {
+			return 4;
+		}
+		if (blockA.getLR() == blockB.getLR() + 1) {
+			return 2;
+		}
+		if (blockA.getUD() == blockB.getUD() + 1) {
+			return 1;
+		}
+		if (blockA.getUD() == blockB.getUD() - 1) {
+			return 3;
+		}
+		return 0;
 	}
 	
 	public void moveRight(Board board) {  // self explanatory title, checks for validity.
@@ -160,7 +317,7 @@ public class Piece {
 	public Block getA() {
 		return blockA;
 	}
-	public Block blockB() {
+	public Block getB() {
 		return blockB;
 	}
 	
