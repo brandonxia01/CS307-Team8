@@ -1,4 +1,5 @@
 // Team 8 Arza
+package com.team8.game;
 import java.util.Random;
 
 public class Block {
