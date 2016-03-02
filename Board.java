@@ -55,8 +55,9 @@ public class Board {
 		}
 	} 
 	
-	public void destroyGroups() { // go through the block, destroy groups
+	public boolean destroyGroups() { // go through the block, destroy groups
 		
+		return false;
 	}
 	
 	public void allDrop() {
@@ -65,8 +66,7 @@ public class Board {
 			temp = height - 1;
 			for (int j = height - 1; j > 0; --j) {
 				if (board[j][i] != null) {
-					moveBlock(i, j, i, temp);
-					temp --;
+					moveBlock(i, j, i, temp-- );
 				}
 			}
 		}

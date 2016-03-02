@@ -46,12 +46,17 @@ UDPosition
 		
 		newPiece.moveLeft(board);
 		board.print();
+		for (int i = 0; i < 10; ++i) {
+		newPiece.singleDrop(board);	
 		
-		/*System.out.println(newPiece.getA().getLR());
-		System.out.println(newPiece.getA().getUD());
-		System.out.println(newPiece.getB().getLR());
-		System.out.println(newPiece.getB().getUD());
-		*/
+		System.out.println(newPiece.getA().getLR() + " " + newPiece.getA().getUD());
+		System.out.println(newPiece.getB().getLR() + " " + newPiece.getB().getUD() + "\n");
+		
+		System.out.println(board.board[newPiece.getA().getUD()][newPiece.getA().getLR()].getColor());	
+		
+		}
+		board.print();
+		/*
 		board.print();
 		p2.rotateCounter(board);
 		board.print();
@@ -77,7 +82,7 @@ UDPosition
 		board.print();
 		board.allDrop();
 		board.print();
-	
+	*/
 	}
 
 }
