@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.team8.game.MyGdxGame;
 /**
  * Created by ongun on 2/27/16.
@@ -42,7 +44,13 @@ public class Soloscreen extends State {
             dispose();
         }
         if(Gdx.input.justTouched()){
-
+            Rectangle textureBounds=new Rectangle((int)(Sendless.getX()),(int)Sendless.getY(),
+                    (int)Sendless.getWidth(),(int)Sendless.getHeight());
+            Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            if(textureBounds.contains(touchPos.x, touchPos.y +2*Sendless.getHeight())){
+                System.out.println("touched");
+                gsm.set(new endlessState(gsm));
+                dispose();}
         }
 
     }
