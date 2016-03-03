@@ -1,4 +1,4 @@
-
+package com.team8.game;
 public class Testing {
 
 	public static void main(String[] args) {

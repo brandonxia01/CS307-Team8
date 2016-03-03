@@ -1,5 +1,5 @@
 // Team 8
-
+package com.team8.game;
 public class Board {
 
 	private int length;
