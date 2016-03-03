@@ -63,11 +63,16 @@ public class MenuState extends State {
                     (int)Ssolobtn.getWidth(),(int)Ssolobtn.getHeight());
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
           // cam.unproject(touchPos);
-
+            Rectangle profileBounds=new Rectangle((int)(Sprofilebtn.getX()),(int)Sprofilebtn.getY(),
+                    (int)Sprofilebtn.getWidth(),(int)Sprofilebtn.getHeight());
             if(textureBounds.contains(touchPos.x, touchPos.y + Ssolobtn.getHeight()+Ssolobtn.getHeight()/2)){
                 System.out.println("touched");
            gsm.set(new Soloscreen(gsm));
             dispose();}
+            if(profileBounds.contains(touchPos.x, touchPos.y-Sprofilebtn.getHeight()-logo.getHeight() - Sprofilebtn.getHeight()/2)){
+                System.out.println("touched");
+                gsm.set(new ProfileState(gsm));
+                dispose();}
         }
     }
 
@@ -79,15 +84,7 @@ public class MenuState extends State {
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        sb.draw(logo, (MyGdxGame.WIDTH / 2) - (logo.getWidth() / 2), MyGdxGame.HEIGHT - logo.getHeight(), 330, 250);/*
-        sb.draw(solobtn,(MyGdxGame.WIDTH / 2) - (solobtn.getWidth() / 2), MyGdxGame.HEIGHT - logo.getHeight() -logo.getHeight()/2);
-        sb.draw(vsbtn,(MyGdxGame.WIDTH / 2) - (vsbtn.getWidth() / 2),
-                MyGdxGame.HEIGHT - logo.getHeight()-logo.getHeight()/2-solobtn.getHeight());
-        sb.draw(settingsbtn,(MyGdxGame.WIDTH / 2) - (settingsbtn.getWidth() / 2),
-                MyGdxGame.HEIGHT - logo.getHeight() -logo.getHeight()/2-solobtn.getHeight()-vsbtn.getHeight());
-        sb.draw(profilebtn,(MyGdxGame.WIDTH / 2) - (settingsbtn.getWidth() / 2),
-                MyGdxGame.HEIGHT - logo.getHeight()-logo.getHeight()/2-solobtn.getHeight()-vsbtn.getHeight()-profilebtn.getHeight());
-       */
+        sb.draw(logo, (MyGdxGame.WIDTH / 2) - (logo.getWidth() / 2), MyGdxGame.HEIGHT - logo.getHeight(), 330, 250);
         sb.draw(Ssolobtn,Ssolobtn.getX(),Ssolobtn.getY());
         sb.draw(Svsbtn,Svsbtn.getX(),Svsbtn.getY());
         sb.draw(Ssettingsbtn,Ssettingsbtn.getX(),Ssettingsbtn.getY());
