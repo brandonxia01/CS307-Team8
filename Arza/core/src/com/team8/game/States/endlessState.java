@@ -25,9 +25,13 @@ public class endlessState extends State {
         Ufrm = new Sprite(new Texture("topframe.png"));
         Dfrm = new Sprite(new Texture("topframe.png"));
         bs = new Sprite(new Texture("scorestuff.png"));
-        Lpillar.setPosition(0,Ufrm.getHeight());
-        Rpillar.setPosition(Lpillar.getWidth()*2 + Lpillar.getWidth()/2 +42*6,Ufrm.getHeight());
-        Ufrm.setPosition(Lpillar.getWidth(),Lpillar.getHeight()+Dfrm.getHeight());
+      //  Lpillar.setScale(4*Lpillar.getScaleX(),4*Lpillar.getScaleY());
+        Lpillar.setPosition(0, Ufrm.getHeight());
+       // Rpillar.setScale(4 * Rpillar.getScaleX(), 4* Rpillar.getScaleY());
+        Rpillar.setPosition(Lpillar.getWidth() * 2 + Lpillar.getWidth() / 2 + 42 * 6, Ufrm.getHeight());
+        //Ufrm.setScale(4 * Ufrm.getScaleX(), 4 * Ufrm.getScaleY());
+        Ufrm.setPosition(Lpillar.getWidth(), Lpillar.getHeight() + Dfrm.getHeight());
+        //Dfrm.setScale(4 * Dfrm.getScaleX(),4 * Dfrm.getScaleY());
         Dfrm.setPosition(Lpillar.getWidth(),0);
         bs.setPosition(0,Gdx.graphics.getHeight());
     }

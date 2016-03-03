@@ -39,13 +39,13 @@ public class MenuState extends State {
         Sprofilebtn = new Sprite(profilebtn);
        // logo.
        Ssolobtn.setPosition((Gdx.graphics.getWidth() / 2) - (Ssolobtn.getWidth() / 2),
-               Gdx.graphics.getHeight()  - Slogo.getHeight() -Slogo.getHeight()/2);
+               Gdx.graphics.getHeight()  - logo.getHeight() -logo.getHeight()/2);
         Svsbtn.setPosition((Gdx.graphics.getWidth() / 2) - Svsbtn.getWidth()/2,
-               Gdx.graphics.getHeight() - Slogo.getHeight()-Slogo.getHeight()/2-Ssolobtn.getHeight());
+               Gdx.graphics.getHeight() - logo.getHeight()-logo.getHeight()/2-Ssolobtn.getHeight());
         Ssettingsbtn.setPosition((Gdx.graphics.getWidth() / 2) - Ssettingsbtn.getWidth()/2,
-                Gdx.graphics.getHeight() - Slogo.getHeight()-Slogo.getHeight()/2-Ssolobtn.getHeight()-Svsbtn.getHeight());
+                Gdx.graphics.getHeight() - logo.getHeight()-logo.getHeight()/2-Ssolobtn.getHeight()-Svsbtn.getHeight());
         Sprofilebtn.setPosition((Gdx.graphics.getWidth() / 2) - Sprofilebtn.getWidth()/2,
-                Gdx.graphics.getHeight() - Slogo.getHeight()-Slogo.getHeight()/2-Ssolobtn.getHeight()-Svsbtn.getHeight()-Sprofilebtn.getHeight());
+                Gdx.graphics.getHeight() - logo.getHeight()-logo.getHeight()/2-Ssolobtn.getHeight()-Svsbtn.getHeight()-Sprofilebtn.getHeight());
     }
     @Override
     public void dispose(){
@@ -65,11 +65,11 @@ public class MenuState extends State {
           // cam.unproject(touchPos);
             Rectangle profileBounds=new Rectangle((int)(Sprofilebtn.getX()),(int)Sprofilebtn.getY(),
                     (int)Sprofilebtn.getWidth(),(int)Sprofilebtn.getHeight());
-            if(textureBounds.contains(touchPos.x, touchPos.y + Ssolobtn.getHeight()+Ssolobtn.getHeight()/2)){
+            if(textureBounds.contains(touchPos.x, Gdx.graphics.getHeight() - touchPos.y)){// + Ssolobtn.getHeight()+Ssolobtn.getHeight()/2)){
                 System.out.println("touched");
            gsm.set(new Soloscreen(gsm));
             dispose();}
-            if(profileBounds.contains(touchPos.x, touchPos.y-Sprofilebtn.getHeight()-logo.getHeight() - Sprofilebtn.getHeight()/2)){
+            if(profileBounds.contains(touchPos.x, Gdx.graphics.getHeight() - touchPos.y)){
                 System.out.println("touched");
                 gsm.set(new ProfileState(gsm));
                 dispose();}
@@ -84,7 +84,7 @@ public class MenuState extends State {
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        sb.draw(logo, (MyGdxGame.WIDTH / 2) - (logo.getWidth() / 2), MyGdxGame.HEIGHT - logo.getHeight(), 330, 250);
+        sb.draw(logo, (MyGdxGame.WIDTH / 2) + (logo.getWidth() / 2), MyGdxGame.HEIGHT - logo.getHeight());
         sb.draw(Ssolobtn,Ssolobtn.getX(),Ssolobtn.getY());
         sb.draw(Svsbtn,Svsbtn.getX(),Svsbtn.getY());
         sb.draw(Ssettingsbtn,Ssettingsbtn.getX(),Ssettingsbtn.getY());

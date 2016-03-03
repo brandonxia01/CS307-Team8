@@ -47,7 +47,7 @@ public class Soloscreen extends State {
             Rectangle textureBounds=new Rectangle((int)(Sendless.getX()),(int)Sendless.getY(),
                     (int)Sendless.getWidth(),(int)Sendless.getHeight());
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-            if(textureBounds.contains(touchPos.x, touchPos.y +2*Sendless.getHeight())){
+            if(textureBounds.contains(touchPos.x,  Gdx.graphics.getHeight() -touchPos.y )){
                 System.out.println("touched");
                 gsm.set(new endlessState(gsm));
                 dispose();}
