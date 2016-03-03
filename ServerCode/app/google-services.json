@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_id": "game-4e4e8",
+    "project_number": "129334607027",
+    "name": "Game"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129334607027:android:d11af1fa1bfa02b2",
+        "client_id": "android:com.team8.game",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.team8.game",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129334607027-848jqshghsff16e95e9st3n6iado3pvp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.team8.game",
+            "certificate_hash": "8AABE3AF24E3F042CE4373A03686D200F38875C1"
+          }
+        },
+        {
+          "client_id": "129334607027-vfip9d3cus19o2ni6io18p9vau3cscov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

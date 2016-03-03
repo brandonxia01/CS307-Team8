@@ -1,6 +1,10 @@
 [
     {
-        "merged": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/res/merged/debug/layout-v21/place_autocomplete_fragment.xml",
-        "source": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/8.4.0/res/layout-v21/place_autocomplete_fragment.xml"
+        "merged": "C:\\Users\\ayushnvijay\\gitRepos\\CS307-Team8\\ServerCode\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\place_autocomplete_fragment.xml",
+        "source": "C:\\Users\\ayushnvijay\\gitRepos\\CS307-Team8\\ServerCode\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-location\\8.4.0\\res\\layout-v21\\place_autocomplete_fragment.xml"
+    },
+    {
+        "merged": "C:\\Users\\albret\\Desktop\\CS307-Team8\\ServerCode\\app\\build\\intermediates\\res\\merged\\debug\\layout-v21\\place_autocomplete_fragment.xml",
+        "source": "C:\\Users\\albret\\Desktop\\CS307-Team8\\ServerCode\\app\\build\\intermediates\\exploded-aar\\com.google.android.gms\\play-services-location\\8.4.0\\res\\layout-v21\\place_autocomplete_fragment.xml"
     }
 ]
