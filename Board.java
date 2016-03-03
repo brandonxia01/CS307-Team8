@@ -1,12 +1,14 @@
 // Team 8
-package com.team8.game;
+import java.util.*;
+
 public class Board {
 
 	private int length;
 	private int height;
 	Block [][] board;
-	
-	
+
+	ArrayList <Integer[]> groups = new ArrayList<>();
+
 	public Board (int length, int height) { // most likely 6x14
 		// Advice from a web site, the board will be 6x14, the first two rows are "ghost" rows containing the piece 
 		// as it spawns
@@ -49,16 +51,54 @@ public class Board {
 		
 	}
 	
-	public void removeTopRow() {   // removes blocks on the top row. may allow for vanishing trick)
+	public void removeTopRow() {   // removes blocks on the top row. may allow for vanishing trick
 		for (int i = 0; i < 6; ++i) {
 			board[0][i] = null;
 		}
 	} 
 	
-	public boolean destroyGroups() { // go through the block, destroy groups
+	public boolean findGroups() { // go through the block, destroy groups
+		boolean destroyed = false;
+	
 		
-		return false;
+		for (int i = 0; i < 6; ++i) {
+			for (int j = 1; j < 14; ++j) {
+				if (board[j][i] != null) {
+					searchGroup(i, j, board[j][i].getColor());
+					if (groups.size() >= 4) {
+						destroyed = true;
+						for (int k = 0; k < groups.size(); ++k) {
+							board[groups.get(k)[1]][groups.get(k)[0]] = null;
+						}
+					}
+					groups.clear();
+				}
+			}
+		}
+		
+		return destroyed;
 	}
+
+	public void searchGroup(int lr, int ud, int color) {
+		if (board[ud][lr] == null) { return; }
+		if (board[ud][lr].getColor() != color) { return; }
+	
+		for (int i = 0; i < groups.size(); ++i) {
+			if (groups.get(i)[0] == lr && groups.get(i)[1] == ud) {
+				return;
+			}
+		}
+		groups.add(new Integer[] {lr,ud});
+	
+		if (lr > 0) { searchGroup(lr - 1, ud, color); }
+		if (lr < length - 1) { searchGroup(lr + 1, ud, color); }
+		if (ud > 0) { searchGroup(lr, ud - 1, color); }
+		if (ud < height - 1) { searchGroup(lr, ud + 1, color); }
+	
+		
+	}
+	
+	
 	
 	public void allDrop() {
 		int temp;

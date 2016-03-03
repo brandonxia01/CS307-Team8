@@ -1,5 +1,5 @@
 // Team 8 CS307
-package com.team8.game;
+
 
 
 public class Piece {
