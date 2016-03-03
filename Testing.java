@@ -1,4 +1,4 @@
-package com.team8.game;
+
 public class Testing {
 
 	public static void main(String[] args) {
@@ -47,15 +47,34 @@ UDPosition
 		newPiece.moveLeft(board);
 		board.print();
 		for (int i = 0; i < 10; ++i) {
-		newPiece.singleDrop(board);	
+			newPiece.singleDrop(board);	
 		
 		System.out.println(newPiece.getA().getLR() + " " + newPiece.getA().getUD());
 		System.out.println(newPiece.getB().getLR() + " " + newPiece.getB().getUD() + "\n");
-		
-		System.out.println(board.board[newPiece.getA().getUD()][newPiece.getA().getLR()].getColor());	
-		
+				
 		}
 		board.print();
+		p2.singleDrop(board);
+		p2.singleDrop(board);
+		p2.singleDrop(board);
+		p2.singleDrop(board);
+		p2.singleDrop(board);
+		p2.singleDrop(board);
+		p2.singleDrop(board);
+		p2.singleDrop(board);
+		p2.singleDrop(board);
+		p2.singleDrop(board);
+		board.print();
+		boolean d = board.findGroups();
+	//	System.out.print(d);
+		board.print();
+		p2.singleDrop(board);
+		p2.singleDrop(board);
+		board.print();
+		d = board.findGroups();
+		//System.out.print(d);
+		board.print();
+		
 		/*
 		board.print();
 		p2.rotateCounter(board);
