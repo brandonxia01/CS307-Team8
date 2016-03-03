@@ -2425,12 +2425,13 @@ containing a value of this type.
         public static final int abc_shareactionprovider_share_with_application=0x7f070011;
         public static final int abc_toolbar_collapse_description=0x7f070012;
         public static final int accept=0x7f07003f;
-        public static final int app_name=0x7f070040;
-        public static final int auth_google_play_services_client_facebook_display_name=0x7f070041;
-        public static final int auth_google_play_services_client_google_display_name=0x7f070042;
-        public static final int cast_notification_connected_message=0x7f070043;
-        public static final int cast_notification_connecting_message=0x7f070044;
-        public static final int cast_notification_disconnect=0x7f070045;
+        public static final int app_misconfigured=0x7f070040;
+        public static final int app_name=0x7f070041;
+        public static final int auth_google_play_services_client_facebook_display_name=0x7f070042;
+        public static final int auth_google_play_services_client_google_display_name=0x7f070043;
+        public static final int cast_notification_connected_message=0x7f070044;
+        public static final int cast_notification_connecting_message=0x7f070045;
+        public static final int cast_notification_disconnect=0x7f070046;
         public static final int common_google_play_services_api_unavailable_text=0x7f070013;
         public static final int common_google_play_services_enable_button=0x7f070014;
         public static final int common_google_play_services_enable_text=0x7f070015;
@@ -2460,9 +2461,14 @@ containing a value of this type.
         public static final int common_open_on_phone=0x7f07002d;
         public static final int common_signin_button_text=0x7f07002e;
         public static final int common_signin_button_text_long=0x7f07002f;
-        public static final int create_calendar_message=0x7f070046;
-        public static final int create_calendar_title=0x7f070047;
-        public static final int decline=0x7f070048;
+        public static final int create_calendar_message=0x7f070047;
+        public static final int create_calendar_title=0x7f070048;
+        public static final int decline=0x7f070049;
+        public static final int gamehelper_app_misconfigured=0x7f07004a;
+        public static final int gamehelper_license_failed=0x7f07004b;
+        public static final int gamehelper_sign_in_failed=0x7f07004c;
+        public static final int gamehelper_unknown_error=0x7f07004d;
+        public static final int license_failed=0x7f07004e;
         public static final int mr_media_route_button_content_description=0x7f070030;
         public static final int mr_media_route_chooser_searching=0x7f070031;
         public static final int mr_media_route_chooser_title=0x7f070032;
@@ -2476,9 +2482,11 @@ containing a value of this type.
         public static final int mr_user_route_category_name=0x7f07003a;
         public static final int place_autocomplete_clear_button=0x7f07003b;
         public static final int place_autocomplete_search_hint=0x7f07003c;
+        public static final int sign_in_failed=0x7f07004f;
         public static final int status_bar_notification_info_overflow=0x7f07003d;
-        public static final int store_picture_message=0x7f070049;
-        public static final int store_picture_title=0x7f07004a;
+        public static final int store_picture_message=0x7f070050;
+        public static final int store_picture_title=0x7f070051;
+        public static final int unknown_error=0x7f070052;
         public static final int wallet_buy_button_place_holder=0x7f07003e;
     }
     public static final class style {
