@@ -37,7 +37,8 @@ public class MenuState extends State {
         Svsbtn = new Sprite(vsbtn);
         Ssettingsbtn = new Sprite(settingsbtn);
         Sprofilebtn = new Sprite(profilebtn);
-       // logo.
+        //logo.
+       // Ssolobtn.setScale(Ssolobtn.getScaleX()/Gdx.graphics.getWidth(),Ssolobtn.getScaleY()/Gdx.graphics.getHeight());
        Ssolobtn.setPosition((Gdx.graphics.getWidth() / 2) - (Ssolobtn.getWidth() / 2),
                Gdx.graphics.getHeight()  - logo.getHeight() -logo.getHeight()/2);
         Svsbtn.setPosition((Gdx.graphics.getWidth() / 2) - Svsbtn.getWidth()/2,
@@ -84,11 +85,16 @@ public class MenuState extends State {
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        sb.draw(logo, (MyGdxGame.WIDTH / 2) + (logo.getWidth() / 2), MyGdxGame.HEIGHT - logo.getHeight());
+        sb.draw(logo, (Gdx.graphics.getWidth() / 2) - logo.getWidth()/2, Gdx.graphics.getHeight() - logo.getHeight());
+
         sb.draw(Ssolobtn,Ssolobtn.getX(),Ssolobtn.getY());
+
         sb.draw(Svsbtn,Svsbtn.getX(),Svsbtn.getY());
+
         sb.draw(Ssettingsbtn,Ssettingsbtn.getX(),Ssettingsbtn.getY());
+
         sb.draw(Sprofilebtn,Sprofilebtn.getX(),Sprofilebtn.getY());
+
         sb.end();
     }
 
