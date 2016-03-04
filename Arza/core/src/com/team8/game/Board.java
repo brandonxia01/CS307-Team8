@@ -3,7 +3,7 @@ public class Board {
 
 	private int length;
 	private int height;
-	Block [][] board;
+	public Block [][] board;
 
 
 	public Board (int length, int height) { // most likely 6x14

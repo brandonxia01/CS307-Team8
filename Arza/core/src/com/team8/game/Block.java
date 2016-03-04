@@ -9,6 +9,9 @@ public class Block {
 	private int UDPosition;
 	private int LRPosition;
 
+	public Block(int c, int zero) {
+		color = c;
+	}
 
 	public Block() {
 		Random r = new Random();
