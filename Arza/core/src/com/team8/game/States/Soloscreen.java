@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.team8.game.MyGdxGame;
 /**
  * Created by ongun on 2/27/16.
@@ -16,6 +18,8 @@ public class Soloscreen extends State {
     private Texture gamemode;
     private Texture endless;
     private Texture vsai;
+
+
     protected Soloscreen(GameStateManager gsm) {
         super(gsm);
         gamemode = new Texture("selectgamemode.png");
@@ -24,13 +28,14 @@ public class Soloscreen extends State {
         Sgamemode = new Sprite(gamemode);
         Sendless = new Sprite(endless);
         Svsai = new Sprite(vsai);
+        cam.setToOrtho(false,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
 
-        Sgamemode.setPosition((Gdx.graphics.getWidth() / 2) - (Sgamemode.getWidth() / 2),
-                Gdx.graphics.getHeight()  - Sgamemode.getHeight()-100);
-        Sendless.setPosition((Gdx.graphics.getWidth() / 2) - (Sendless.getWidth() / 2),
-                Gdx.graphics.getHeight()  - Sgamemode.getHeight() -Sgamemode.getHeight() -200);
-        Svsai.setPosition((Gdx.graphics.getWidth() / 2) - (Svsai.getWidth() / 2),
-                Gdx.graphics.getHeight()  - Sgamemode.getHeight() -Sgamemode.getHeight() -200 - Sendless.getHeight());
+        Sgamemode.setPosition(cam.position.x - (Sgamemode.getWidth() / 2),
+                cam.position.y+4*Sgamemode.getHeight());
+        Sendless.setPosition(cam.position.x - (Sendless.getWidth() / 2),
+              cam.position.y);
+        Svsai.setPosition(cam.position.x - (Svsai.getWidth() / 2),
+               cam.position.y   - Sendless.getHeight());
     }
 
     @Override
@@ -42,7 +47,14 @@ public class Soloscreen extends State {
             dispose();
         }
         if(Gdx.input.justTouched()){
-
+            Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            cam.unproject(touchPos.set(Gdx.input.getX(),Gdx.input.getY(),0));
+            Rectangle textureBounds=new Rectangle((int)(Sendless.getX()),(int)Sendless.getY(),
+                    (int)Sendless.getWidth(),(int)Sendless.getHeight());
+            if(textureBounds.contains(touchPos.x, touchPos.y )){
+                System.out.println("touched");
+                gsm.set(new endlessState(gsm));
+                dispose();}
         }
 
     }
@@ -54,6 +66,7 @@ public class Soloscreen extends State {
 
     @Override
     public void render(SpriteBatch sb) {
+        sb.setProjectionMatrix(cam.combined);
         sb.begin();/*
         sb.draw(gamemode, (MyGdxGame.WIDTH / 2) - (gamemode.getWidth() / 2), MyGdxGame.HEIGHT - 100 - gamemode.getHeight());
         sb.draw(endless,(MyGdxGame.WIDTH / 2) - (endless.getWidth() / 2),MyGdxGame.HEIGHT - 100 - 2*gamemode.getHeight());
