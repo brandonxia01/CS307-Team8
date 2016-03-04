@@ -245,7 +245,7 @@ public class Piece {
 		
 	}
 	public boolean isRightEmpty(Board board) {
-		return (blockA.getLR() < board.getLength() && board.board[blockA.getUD()][blockA.getLR() + 1] == null);
+		return (blockA.getLR() < board.getLength() - 1 && board.board[blockA.getUD()][blockA.getLR() + 1] == null);
 	}
 	public boolean isLeftEmpty(Board board) {
 		return (blockA.getLR() > 0 && board.board[blockA.getUD()][blockA.getLR() - 1] == null);
@@ -322,8 +322,8 @@ public class Piece {
 		else if (blockA.getLR() == blockB.getLR()) { // X X A X X X          X X B X X X	
 			//											X X B X X X    or 	 X X A X X X    
 			// the piece will only move if both can move, and they can move in either order
-			if ((blockB.getLR() != 0 && board.board[blockB.getUD()][blockB.getLR() + 1] == null)) {
-				if (blockA.getLR() != 0 && board.board[blockA.getUD()][blockA.getLR() + 1] == null) {
+			if ((blockB.getLR() != 0 && board.board[blockB.getUD()][blockB.getLR() - 1] == null)) {
+				if (blockA.getLR() != 0 && board.board[blockA.getUD()][blockA.getLR() - 1] == null) {
 					board.moveBlock(blockA.getLR(), blockA.getUD(), blockA.getLR() - 1, blockA.getUD()); 
 					board.moveBlock(blockB.getLR(), blockB.getUD(), blockB.getLR() - 1, blockB.getUD());
 				}
