@@ -10,9 +10,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -39,9 +36,9 @@ public class GooglePlayActivity extends AppCompatActivity
 	private static final int RC_SIGN_IN = 9001;
 	private static final String TAG = "GooglePlayActivity";
 	private byte[] mSaveGameData;
-	private String[] eventID = {"CgkIs_nF5-EDEAIQAg", "CgkIs_nF5-EDEAIQBQ", "CgkIs_nF5-EDEAIQBg", "CgkIs_nF5-EDEAIQBw"};
+	private String[] eventID = {"CgkIs_nF5-EDEAIQAg", "CgkIs_nF5-EDEAIQBQ", "CgkIs_nF5-EDEAIQBg", "CgkIs_nF5-EDEAIQBw"};//put it in strings.xml
 	private TextView[] eventValueTV;
-
+	private boolean isConnected = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -84,6 +81,7 @@ public class GooglePlayActivity extends AppCompatActivity
 		if (connectionResult.hasResolution()) {
 			try {
 				connectionResult.startResolutionForResult(this, RC_SIGN_IN);
+				isConnected = true;
 			} catch (IntentSender.SendIntentException e) {
 				e.printStackTrace();
 			}
@@ -276,11 +274,21 @@ public class GooglePlayActivity extends AppCompatActivity
 				refreshEventValues();
 				break;
 		}
+		if (v.getId() == R.id.show_achievements && isConnected){
+			startActivityForResult(Games.Achievements.getAchievementsIntent(
+					mGoogleApiClient), 1);
+		}
+		else if(v.getId() == R.id.show_leaderboards && isConnected){
+			startActivityForResult(Games.Leaderboards.getLeaderboardIntent(
+							mGoogleApiClient, getString(R.string.leaderboard)),
+					2);
+		}
 	}
 
 	@Override
 	public void onConnected(Bundle bundle) {
 		Log.d(TAG, "onConnected");
+		isConnected = true;
 	}
 
 	@Override

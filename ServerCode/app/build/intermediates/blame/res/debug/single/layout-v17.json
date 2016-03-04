@@ -1,10 +1,14 @@
 [
     {
-        "merged": "C:\\Users\\albret\\Desktop\\CS307-Team8\\ServerCode\\app\\build\\intermediates\\res\\merged\\debug\\layout-v17\\mr_media_route_list_item.xml",
-        "source": "C:\\Users\\albret\\Desktop\\CS307-Team8\\ServerCode\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\22.2.0\\res\\layout-v17\\mr_media_route_list_item.xml"
+        "merged": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/C:\\Users\\albret\\Desktop\\CS307-Team8\\ServerCode\\app\\build\\intermediates\\res\\merged\\debug\\layout-v17\\mr_media_route_list_item.xml",
+        "source": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/C:\\Users\\albret\\Desktop\\CS307-Team8\\ServerCode\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\22.2.0\\res\\layout-v17\\mr_media_route_list_item.xml"
     },
     {
-        "merged": "C:\\Users\\ayushnvijay\\gitRepos\\CS307-Team8\\ServerCode\\app\\build\\intermediates\\res\\merged\\debug\\layout-v17\\mr_media_route_list_item.xml",
-        "source": "C:\\Users\\ayushnvijay\\gitRepos\\CS307-Team8\\ServerCode\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\layout-v17\\mr_media_route_list_item.xml"
+        "merged": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/C:\\Users\\ayushnvijay\\gitRepos\\CS307-Team8\\ServerCode\\app\\build\\intermediates\\res\\merged\\debug\\layout-v17\\mr_media_route_list_item.xml",
+        "source": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/C:\\Users\\ayushnvijay\\gitRepos\\CS307-Team8\\ServerCode\\app\\build\\intermediates\\exploded-aar\\com.android.support\\mediarouter-v7\\23.0.0\\res\\layout-v17\\mr_media_route_list_item.xml"
+    },
+    {
+        "merged": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/res/merged/debug/layout-v17/mr_media_route_list_item.xml",
+        "source": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.2.0/res/layout-v17/mr_media_route_list_item.xml"
     }
 ]
