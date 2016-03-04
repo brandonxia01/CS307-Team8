@@ -28,12 +28,12 @@
         "source": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/8.4.0/res/drawable-mdpi/cast_ic_notification_2.png"
     },
     {
-        "merged": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/res/merged/debug/drawable-mdpi-v4/common_plus_signin_btn_icon_dark_focused.9.png",
-        "source": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/drawable-mdpi/common_plus_signin_btn_icon_dark_focused.9.png"
-    },
-    {
         "merged": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/res/merged/debug/drawable-mdpi-v4/abc_popup_background_mtrl_mult.9.png",
         "source": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/drawable-mdpi-v4/abc_popup_background_mtrl_mult.9.png"
+    },
+    {
+        "merged": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/res/merged/debug/drawable-mdpi-v4/common_plus_signin_btn_icon_dark_focused.9.png",
+        "source": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/drawable-mdpi/common_plus_signin_btn_icon_dark_focused.9.png"
     },
     {
         "merged": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/res/merged/debug/drawable-mdpi-v4/ic_media_route_disabled_mono_dark.png",
@@ -60,12 +60,12 @@
         "source": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/res/drawable-mdpi-v4/abc_ic_star_half_black_36dp.png"
     },
     {
-        "merged": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/res/merged/debug/drawable-mdpi-v4/abc_ic_voice_search_api_material.png",
-        "source": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/generated/res/pngs/debug/drawable-mdpi/abc_ic_voice_search_api_material.png"
-    },
-    {
         "merged": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/res/merged/debug/drawable-mdpi-v4/common_google_signin_btn_icon_dark_pressed.9.png",
         "source": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/res/drawable-mdpi/common_google_signin_btn_icon_dark_pressed.9.png"
+    },
+    {
+        "merged": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/res/merged/debug/drawable-mdpi-v4/abc_ic_voice_search_api_material.png",
+        "source": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/generated/res/pngs/debug/drawable-mdpi/abc_ic_voice_search_api_material.png"
     },
     {
         "merged": "/Users/ayushnvijay/gitRepos/CS307-Team8/ServerCode/app/build/intermediates/res/merged/debug/drawable-mdpi-v4/abc_list_selector_disabled_holo_light.9.png",
