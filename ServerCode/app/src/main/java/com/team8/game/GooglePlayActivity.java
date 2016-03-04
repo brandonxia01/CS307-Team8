@@ -7,45 +7,45 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.GamesStatusCodes;
+import com.google.android.gms.games.event.EventBuffer;
+import com.google.android.gms.games.event.Events;
 import com.google.android.gms.games.snapshot.Snapshot;
-import com.google.android.gms.games.snapshot.SnapshotMetadata;
 import com.google.android.gms.games.snapshot.SnapshotMetadataChange;
 import com.google.android.gms.games.snapshot.Snapshots;
 import com.google.android.gms.plus.Plus;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.Calendar;
 
 public class GooglePlayActivity extends AppCompatActivity
 		implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener,
-		GoogleApiClient.ConnectionCallbacks {
+		GoogleApiClient.ConnectionCallbacks, ResultCallback {
 	private GoogleApiClient mGoogleApiClient;
 	private static final int RC_SIGN_IN = 9001;
-	private static final int RC_LOAD_GAME = 9002;
 	private static final String TAG = "GooglePlayActivity";
 	private byte[] mSaveGameData;
+	private String[] eventID = {"CgkIs_nF5-EDEAIQAg", "CgkIs_nF5-EDEAIQBQ", "CgkIs_nF5-EDEAIQBg", "CgkIs_nF5-EDEAIQBw"};
+	private TextView[] eventValueTV;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_google_play);
-
-//		GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//				.requestEmail()
-//				.build();
 
 		mGoogleApiClient = new GoogleApiClient.Builder(this)
 				.addConnectionCallbacks(this)
@@ -53,12 +53,27 @@ public class GooglePlayActivity extends AppCompatActivity
 				.addApi(Plus.API).addScope(Plus.SCOPE_PLUS_LOGIN)
 				.addApi(Games.API).addScope(Games.SCOPE_GAMES)
 				.addApi(Drive.API).addScope(Drive.SCOPE_APPFOLDER)
-//				.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
 				.build();
 
-		findViewById(R.id.sign_in_button).setOnClickListener(this);
 		findViewById(R.id.load_game_button).setOnClickListener(this);
 		findViewById(R.id.test_save_button).setOnClickListener(this);
+
+		findViewById(R.id.refresh_button).setOnClickListener(this);
+
+		findViewById(R.id.time_inc_button).setOnClickListener(this);
+		findViewById(R.id.time_dec_button).setOnClickListener(this);
+		findViewById(R.id.games_inc_button).setOnClickListener(this);
+		findViewById(R.id.games_dec_button).setOnClickListener(this);
+		findViewById(R.id.good_inc_button).setOnClickListener(this);
+		findViewById(R.id.good_dec_button).setOnClickListener(this);
+		findViewById(R.id.bad_inc_button).setOnClickListener(this);
+		findViewById(R.id.bad_dec_button).setOnClickListener(this);
+
+		eventValueTV = new TextView[4];
+		eventValueTV[0] = (TextView) findViewById(R.id.time_textview);
+		eventValueTV[1] = (TextView) findViewById(R.id.games_textview);
+		eventValueTV[2] = (TextView) findViewById(R.id.good_textview);
+		eventValueTV[3] = (TextView) findViewById(R.id.bad_textview);
 
 		mGoogleApiClient.connect();
 	}
@@ -78,42 +93,6 @@ public class GooglePlayActivity extends AppCompatActivity
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		switch (requestCode) {
-			case RC_SIGN_IN:
-				GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-				if (result != null)
-					handleSignInResult(result);
-				break;
-//			case RC_LOAD_GAME:
-//				handleLoadGame(data);
-		}
-	}
-
-	private void handleSignInResult(GoogleSignInResult result) {
-		Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-		if (result.isSuccess()) {
-			// Signed in successfully, show authenticated UI.
-			GoogleSignInAccount acct = result.getSignInAccount();
-			Log.d(TAG, "display name:" + acct.getDisplayName());
-		}
-	}
-
-//	private void handleLoadGame(Intent data) {
-//		if (data != null) {
-//			if (data.hasExtra(Snapshots.EXTRA_SNAPSHOT_METADATA)) {
-//				SnapshotMetadata snapshotMetadata = data.getParcelableExtra(Snapshots.EXTRA_SNAPSHOT_METADATA);
-//				String mCurrentSaveName = snapshotMetadata.getUniqueName();
-//				Log.d(TAG, "current save: " + mCurrentSaveName);
-//				Log.d(TAG, "snapshot meta: " + data.toString());
-//			} else if (data.hasExtra(Snapshots.EXTRA_SNAPSHOT_NEW)) {
-//				//generate unique string for snapshot
-//			}
-//		}
-//	}
-
-	private void signIn() {
-		startActivityForResult(Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient), RC_SIGN_IN);
 	}
 
 	private void loadGame() {
@@ -135,12 +114,12 @@ public class GooglePlayActivity extends AppCompatActivity
 						} catch (UnsupportedEncodingException e) {
 							output = new String(mSaveGameData);
 						}
-						Log.d(TAG,""+output);
+						Log.d(TAG, "" + output);
 					} catch (IOException e) {
 						Log.d(TAG, "Error reading snapshot");
 					}
 				} else {
-					Log.d(TAG, "Error loading "+result.getStatus().getStatusCode());
+					Log.d(TAG, "Error loading " + result.getStatus().getStatusCode());
 				}
 				return result.getStatus().getStatusCode();
 			}
@@ -155,12 +134,13 @@ public class GooglePlayActivity extends AppCompatActivity
 		try {
 			data = sampleData.getBytes("UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			Log.d(TAG,"charset");
+			Log.d(TAG, "charset");
 		}
 		final String debugSnapshotName = "Debug-0000000001";
 
 		AsyncTask<byte[], Void, Snapshots.OpenSnapshotResult> task = new AsyncTask<byte[], Void, Snapshots.OpenSnapshotResult>() {
 			byte[] data;
+
 			@Override
 			protected Snapshots.OpenSnapshotResult doInBackground(byte[]... params) {
 				data = params[0];
@@ -171,7 +151,7 @@ public class GooglePlayActivity extends AppCompatActivity
 			@Override
 			protected void onPostExecute(Snapshots.OpenSnapshotResult result) {
 				Snapshot toWrite = processSnapshotOpenResult(result, 0);
-				Log.d(TAG,""+data);
+				Log.d(TAG, "" + data);
 				writeSnapshot(toWrite, data);
 			}
 		};
@@ -231,19 +211,69 @@ public class GooglePlayActivity extends AppCompatActivity
 		return snapshot.toString();
 	}
 
+	private void submitEvent(int eventIndex, int change) {
+		Games.Events.increment(mGoogleApiClient, eventID[eventIndex], change);
+	}
+
+	private void refreshEventValues() {
+		PendingResult<Events.LoadEventsResult> pr = Games.Events.load(mGoogleApiClient, true);
+		pr.setResultCallback(this);
+	}
+
+	@Override
+	public void onResult(Result result) {
+		Log.d(TAG, "onResult " + result.toString());
+		Events.LoadEventsResult r = (Events.LoadEventsResult) result;
+		Log.d(TAG, "onResult " + r.toString());
+		EventBuffer eb = r.getEvents();
+		Log.d(TAG, "onResult " + eb.toString());
+
+		for (int i = 0; i < eb.getCount(); i++) {
+			Log.d(TAG, "onResult " + eb.get(i).toString());
+			for (int x = 0; x < eventID.length; x++) {
+				if (eb.get(i).getEventId().equals(eventID[x])) {
+					eventValueTV[x].setText("" + ((int) eb.get(i).getValue()));
+				}
+			}
+		}
+		eb.close();
+	}
 
 	@Override
 	public void onClick(View v) {
-
 		switch (v.getId()) {
-			case R.id.sign_in_button:
-				signIn();
-				break;
 			case R.id.load_game_button:
 				loadGame();
 				break;
 			case R.id.test_save_button:
 				testSendSave();
+				break;
+			case R.id.time_inc_button:
+				submitEvent(0, 123);
+				break;
+			case R.id.time_dec_button:
+				submitEvent(0, -123);
+				break;
+			case R.id.games_inc_button:
+				submitEvent(1, 1);
+				break;
+			case R.id.games_dec_button:
+				submitEvent(1, -1);
+				break;
+			case R.id.good_inc_button:
+				submitEvent(2, 1);
+				break;
+			case R.id.good_dec_button:
+				submitEvent(2, -1);
+				break;
+			case R.id.bad_inc_button:
+				submitEvent(3, 1);
+				break;
+			case R.id.bad_dec_button:
+				submitEvent(3, -1);
+				break;
+			case R.id.refresh_button:
+				refreshEventValues();
 				break;
 		}
 	}
@@ -257,4 +287,5 @@ public class GooglePlayActivity extends AppCompatActivity
 	public void onConnectionSuspended(int i) {
 		Log.d(TAG, "onConnectionSuspended");
 	}
+
 }

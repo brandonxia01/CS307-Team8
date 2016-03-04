@@ -9,12 +9,12 @@
 				android:paddingTop="@dimen/activity_vertical_margin"
 				tools:context="com.team8.game.GooglePlayActivity">
 
-	<com.google.android.gms.common.SignInButton
-		android:id="@+id/sign_in_button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentTop="true"
-		android:layout_alignParentStart="true"/>
+	<!--<com.google.android.gms.common.SignInButton-->
+		<!--android:id="@+id/sign_in_button"-->
+		<!--android:layout_width="wrap_content"-->
+		<!--android:layout_height="wrap_content"-->
+		<!--android:layout_alignParentTop="true"-->
+		<!--android:layout_alignParentStart="true"/>-->
 
 	<Button
 		android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
 		android:text="Load Game"
 		android:id="@+id/load_game_button"
 		android:layout_alignParentTop="true"
-		android:layout_centerHorizontal="true"/>
+		android:layout_alignParentStart="true"/>
 
 	<Button
 		android:layout_width="wrap_content"
@@ -31,6 +31,177 @@
 		android:id="@+id/test_save_button"
 		android:layout_alignParentTop="true"
 		android:layout_alignParentEnd="true"/>
+
+	<RelativeLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/load_game_button"
+		android:layout_alignParentStart="true"
+		android:id="@+id/relativeLayout">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Total Play Time"
+			android:id="@+id/textView1"
+			android:layout_centerVertical="true"
+			android:layout_alignParentStart="true"/>
+
+		<Button
+			android:layout_width="35dp"
+			android:layout_height="35dp"
+			android:text="+"
+			android:id="@+id/time_inc_button"
+			android:layout_alignParentTop="true"
+			android:layout_toEndOf="@+id/textView1"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="New Text"
+			android:id="@+id/time_textview"
+			android:layout_centerVertical="true"
+			android:layout_toEndOf="@+id/time_inc_button"/>
+
+		<Button
+			android:layout_width="35dp"
+			android:layout_height="35dp"
+			android:text="-"
+			android:id="@+id/time_dec_button"
+			android:layout_alignParentTop="true"
+			android:layout_toEndOf="@+id/time_textview"/>
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/relativeLayout"
+		android:layout_alignParentStart="true"
+		android:id="@+id/relativeLayout2">
+
+		<Button
+			android:layout_width="35dp"
+			android:layout_height="35dp"
+			android:text="+"
+			android:id="@+id/games_inc_button"
+			android:layout_alignParentTop="true"
+			android:layout_toEndOf="@+id/textView"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Games played"
+			android:id="@+id/textView"
+			android:layout_centerVertical="true"
+			android:layout_alignParentStart="true"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="New Text"
+			android:id="@+id/games_textview"
+			android:layout_centerVertical="true"
+			android:layout_toEndOf="@+id/games_inc_button"/>
+
+		<Button
+			android:layout_width="35dp"
+			android:layout_height="35dp"
+			android:text="-"
+			android:id="@+id/games_dec_button"
+			android:layout_alignParentTop="true"
+			android:layout_toEndOf="@+id/games_textview"/>
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/relativeLayout2"
+		android:layout_alignParentStart="true"
+		android:id="@+id/relativeLayout3">
+
+		<Button
+			android:layout_width="35dp"
+			android:layout_height="35dp"
+			android:text="+"
+			android:id="@+id/good_inc_button"
+			android:layout_alignParentTop="true"
+			android:layout_toEndOf="@+id/textView4"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Did good"
+			android:id="@+id/textView4"
+			android:layout_centerVertical="true"
+			android:layout_alignParentStart="true"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="New Text"
+			android:id="@+id/good_textview"
+			android:layout_centerVertical="true"
+			android:layout_toEndOf="@+id/good_inc_button"/>
+
+		<Button
+			android:layout_width="35dp"
+			android:layout_height="35dp"
+			android:text="-"
+			android:id="@+id/good_dec_button"
+			android:layout_alignParentTop="true"
+			android:layout_toEndOf="@+id/good_textview"/>
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/relativeLayout3"
+		android:layout_alignParentStart="true">
+
+		<Button
+			android:layout_width="35dp"
+			android:layout_height="35dp"
+			android:text="+"
+			android:id="@+id/bad_inc_button"
+			android:layout_alignParentTop="true"
+			android:layout_toEndOf="@+id/textView6"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Did bad"
+			android:id="@+id/textView6"
+			android:layout_centerVertical="true"
+			android:layout_alignParentStart="true"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="New Text"
+			android:id="@+id/bad_textview"
+			android:layout_centerVertical="true"
+			android:layout_toEndOf="@+id/bad_inc_button"/>
+
+		<Button
+			android:layout_width="35dp"
+			android:layout_height="35dp"
+			android:text="-"
+			android:id="@+id/bad_dec_button"
+			android:layout_alignParentTop="true"
+			android:layout_toEndOf="@+id/bad_textview"/>
+	</RelativeLayout>
+
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="refresh"
+		android:id="@+id/refresh_button"
+		android:layout_alignParentTop="true"
+		android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>
