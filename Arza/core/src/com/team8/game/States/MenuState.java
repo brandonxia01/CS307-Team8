@@ -43,8 +43,8 @@ public class MenuState extends State {
         cam.setToOrtho(false,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
 
         //logo.
-       // Ssolobtn.setScale(Ssolobtn.getScaleX()/Gdx.graphics.getWidth(),Ssolobtn.getScaleY()/Gdx.graphics.getHeight());
-       Ssolobtn.setPosition(cam.position.x - (Ssolobtn.getWidth() / 2),cam.position.y);
+        // Ssolobtn.setScale(Ssolobtn.getScaleX()/Gdx.graphics.getWidth(),Ssolobtn.getScaleY()/Gdx.graphics.getHeight());
+        Ssolobtn.setPosition(cam.position.x - (Ssolobtn.getWidth() / 2),cam.position.y);
         Svsbtn.setPosition(cam.position.x - (Svsbtn.getWidth() / 2),
                 cam.position.y-Ssolobtn.getHeight());
         Ssettingsbtn.setPosition(cam.position.x - (Ssettingsbtn.getWidth() / 2),
@@ -77,18 +77,32 @@ public class MenuState extends State {
 
             Rectangle textureBounds=new Rectangle(Ssolobtn.getX(),Ssolobtn.getY(),
                     (int)Ssolobtn.getWidth(),(int)Ssolobtn.getHeight());
+            Rectangle VersusBounds=new Rectangle(Svsbtn.getX(),Svsbtn.getY(),
+                    (int)Svsbtn.getWidth(),(int)Svsbtn.getHeight());
+            Rectangle SettingsBounds=new Rectangle(Ssettingsbtn.getX(),Ssettingsbtn.getY(),
+                    (int)Ssettingsbtn.getWidth(),(int)Ssettingsbtn.getHeight());
 
 
-          // cam.unproject(touchPos);
+            // cam.unproject(touchPos);
+
             Rectangle profileBounds=new Rectangle((int)(Sprofilebtn.getX()),(int)Sprofilebtn.getY(),
                     (int)Sprofilebtn.getWidth(),(int)Sprofilebtn.getHeight());
             if(textureBounds.contains(touchPos.x,touchPos.y)){// + Ssolobtn.getHeight()+Ssolobtn.getHeight()/2)){
                 System.out.println("touched");
-           gsm.set(new Soloscreen(gsm));
-            dispose();}
+                gsm.set(new Soloscreen(gsm));
+                dispose();}
             if(profileBounds.contains(touchPos.x,touchPos.y)){
                 System.out.println("touched");
                 gsm.set(new ProfileState(gsm));
+                dispose();
+            }
+            if(VersusBounds.contains(touchPos.x,touchPos.y)){// + Ssolobtn.getHeight()+Ssolobtn.getHeight()/2)){
+                System.out.println("touched");
+                gsm.set(new VersusState(gsm));
+                dispose();}
+            if(SettingsBounds.contains(touchPos.x,touchPos.y)){
+                System.out.println("touched");
+                gsm.set(new SettingsState(gsm));
                 dispose();
             }
         }
@@ -96,7 +110,7 @@ public class MenuState extends State {
 
     @Override
     public void update(float dt) {
-    handleInput();
+        handleInput();
     }
 
     @Override
