@@ -1,4 +1,5 @@
 <resources>
 	<string name="app_name">Game</string>
+	<string name="app_id">129334607027</string>
 	<string name="title_activity_google_play">GooglePlayActivity</string>
 </resources>
