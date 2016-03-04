@@ -25,6 +25,7 @@ public class endlessState extends State {
         Ufrm = new Sprite(new Texture("topframe.png"));
         Dfrm = new Sprite(new Texture("topframe.png"));
         bs = new Sprite(new Texture("scorestuff.png"));
+        cam.setToOrtho(false,Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()/3);
       //  Lpillar.setScale(4*Lpillar.getScaleX(),4*Lpillar.getScaleY());
         Lpillar.setPosition(0, Ufrm.getHeight());
        // Rpillar.setScale(4 * Rpillar.getScaleX(), 4* Rpillar.getScaleY());
@@ -38,6 +39,7 @@ public class endlessState extends State {
 
     @Override
     public void handleInput() {
+
         Gdx.input.setCatchBackKey(true);
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
             // Do something
@@ -53,6 +55,7 @@ public class endlessState extends State {
 
     @Override
     public void render(SpriteBatch sb) {
+        sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(Ufrm, Ufrm.getX(), Ufrm.getY());
         sb.draw(Dfrm,Dfrm.getX(),Dfrm.getY());
