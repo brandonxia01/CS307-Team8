@@ -14,7 +14,7 @@ public class Game {
 		
 		Piece p = new Piece();
 		// arraylist of pieces maybe to get the same order
-		
+		//tits
 		p.putPieceInto(board);
 		
 		//on move Right command 
