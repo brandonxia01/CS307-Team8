@@ -4,6 +4,7 @@ package com.team8.game.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -25,6 +26,10 @@ public class endlessState extends State {
     Sprite blueblock;
     Sprite purpleblock;
     Sprite greenblock;
+    public String scoreString;
+    BitmapFont bfont;
+    BitmapFont bfont2;
+    public String timerString;
 
     Game game = new Game();
     Board board = game.board;
@@ -41,14 +46,20 @@ public class endlessState extends State {
         blueblock = new Sprite(new Texture("blueblock.png"));
         purpleblock = new Sprite(new Texture("purpleblock.png"));
         greenblock = new Sprite(new Texture("greenblock.png"));
+        bfont = new BitmapFont();
+        bfont2 = new BitmapFont();
+
+
 
         cam.setToOrtho(false,Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()/3);
       //  Lpillar.setScale(4*Lpillar.getScaleX(),4*Lpillar.getScaleY());
         Lpillar.setPosition(0, Ufrm.getHeight());
        // Rpillar.setScale(4 * Rpillar.getScaleX(), 4* Rpillar.getScaleY());
-        Rpillar.setPosition(Lpillar.getWidth() * 2 + Lpillar.getWidth() / 2 + 42 * 6, Ufrm.getHeight());
+        //Rpillar.setPosition(Lpillar.getWidth() * 2 + Lpillar.getWidth() / 2 + 42 * 6, Ufrm.getHeight());
+        Rpillar.setPosition(Lpillar.getWidth() + (42 * 6), Ufrm.getHeight());
         //Ufrm.setScale(4 * Ufrm.getScaleX(), 4 * Ufrm.getScaleY());
-        Ufrm.setPosition(Lpillar.getWidth(), Lpillar.getHeight() + Dfrm.getHeight());
+        //Ufrm.setPosition(Lpillar.getWidth(), Lpillar.getHeight() + Dfrm.getHeight());
+        Ufrm.setPosition(Lpillar.getWidth(), Dfrm.getHeight()*2 + 12 * 42);
         //Dfrm.setScale(4 * Dfrm.getScaleX(),4 * Dfrm.getScaleY());
         Dfrm.setPosition(Lpillar.getWidth(),0);
         bs.setPosition(0,Gdx.graphics.getHeight());
@@ -89,10 +100,10 @@ public class endlessState extends State {
         if(Gdx.input.justTouched()){
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touchPos.set(Gdx.input.getX(),Gdx.input.getY(),0));
-            Rectangle Dbounds = new Rectangle(0,0,(Gdx.graphics.getWidth()/3),Gdx.graphics.getHeight()/3/3);
-            Rectangle LBounds=new Rectangle(0,Gdx.graphics.getHeight()/3/3,(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3- Gdx.graphics.getHeight()/3/3);
-            Rectangle midbound = new Rectangle((Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3/3,(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3-Gdx.graphics.getHeight()/3/3);
-            Rectangle RBounds=new Rectangle(2*(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3/3,(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3-Gdx.graphics.getHeight()/3/3);
+            Rectangle Dbounds = new Rectangle(0,0,(Gdx.graphics.getWidth()/3),Gdx.graphics.getHeight()/3/5);
+            Rectangle LBounds=new Rectangle(0,Gdx.graphics.getHeight()/3/5,(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3- Gdx.graphics.getHeight()/3/3);
+            Rectangle midbound = new Rectangle((Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3/5,(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3-Gdx.graphics.getHeight()/3/5);
+            Rectangle RBounds=new Rectangle(2*(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3/5,(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3-Gdx.graphics.getHeight()/3/5);
             if(LBounds.contains(touchPos.x, touchPos.y )){
                 System.out.println("left");
                 //when left side of screen is touched
@@ -143,6 +154,57 @@ public class endlessState extends State {
     public void renderBoard(SpriteBatch sb) {
         float initx = Lpillar.getWidth();
         float inity = Lpillar.getHeight();
+        //currently shit looking, will make function to make sprite from color later to replace switch statements
+        bfont.setColor(1.0f,1.0f,1.0f,1.0f);
+        scoreString = "Score: " + board.score;
+//        timerString = "Time: " + ((System.nanoTime()-startTime)/1000000000);
+        board.elapsed = (System.nanoTime()-board.startTime)/1000000000;
+        board.min = board.elapsed / 60;
+        board.sec = board.elapsed % 60;
+        timerString = "Time: " + board.min + " : " + board.sec;
+        //bfont2.draw(sb, timerString, 150, Ufrm.getY()+Ufrm.getHeight() - 50);
+       // bfont.draw(sb, scoreString, 0, Ufrm.getY()+Ufrm.getHeight() - 50);
+       bfont2.draw(sb, timerString, 70, Ufrm.getY()+Ufrm.getHeight() + 120);
+        bfont.draw(sb, scoreString, 0, Ufrm.getY()+Ufrm.getHeight() + 120);
+        System.nanoTime();
+        switch(game.nextp.getA().getColor()) {
+            case 0:
+                sb.draw(redblock, 0, Ufrm.getY()+Ufrm.getHeight());
+                break;
+            case 1:
+                sb.draw(blueblock, 0, Ufrm.getY()+Ufrm.getHeight());
+                break;
+            case 2:
+                sb.draw(yellowblock, 0, Ufrm.getY()+Ufrm.getHeight());
+                break;
+            case 3:
+                sb.draw(greenblock, 0, Ufrm.getY()+Ufrm.getHeight());
+                break;
+            case 4:
+                sb.draw(purpleblock, 0, Ufrm.getY()+Ufrm.getHeight());
+                break;
+            default:
+
+        }
+        switch(game.nextp.getB().getColor()) {
+            case 0:
+                sb.draw(redblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
+                break;
+            case 1:
+                sb.draw(blueblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
+                break;
+            case 2:
+                sb.draw(yellowblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
+                break;
+            case 3:
+                sb.draw(greenblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
+                break;
+            case 4:
+                sb.draw(purpleblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
+                break;
+            default:
+
+        }
         for(int cols = 5; cols >= 0; cols--) {
             for (int row = 13; row >= 2; row--) {
                 if (board.board[row][cols] == null) continue;

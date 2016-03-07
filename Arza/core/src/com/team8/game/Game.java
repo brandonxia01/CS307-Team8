@@ -6,10 +6,11 @@ public class Game {
 	public Board board;
 	int framectr;
 	public Piece p;
+	public Piece nextp;
+
 
 	public Game() {
 		//Create a board, maybe two if vs cpu or other person
-
 		board = new Board(6,14); // 6x14 is the generic measurements
 		// only the rows 2-13 are visible to the user
 		// rows 0, 1 are ghostly
@@ -17,8 +18,10 @@ public class Game {
 		//one thread that draws the board and polls input every 60ms
 		//another thread that reads input and changes board
 
+
 		framectr = 0;
 		p = new Piece();
+		nextp = new Piece();
 		p.putPieceInto(board);
 	}
 
@@ -31,13 +34,15 @@ public class Game {
 
 		if (!p.control) {
 			if (board.isGameOver()) {
+				board.score = 0;
 				board.clear();
 			}
 			while (this.board.findGroups()) {
 				//wait
 				this.board.allDrop();
 			}
-			p= new Piece();
+			p = nextp;
+			nextp= new Piece();
 			p.putPieceInto(board);
 			framectr = 0;
 		}

@@ -7,13 +7,23 @@ public class Board {
 	private int length;
 	private int height;
 	public Block [][] board;
+	public int score;
+	public long elapsed;
+	public long min;
+	public long sec;
+	public long startTime;
+
 
 	ArrayList <Integer[]> groups = new ArrayList<Integer[]>();
 
 	public Board (int length, int height) { // most likely 6x14
 		// Advice from a web site, the board will be 6x14, the first two rows are "ghost" rows containing the piece
 		// as it spawns
-
+		startTime = System.nanoTime();
+		elapsed = 0;
+		min = 0;
+		sec = 0;
+		score = 0;
 		this.board = new Block[height][length];
 		this.length = length;
 		this.height = height;
@@ -21,7 +31,10 @@ public class Board {
 
 
 	public boolean isGameOver() { // checks if the starting block position is blocked
+		if (board[2][2] != null)
+			startTime = System.nanoTime();
 		return (board[2][2] != null);
+
 	}
 
 	public void clear() {
@@ -68,14 +81,18 @@ public class Board {
 	public boolean findGroups() { // go through the block, destroy groups
 		boolean destroyed = false;
 
-
 		for (int i = 0; i < 6; ++i) {
 			for (int j = 1; j < 14; ++j) {
 				if (board[j][i] != null) {
 					searchGroup(i, j, board[j][i].getColor());
 					if (groups.size() >= 4) {
 						destroyed = true;
+						score += 10;
 						for (int k = 0; k < groups.size(); ++k) {
+							score += 1;
+							if (k > 4) {
+								score += 2;
+							}
 							board[groups.get(k)[1]][groups.get(k)[0]] = null;
 						}
 					}
