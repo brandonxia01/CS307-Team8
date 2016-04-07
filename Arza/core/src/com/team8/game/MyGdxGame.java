@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.input.GestureDetector;
 import com.team8.game.States.GameStateManager;
 import com.team8.game.States.MenuState;
 
@@ -27,6 +28,7 @@ public class MyGdxGame extends ApplicationAdapter {
         gsm = new GameStateManager();
 		font = new BitmapFont();
         font.setColor(Color.WHITE);
+        Gdx.input.setInputProcessor(new GestureDetector(new MyGestureListener()));
         cam = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         cam.translate(cam.viewportWidth/2,cam.viewportHeight/2);
         cam.update();

@@ -3,6 +3,7 @@ package com.team8.game.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -30,68 +31,53 @@ public class endlessState extends State {
     BitmapFont bfont;
     BitmapFont bfont2;
     public String timerString;
-
+    private Sound leftso;
+    private Sound rightso;
+    private Sound downso;
+    private Texture yellow;
+    private Texture blue;
+    private Texture purple;
+    private Texture red;
+    private Texture green;
     Game game = new Game();
     Board board = game.board;
 
     protected endlessState(GameStateManager gsm) {
         super(gsm);
-        Lpillar = new Sprite(new Texture("frameV.png"));
-        Rpillar = new Sprite(new Texture("frameV.png"));
-        Ufrm = new Sprite(new Texture("topframe.png"));
-        Dfrm = new Sprite(new Texture("topframe.png"));
+        yellow = new Texture("newyellow.png");
+        blue = new Texture("newblue.png");
+        purple = new Texture("newpurp.png");
+        red = new Texture("newred.png");
+        green = new Texture("newgreen.png");
+        Lpillar = new Sprite(new Texture("sides.png"));
+        Rpillar = new Sprite(new Texture("sides.png"));
+        Ufrm = new Sprite(new Texture("topbottom.png"));
+        Dfrm = new Sprite(new Texture("topbottom.png"));
         bs = new Sprite(new Texture("scorestuff.png"));
-        yellowblock = new Sprite(new Texture("yellowblock.png"));
-        redblock = new Sprite(new Texture("redblock.png"));
-        blueblock = new Sprite(new Texture("blueblock.png"));
-        purpleblock = new Sprite(new Texture("purpleblock.png"));
-        greenblock = new Sprite(new Texture("greenblock.png"));
+        yellowblock = new Sprite(yellow);
+        redblock = new Sprite(red);
+        blueblock = new Sprite(blue);
+        purpleblock = new Sprite(purple);
+        greenblock = new Sprite(green);
         bfont = new BitmapFont();
         bfont2 = new BitmapFont();
-
-
-
+        rightso = Gdx.audio.newSound(Gdx.files.internal("rightgo.mp3"));
+        leftso = Gdx.audio.newSound(Gdx.files.internal("leftgo.mp3"));
+        downso = Gdx.audio.newSound(Gdx.files.internal("downgo.mp3"));
         cam.setToOrtho(false,Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()/3);
-      //  Lpillar.setScale(4*Lpillar.getScaleX(),4*Lpillar.getScaleY());
+
         Lpillar.setPosition(0, Ufrm.getHeight());
-       // Rpillar.setScale(4 * Rpillar.getScaleX(), 4* Rpillar.getScaleY());
-        //Rpillar.setPosition(Lpillar.getWidth() * 2 + Lpillar.getWidth() / 2 + 42 * 6, Ufrm.getHeight());
+
         Rpillar.setPosition(Lpillar.getWidth() + (42 * 6), Ufrm.getHeight());
-        //Ufrm.setScale(4 * Ufrm.getScaleX(), 4 * Ufrm.getScaleY());
-        //Ufrm.setPosition(Lpillar.getWidth(), Lpillar.getHeight() + Dfrm.getHeight());
-        Ufrm.setPosition(Lpillar.getWidth(), Dfrm.getHeight()*2 + 12 * 42);
-        //Dfrm.setScale(4 * Dfrm.getScaleX(),4 * Dfrm.getScaleY());
-        Dfrm.setPosition(Lpillar.getWidth(),0);
+
+        Ufrm.setPosition(0,  12 * 42);
+
+        Dfrm.setPosition(0,0);
         bs.setPosition(0,Gdx.graphics.getHeight());
     }
 
     @Override
     public void handleInput() {
-
-//        Gdx.input.setCatchBackKey(true);
-//        if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
-//            // Do something
-//
-//            gsm.set(new Soloscreen(gsm));
-//            dispose();
-//        }
-//        if(Gdx.input.justTouched()){
-//            Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-//            cam.unproject(touchPos.set(Gdx.input.getX(),Gdx.input.getY(),0));
-//            Rectangle LBounds=new Rectangle(0,0,(Gdx.graphics.getWidth()/3)/2,Gdx.graphics.getHeight()/3);
-//            Rectangle RBounds=new Rectangle((Gdx.graphics.getWidth()/3)/2,0,(Gdx.graphics.getWidth()/3)/2,Gdx.graphics.getHeight()/3);
-//            if(LBounds.contains(touchPos.x, touchPos.y )){
-//                System.out.println("left");
-//                //when left side of screen is touched
-//                game.p.moveLeft(board);
-//            }
-//            if(RBounds.contains(touchPos.x, touchPos.y )){
-//                System.out.println("right");
-//                //when right is touched
-//                game.p.moveRight(board);
-//            }
-//        }
-
         Gdx.input.setCatchBackKey(true);
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
             gsm.set(new Soloscreen(gsm));
@@ -108,11 +94,12 @@ public class endlessState extends State {
                 System.out.println("left");
                 //when left side of screen is touched
                 game.p.moveLeft(board);
-
+                leftso.play(1.0f);
             }
             if(Dbounds.contains(touchPos.x, touchPos.y )){
                 System.out.println("down");
                 //when down is touched
+                downso.play(1.0f);
                 for (int gig = 0; gig < 10; gig++)
                     game.p.singleDrop(board);
             }
@@ -124,6 +111,7 @@ public class endlessState extends State {
             if(RBounds.contains(touchPos.x, touchPos.y )){
                 System.out.println("right");
                 //when right is touched
+                rightso.play(1.0f);
                 game.p.moveRight(board);
 
             }
@@ -162,8 +150,6 @@ public class endlessState extends State {
         board.min = board.elapsed / 60;
         board.sec = board.elapsed % 60;
         timerString = "Time: " + board.min + " : " + board.sec;
-        //bfont2.draw(sb, timerString, 150, Ufrm.getY()+Ufrm.getHeight() - 50);
-       // bfont.draw(sb, scoreString, 0, Ufrm.getY()+Ufrm.getHeight() - 50);
        bfont2.draw(sb, timerString, 70, Ufrm.getY()+Ufrm.getHeight() + 120);
         bfont.draw(sb, scoreString, 0, Ufrm.getY()+Ufrm.getHeight() + 120);
         System.nanoTime();
@@ -210,19 +196,19 @@ public class endlessState extends State {
                 if (board.board[row][cols] == null) continue;
                 switch (board.board[row][cols].getColor()) {
                     case 0: //red
-                        sb.draw(redblock, initx+(cols*42), inity-(row*42));
+                        sb.draw(redblock, initx+(cols*42), inity-(row*42)+42*2);
                         break;
                     case 1: //blue
-                        sb.draw(blueblock, initx+(cols*42), inity-(row*42));
+                        sb.draw(blueblock, initx+(cols*42), inity-(row*42)+42*2);
                         break;
                     case 2: // yellow
-                        sb.draw(yellowblock, initx+(cols*42), inity-(row*42));
+                        sb.draw(yellowblock, initx+(cols*42), inity-(row*42)+42*2);
                         break;
                     case 3: //green
-                        sb.draw(greenblock, initx+(cols*42), inity-(row*42));
+                        sb.draw(greenblock, initx+(cols*42), inity-(row*42)+42*2);
                         break;
                     case 4: // purple
-                        sb.draw(purpleblock, initx+(cols*42), inity-(row*42));
+                        sb.draw(purpleblock, initx+(cols*42), inity-(row*42)+42*2);
                         break;
                     default:
                         break;
@@ -234,6 +220,13 @@ public class endlessState extends State {
 
     @Override
     public void dispose() {
-
+        rightso.dispose();
+        leftso.dispose();
+        downso.dispose();
+        yellow.dispose();
+        blue.dispose();
+        green.dispose();
+        red.dispose();
+        purple.dispose();
     }
 }

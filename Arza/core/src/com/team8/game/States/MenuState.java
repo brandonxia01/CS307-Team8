@@ -1,6 +1,7 @@
 package com.team8.game.States;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -25,7 +26,7 @@ public class MenuState extends State {
     private Texture vsbtn;
     private Texture settingsbtn;
     private Texture profilebtn;
-
+    private Sound click;
     //butonlari ekle
     public MenuState(GameStateManager gsm) {
         super(gsm);
@@ -39,7 +40,7 @@ public class MenuState extends State {
         Svsbtn = new Sprite(vsbtn);
         Ssettingsbtn = new Sprite(settingsbtn);
         Sprofilebtn = new Sprite(profilebtn);
-
+        click = Gdx.audio.newSound(Gdx.files.internal("button-3.mp3"));
         cam.setToOrtho(false,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
 
         //logo.
@@ -52,14 +53,7 @@ public class MenuState extends State {
         Sprofilebtn.setPosition(cam.position.x - (Sprofilebtn.getWidth() / 2),
                 cam.position.y-Ssolobtn.getHeight()-Svsbtn.getHeight()-Sprofilebtn.getHeight());
 
-        //Gdx.graphics.getHeight()  - logo.getHeight() -logo.getHeight()/2);
-        /*Svsbtn.setPosition((Gdx.graphics.getWidth() / 2) - Svsbtn.getWidth()/2,
-               Gdx.graphics.getHeight() - logo.getHeight()-logo.getHeight()/2-Ssolobtn.getHeight());
-        Ssettingsbtn.setPosition((Gdx.graphics.getWidth() / 2) - Ssettingsbtn.getWidth()/2,
-                Gdx.graphics.getHeight() - logo.getHeight()-logo.getHeight()/2-Ssolobtn.getHeight()-Svsbtn.getHeight());
-        Sprofilebtn.setPosition((Gdx.graphics.getWidth() / 2) - Sprofilebtn.getWidth()/2,
-                Gdx.graphics.getHeight() - logo.getHeight()-logo.getHeight()/2-Ssolobtn.getHeight()-Svsbtn.getHeight()-Sprofilebtn.getHeight());
-  */  }
+  }
     @Override
     public void dispose(){
         logo.dispose();
@@ -67,11 +61,13 @@ public class MenuState extends State {
         vsbtn.dispose();
         settingsbtn.dispose();
         profilebtn.dispose();
+        click.dispose();
     }
     @Override
     public void handleInput() {
 
         if(Gdx.input.justTouched()){
+
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             cam.unproject(touchPos.set(Gdx.input.getX(),Gdx.input.getY(),0));
 
@@ -82,7 +78,7 @@ public class MenuState extends State {
             Rectangle SettingsBounds=new Rectangle(Ssettingsbtn.getX(),Ssettingsbtn.getY(),
                     (int)Ssettingsbtn.getWidth(),(int)Ssettingsbtn.getHeight());
 
-
+            click.play(1.0f);
             // cam.unproject(touchPos);
 
             Rectangle profileBounds=new Rectangle((int)(Sprofilebtn.getX()),(int)Sprofilebtn.getY(),
