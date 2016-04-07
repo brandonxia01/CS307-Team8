@@ -27,9 +27,13 @@ public class MenuState extends State {
     private Texture settingsbtn;
     private Texture profilebtn;
     private Sound click;
+    //OrthographicCamera cam;
     //butonlari ekle
     public MenuState(GameStateManager gsm) {
         super(gsm);
+        //cam = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+       // cam.translate(cam.viewportWidth/2,cam.viewportHeight/2);
+       // cam.update();
         logo = new Texture("logoimp.png");
         solobtn = new Texture("solo.png");
         vsbtn = new Texture("versus.png");

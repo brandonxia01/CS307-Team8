@@ -21,12 +21,12 @@ public class endlessState extends State {
     Sprite Rpillar;
     Sprite Ufrm;
     Sprite Dfrm;
-    Sprite bs;
     Sprite yellowblock;
     Sprite redblock;
     Sprite blueblock;
     Sprite purpleblock;
     Sprite greenblock;
+
     public String scoreString;
     BitmapFont bfont;
     BitmapFont bfont2;
@@ -39,21 +39,39 @@ public class endlessState extends State {
     private Texture purple;
     private Texture red;
     private Texture green;
+    private Texture sides;
+    private Texture topbottom;
     Game game = new Game();
     Board board = game.board;
 
+
+    Sprite Lpillar2;
+    Sprite Rpillar2;
+    Sprite Ufrm2;
+    Sprite Dfrm2;
     protected endlessState(GameStateManager gsm) {
         super(gsm);
+
         yellow = new Texture("newyellow.png");
         blue = new Texture("newblue.png");
         purple = new Texture("newpurp.png");
         red = new Texture("newred.png");
         green = new Texture("newgreen.png");
-        Lpillar = new Sprite(new Texture("sides.png"));
-        Rpillar = new Sprite(new Texture("sides.png"));
-        Ufrm = new Sprite(new Texture("topbottom.png"));
-        Dfrm = new Sprite(new Texture("topbottom.png"));
-        bs = new Sprite(new Texture("scorestuff.png"));
+        sides = new Texture("sides.png");
+        topbottom =new Texture("topbottom.png");
+
+
+        Lpillar = new Sprite(sides);
+        Rpillar = new Sprite(sides);
+        Ufrm = new Sprite(topbottom);
+        Dfrm = new Sprite(topbottom);
+        Lpillar2 = new Sprite(sides);
+        Rpillar2 = new Sprite(sides);
+        Ufrm2 = new Sprite(topbottom);
+        Dfrm2 = new Sprite(topbottom);
+
+
+        //bs = new Sprite(new Texture("scorestuff.png"));
         yellowblock = new Sprite(yellow);
         redblock = new Sprite(red);
         blueblock = new Sprite(blue);
@@ -64,16 +82,27 @@ public class endlessState extends State {
         rightso = Gdx.audio.newSound(Gdx.files.internal("rightgo.mp3"));
         leftso = Gdx.audio.newSound(Gdx.files.internal("leftgo.mp3"));
         downso = Gdx.audio.newSound(Gdx.files.internal("downgo.mp3"));
-        cam.setToOrtho(false,Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()/3);
+        cam.setToOrtho(false, Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 3);
 
         Lpillar.setPosition(0, Ufrm.getHeight());
 
         Rpillar.setPosition(Lpillar.getWidth() + (42 * 6), Ufrm.getHeight());
 
-        Ufrm.setPosition(0,  12 * 42);
+        Ufrm.setPosition(0, 13 * 42);
 
-        Dfrm.setPosition(0,0);
-        bs.setPosition(0,Gdx.graphics.getHeight());
+        Dfrm.setPosition(0, 0);
+
+
+        Lpillar2.setPosition(Ufrm.getWidth() + 32, Lpillar.getHeight() + Ufrm.getHeight() + 32);
+
+        Rpillar2.setPosition(Ufrm.getWidth() + 32 + Lpillar.getWidth() + (42 * 6), Lpillar.getHeight() + Ufrm.getHeight() + 32);
+
+        Ufrm2.setPosition(Ufrm.getWidth() + 32, Lpillar.getHeight() + Ufrm.getHeight() + 32 + 12 * 42);
+
+        Dfrm2.setPosition(Ufrm.getWidth() + 32, Lpillar.getHeight() + Ufrm.getHeight() + 32);
+
+
+       // bs.setPosition(0,Gdx.graphics.getHeight());
     }
 
     @Override
@@ -131,9 +160,15 @@ public class endlessState extends State {
         sb.begin();
         sb.draw(Ufrm, Ufrm.getX(), Ufrm.getY());
         sb.draw(Dfrm,Dfrm.getX(),Dfrm.getY());
-        sb.draw(Lpillar,Lpillar.getX(),Lpillar.getY());
-        sb.draw(Rpillar,Rpillar.getX(),Rpillar.getY());
-        sb.draw(bs,bs.getX(),bs.getY());
+        sb.draw(Lpillar, Lpillar.getX(), Lpillar.getY());
+        sb.draw(Rpillar, Rpillar.getX(), Rpillar.getY());
+
+        sb.draw(Dfrm2,Dfrm2.getX(),Dfrm2.getY(),Dfrm.getWidth()/3, Dfrm.getHeight()/3);
+        sb.draw(Lpillar2,Lpillar2.getX() ,Lpillar2.getY()+  Dfrm.getHeight()/3,Lpillar.getWidth()/3, Lpillar.getHeight()/3);
+
+        sb.draw(Rpillar2,Lpillar2.getX()+Dfrm.getWidth()/3-14,Rpillar2.getY() +  Dfrm.getHeight()/3,Rpillar.getWidth()/3, Rpillar.getHeight()/3);
+        sb.draw(Ufrm2, Dfrm2.getX(), Dfrm2.getY()+  Dfrm.getHeight()/3+Rpillar.getHeight()/3,Ufrm.getWidth()/3, Ufrm.getHeight()/3);
+       // sb.draw(bs,bs.getX(),bs.getY());
 
         renderBoard(sb);
         sb.end();
@@ -142,6 +177,8 @@ public class endlessState extends State {
     public void renderBoard(SpriteBatch sb) {
         float initx = Lpillar.getWidth();
         float inity = Lpillar.getHeight();
+        float minix = Ufrm.getWidth() + 32+Lpillar.getWidth()/3;
+        float miniy = Dfrm2.getY()+  Dfrm.getHeight()/3+Rpillar.getHeight()/3-42/3; //Lpillar.getHeight() + Ufrm.getHeight() + 32;
         //currently shit looking, will make function to make sprite from color later to replace switch statements
         bfont.setColor(1.0f,1.0f,1.0f,1.0f);
         scoreString = "Score: " + board.score;
@@ -216,6 +253,31 @@ public class endlessState extends State {
 
             }
         }
+        for(int cols = 5; cols >= 0; cols--) {
+            for (int row = 13; row >= 2; row--) {
+                if (board.board[row][cols] == null) continue;
+                switch (board.board[row][cols].getColor()) {
+                    case 0: //red
+                        sb.draw(redblock, minix+(cols*42/3), miniy-(row*42/3)+42*2/3,redblock.getWidth()/3,redblock.getHeight()/3);
+                        break;
+                    case 1: //blue
+                        sb.draw(blueblock, minix+(cols*42/3), miniy-(row*42/3)+42*2/3,blueblock.getWidth()/3,blueblock.getHeight()/3);
+                        break;
+                    case 2: // yellow
+                        sb.draw(yellowblock, minix+(cols*42/3), miniy-(row*42/3)+42*2/3, yellowblock.getWidth()/3,yellowblock.getHeight()/3);
+                        break;
+                    case 3: //green
+                        sb.draw(greenblock, minix+(cols*42/3), miniy-(row*42/3)+42*2/3,greenblock.getWidth()/3,greenblock.getHeight()/3);
+                        break;
+                    case 4: // purple
+                        sb.draw(purpleblock,  minix+(cols*42/3), miniy-(row*42/3)+42*2/3,purpleblock.getWidth()/3,purpleblock.getHeight()/3);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        }
     }
 
     @Override
@@ -228,5 +290,7 @@ public class endlessState extends State {
         green.dispose();
         red.dispose();
         purple.dispose();
+        sides.dispose();
+        topbottom.dispose();
     }
 }
