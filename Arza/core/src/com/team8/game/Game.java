@@ -7,7 +7,7 @@ public class Game {
 	int framectr;
 	public Piece p;
 	public Piece nextp;
-
+	public boolean isover;
 
 	public Game() {
 		//Create a board, maybe two if vs cpu or other person
@@ -17,7 +17,7 @@ public class Game {
 
 		//one thread that draws the board and polls input every 60ms
 		//another thread that reads input and changes board
-
+		isover = false;
 
 		framectr = 0;
 		p = new Piece();
@@ -35,7 +35,9 @@ public class Game {
 		if (!p.control) {
 			if (board.isGameOver()) {
 				board.score = 0;
+
 				board.clear();
+				isover = true;
 			}
 			while (this.board.findGroups()) {
 				//wait

@@ -25,6 +25,10 @@ public class VersusState extends State {
     @Override
     public void handleInput() {
         Gdx.input.setCatchBackKey(true);
+        if(Gdx.input.justTouched()){
+            gsm.set(new VersusGameState(gsm));
+            dispose();
+        }
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
             // Do something
             backclick.play(1.0f);

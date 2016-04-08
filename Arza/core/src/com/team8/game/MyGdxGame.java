@@ -39,6 +39,7 @@ public class MyGdxGame extends ApplicationAdapter {
         cam = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         cam.translate(cam.viewportWidth / 2, cam.viewportHeight / 2);
         cam.update();
+
         //camera = new PerspectiveCamera();
        // viewport = new FitViewport(800, 480, camera);
         gsm.push(new MenuState(gsm));

@@ -47,8 +47,6 @@ public class MenuState extends State {
         click = Gdx.audio.newSound(Gdx.files.internal("button-3.mp3"));
         cam.setToOrtho(false,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
 
-        //logo.
-        // Ssolobtn.setScale(Ssolobtn.getScaleX()/Gdx.graphics.getWidth(),Ssolobtn.getScaleY()/Gdx.graphics.getHeight());
         Ssolobtn.setPosition(cam.position.x - (Ssolobtn.getWidth() / 2),cam.position.y);
         Svsbtn.setPosition(cam.position.x - (Svsbtn.getWidth() / 2),
                 cam.position.y-Ssolobtn.getHeight());

@@ -19,6 +19,7 @@ public class Board {
 	public Board (int length, int height) { // most likely 6x14
 		// Advice from a web site, the board will be 6x14, the first two rows are "ghost" rows containing the piece
 		// as it spawns
+
 		startTime = System.nanoTime();
 		elapsed = 0;
 		min = 0;

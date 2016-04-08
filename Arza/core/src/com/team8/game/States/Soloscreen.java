@@ -59,10 +59,16 @@ public class Soloscreen extends State {
             cam.unproject(touchPos.set(Gdx.input.getX(),Gdx.input.getY(),0));
             Rectangle textureBounds=new Rectangle((int)(Sendless.getX()),(int)Sendless.getY(),
                     (int)Sendless.getWidth(),(int)Sendless.getHeight());
+            Rectangle AiBounds=new Rectangle((int)(Svsai.getX()),(int)Svsai.getY(),
+                    (int)Svsai.getWidth(),(int)Svsai.getHeight());
             click.play(1.0f);
             if(textureBounds.contains(touchPos.x, touchPos.y )){
                 System.out.println("touched");
                 gsm.set(new endlessState(gsm));
+                dispose();}
+            if(AiBounds.contains(touchPos.x, touchPos.y )){
+                System.out.println("touched");
+                gsm.set(new VsaiState(gsm));
                 dispose();}
         }
 

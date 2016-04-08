@@ -27,6 +27,7 @@ public class endlessState extends State {
     Sprite purpleblock;
     Sprite greenblock;
 
+
     public String scoreString;
     BitmapFont bfont;
     BitmapFont bfont2;
@@ -34,6 +35,9 @@ public class endlessState extends State {
     private Sound leftso;
     private Sound rightso;
     private Sound downso;
+    private Sound scoresound;
+
+    private Texture bg;
     private Texture yellow;
     private Texture blue;
     private Texture purple;
@@ -44,6 +48,8 @@ public class endlessState extends State {
     Game game = new Game();
     Board board = game.board;
 
+    private int prevscore = 0;
+    private int currscore = 0;
 
     Sprite Lpillar2;
     Sprite Rpillar2;
@@ -70,8 +76,6 @@ public class endlessState extends State {
         Ufrm2 = new Sprite(topbottom);
         Dfrm2 = new Sprite(topbottom);
 
-
-        //bs = new Sprite(new Texture("scorestuff.png"));
         yellowblock = new Sprite(yellow);
         redblock = new Sprite(red);
         blueblock = new Sprite(blue);
@@ -79,6 +83,10 @@ public class endlessState extends State {
         greenblock = new Sprite(green);
         bfont = new BitmapFont();
         bfont2 = new BitmapFont();
+
+        bg = new Texture("bg.png");
+        scoresound = Gdx.audio.newSound(Gdx.files.internal("Cymatics Weird Snare 2.wav"));
+
         rightso = Gdx.audio.newSound(Gdx.files.internal("rightgo.mp3"));
         leftso = Gdx.audio.newSound(Gdx.files.internal("leftgo.mp3"));
         downso = Gdx.audio.newSound(Gdx.files.internal("downgo.mp3"));
@@ -102,7 +110,6 @@ public class endlessState extends State {
         Dfrm2.setPosition(Ufrm.getWidth() + 32, Lpillar.getHeight() + Ufrm.getHeight() + 32);
 
 
-       // bs.setPosition(0,Gdx.graphics.getHeight());
     }
 
     @Override
@@ -158,17 +165,18 @@ public class endlessState extends State {
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
+        sb.draw(bg,0,0,bg.getWidth()/3,bg.getHeight()/2);
         sb.draw(Ufrm, Ufrm.getX(), Ufrm.getY());
         sb.draw(Dfrm,Dfrm.getX(),Dfrm.getY());
         sb.draw(Lpillar, Lpillar.getX(), Lpillar.getY());
         sb.draw(Rpillar, Rpillar.getX(), Rpillar.getY());
 
-        sb.draw(Dfrm2,Dfrm2.getX(),Dfrm2.getY(),Dfrm.getWidth()/3, Dfrm.getHeight()/3);
-        sb.draw(Lpillar2,Lpillar2.getX() ,Lpillar2.getY()+  Dfrm.getHeight()/3,Lpillar.getWidth()/3, Lpillar.getHeight()/3);
+        //sb.draw(Dfrm2,Dfrm2.getX(),Dfrm2.getY(),Dfrm.getWidth()/3, Dfrm.getHeight()/3);
+        //sb.draw(Lpillar2,Lpillar2.getX() ,Lpillar2.getY()+  Dfrm.getHeight()/3,Lpillar.getWidth()/3, Lpillar.getHeight()/3);
 
-        sb.draw(Rpillar2,Lpillar2.getX()+Dfrm.getWidth()/3-14,Rpillar2.getY() +  Dfrm.getHeight()/3,Rpillar.getWidth()/3, Rpillar.getHeight()/3);
-        sb.draw(Ufrm2, Dfrm2.getX(), Dfrm2.getY()+  Dfrm.getHeight()/3+Rpillar.getHeight()/3,Ufrm.getWidth()/3, Ufrm.getHeight()/3);
-       // sb.draw(bs,bs.getX(),bs.getY());
+       // sb.draw(Rpillar2,Lpillar2.getX()+Dfrm.getWidth()/3-14,Rpillar2.getY() +  Dfrm.getHeight()/3,Rpillar.getWidth()/3, Rpillar.getHeight()/3);
+       // sb.draw(Ufrm2, Dfrm2.getX(), Dfrm2.getY()+  Dfrm.getHeight()/3+Rpillar.getHeight()/3,Ufrm.getWidth()/3, Ufrm.getHeight()/3);
+
 
         renderBoard(sb);
         sb.end();
@@ -181,6 +189,10 @@ public class endlessState extends State {
         float miniy = Dfrm2.getY()+  Dfrm.getHeight()/3+Rpillar.getHeight()/3-42/3; //Lpillar.getHeight() + Ufrm.getHeight() + 32;
         //currently shit looking, will make function to make sprite from color later to replace switch statements
         bfont.setColor(1.0f,1.0f,1.0f,1.0f);
+        currscore = board.score;
+        if(currscore != prevscore){
+           scoresound.play(1.0f);
+        }
         scoreString = "Score: " + board.score;
 //        timerString = "Time: " + ((System.nanoTime()-startTime)/1000000000);
         board.elapsed = (System.nanoTime()-board.startTime)/1000000000;
@@ -188,8 +200,14 @@ public class endlessState extends State {
         board.sec = board.elapsed % 60;
         timerString = "Time: " + board.min + " : " + board.sec;
        bfont2.draw(sb, timerString, 70, Ufrm.getY()+Ufrm.getHeight() + 120);
-        bfont.draw(sb, scoreString, 0, Ufrm.getY()+Ufrm.getHeight() + 120);
+        bfont.draw(sb, scoreString, 0, Ufrm.getY() + Ufrm.getHeight() + 120);
         System.nanoTime();
+        if(game.isover){
+            gsm.set(new retrystate(gsm));
+            dispose();
+
+
+        }
         switch(game.nextp.getA().getColor()) {
             case 0:
                 sb.draw(redblock, 0, Ufrm.getY()+Ufrm.getHeight());
@@ -253,6 +271,7 @@ public class endlessState extends State {
 
             }
         }
+        /*
         for(int cols = 5; cols >= 0; cols--) {
             for (int row = 13; row >= 2; row--) {
                 if (board.board[row][cols] == null) continue;
@@ -277,7 +296,8 @@ public class endlessState extends State {
                 }
 
             }
-        }
+        }*/
+        prevscore = currscore;
     }
 
     @Override
@@ -292,5 +312,9 @@ public class endlessState extends State {
         purple.dispose();
         sides.dispose();
         topbottom.dispose();
+        scoresound.dispose();
+        leftso.dispose();
+        rightso.dispose();
+        downso.dispose();
     }
 }
