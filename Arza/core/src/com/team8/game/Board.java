@@ -99,7 +99,7 @@ public class Board {
 						for (int k = 0; k < groups.size(); ++k) {
 							score += 1;
 							if (k > 4) {
-								score += 2;
+								score += k;
 							}
 							board[groups.get(k)[1]][groups.get(k)[0]] = null;
 							removeGarbage(groups.get(k)[1], groups.get(k)[0]);

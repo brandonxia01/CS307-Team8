@@ -209,7 +209,6 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
             scoresound.play(1.0f);
         }
         scoreString = "Score: " + board.score;
-//        timerString = "Time: " + ((System.nanoTime()-startTime)/1000000000);
         board.elapsed = (System.nanoTime()-board.startTime)/1000000000;
         board.min = board.elapsed / 60;
         board.sec = board.elapsed % 60;

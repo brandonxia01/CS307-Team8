@@ -95,7 +95,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
         bfont2 = new BitmapFont();
 
         //cam.translate(-50, -50);
-        cam.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        cam.setToOrtho(false, Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 3);
         float scale = bgtex.getWidth() / Gdx.graphics.getWidth();
         bg.setSize(bg.getWidth() / scale, bg.getHeight() / scale);
       //  Lpillar.setScale(4*Lpillar.getScaleX(),4*Lpillar.getScaleY());
@@ -184,7 +184,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
         sb.draw(Lpillar, Lpillar.getX(), Lpillar.getY());
         sb.draw(Rpillar,Rpillar.getX(),Rpillar.getY());
         sb.draw(bs, bs.getX(), bs.getY());
-        sb.draw(frame_block, 0, Ufrm.getY() + Ufrm.getHeight() + 12);
+        sb.draw(frame_block, 50, Ufrm.getY() + Ufrm.getHeight() + 12);
 
 
         sb.draw(exo, 300, Ufrm.getY()+Ufrm.getHeight()+120);
@@ -195,10 +195,12 @@ public class endlessState extends State implements GestureDetector.GestureListen
     }
 
     String rotateType = "none";
-
+    Board lastBoard = new Board(6, 14);
     public void renderBoard(SpriteBatch sb) {
         float initx = Lpillar.getWidth();
         float inity = Lpillar.getHeight()+(42*2);
+        int rotateX = 0;
+        int rotateY = 0;
         //currently shit looking, will make function to make sprite from color later to replace switch statements
         bfont.setColor(1.0f,1.0f,1.0f,1.0f);
         scoreString = "Score: " + board.score;
@@ -213,43 +215,48 @@ public class endlessState extends State implements GestureDetector.GestureListen
         timerString = "Time: " + board.min + " : " + board.sec;
         //bfont2.draw(sb, timerString, 150, Ufrm.getY()+Ufrm.getHeight() - 50);
         // bfont.draw(sb, scoreString, 0, Ufrm.getY()+Ufrm.getHeight() - 50);
-        bfont2.draw(sb, timerString, 70, Ufrm.getY() + Ufrm.getHeight() + 150);
-        bfont.draw(sb, scoreString, 0, Ufrm.getY()+Ufrm.getHeight() + 150);
+        bfont2.draw(sb, timerString, 75, Ufrm.getY() + Ufrm.getHeight() + 150);
+        bfont.draw(sb, scoreString, 5, Ufrm.getY()+Ufrm.getHeight() + 150);
         System.nanoTime();
+        if(game.isover){
+            gsm.set(new retrystate(gsm));
+            dispose();
 
+
+        }
         switch(game.nextp.getA().getColor()) {
             case 0:
-                sb.draw(redblock, 6, Ufrm.getY()+Ufrm.getHeight()+8+12);
+                sb.draw(redblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
                 break;
             case 1:
-                sb.draw(blueblock, 6, Ufrm.getY()+Ufrm.getHeight()+8+12);
+                sb.draw(blueblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
                 break;
             case 2:
-                sb.draw(yellowblock, 6, Ufrm.getY()+Ufrm.getHeight()+8+12);
+                sb.draw(yellowblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
                 break;
             case 3:
-                sb.draw(greenblock, 6, Ufrm.getY()+Ufrm.getHeight()+8+12);
+                sb.draw(greenblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
                 break;
             case 4:
-                sb.draw(purpleblock, 6, Ufrm.getY()+Ufrm.getHeight()+8+12);
+                sb.draw(purpleblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
                 break;
             default:
         }
         switch(game.nextp.getB().getColor()) {
             case 0:
-                sb.draw(redblock,6 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
+                sb.draw(redblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
                 break;
             case 1:
-                sb.draw(blueblock,6 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
+                sb.draw(blueblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
                 break;
             case 2:
-                sb.draw(yellowblock,6 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
+                sb.draw(yellowblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
                 break;
             case 3:
-                sb.draw(greenblock,6 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
+                sb.draw(greenblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
                 break;
             case 4:
-                sb.draw(purpleblock,6 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
+                sb.draw(purpleblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
                 break;
             default:
 
@@ -264,8 +271,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
 
         boolean draw = true;
 
-        int rotateX = 0;
-        int rotateY = 0;
+        //System.out.printf("currentRotate[%d][%d]\n", game.p.currentRotate[0], game.p.currentRotate[1]);
         for(int cols = 5; cols >= 0; cols--) {
             for (int row = 13; row >= 2; row--) {
 
@@ -309,29 +315,31 @@ public class endlessState extends State implements GestureDetector.GestureListen
                     if (row == fallingY1) {
                         int bottom = board.getBottom(cols);
                         if (row >= fallingY2) {
-                            sb.draw(guide_spr, initx+(cols*42), inity-(bottom*42));
+                            if (bottom >= row) sb.draw(guide_spr, initx+(cols*42), inity-(bottom*42));
                         }
                         else {
-                            sb.draw(guide_spr, initx+(cols*42), inity-((bottom-1)*42));
+                            if (bottom >= row) sb.draw(guide_spr, initx+(cols*42), inity-((bottom-1)*42));
                         }
                     }
                     else if (row == fallingY2) {
                         int bottom = board.getBottom(cols);
                         if (row >= fallingY1) {
 
-                            sb.draw(guide_spr, initx+(cols*42), inity-(bottom*42));
+                            if (bottom >= row) sb.draw(guide_spr, initx+(cols*42), inity-(bottom*42));
                         }
                         else {
-                            sb.draw(guide_spr, initx+(cols*42), inity-((bottom-1)*42));
+                            if (bottom >= row) sb.draw(guide_spr, initx+(cols*42), inity-((bottom-1)*42));
                         }
                     }
                 }
 
-                if (game.p.currentRotate[0] == fallingX1 || game.p.currentRotate[0] == fallingX2) {
+                if (game.p.currentRotate[0] == fallingX1 || game.p.currentRotate[0] == fallingX2 || game.p.currentRotate[1]==fallingY1 || game.p.currentRotate[1]==fallingY1) {
+                    //System.out.println("rotate state");
                     float diffX = ex.getX() - exo.getX();
                     float diffY = ex.getY() - exo.getY();
+
+
                     if (rotateType.equals("none")) {
-                        System.out.printf("rotate %f %f\n", diffX, diffY);
                         if (diffY == 42) rotateType = "topleft";
                         else if (diffX == -42) rotateType = "leftbottom";
                         else if (diffY == -42) rotateType = "bottomright";
@@ -340,20 +348,20 @@ public class endlessState extends State implements GestureDetector.GestureListen
 
                     if (rotateType.equals("topleft")) {
                         if (!(ex.getY()==exo.getY())) {
-                            System.out.printf("rotate %f %f\n", diffX, diffY);
-                            System.out.printf("%d %d\n", (int)ex.getX(), (int)ex.getY());
                             ex.setPosition(ex.getX()-1, ex.getY()-1);
+                            //set rotX and Y
+                            //rotateX--; rotateY--;
                         }
-                        else {
+                        if (ex.getY()==exo.getY()) {
+                            System.out.println("reset");
                             rotateType="none";
                             game.p.currentRotate[0] = -1;
                             game.p.currentRotate[1] = -1;
                         }
                     }
                     else if (rotateType.equals("leftbottom")) {
+                        System.out.printf("reset %f %f\n", diffX, diffY);
                         if (!(ex.getX()==exo.getX())) {
-                            System.out.printf("rotate %f %f\n", diffX, diffY);
-                            System.out.printf("%d %d\n", (int)ex.getX(), (int)ex.getY());
                             ex.setPosition(ex.getX()+1, ex.getY()-1);
                         }
                         else {
@@ -367,6 +375,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
                             ex.setPosition(ex.getX()+1, ex.getY()+1);
                         }
                         else {
+                            System.out.println("reset");
                             rotateType="none";
                             game.p.currentRotate[0] = -1;
                             game.p.currentRotate[1] = -1;
@@ -377,6 +386,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
                             ex.setPosition(ex.getX()-1, ex.getY()+1);
                         }
                         else {
+                            System.out.println("reset");
                             rotateType="none";
                             game.p.currentRotate[0] = -1;
                             game.p.currentRotate[1] = -1;
@@ -394,7 +404,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
                 else if ((row == fallingY1 && cols == fallingX1) || (row == fallingY2 && cols == fallingX2)) {
                     //Apply offset if there's empty space below it
                     if (board.board[row+1][cols] == null) {
-                        sb.draw(spr, initx+(cols*42)+rotateX, inity-(row*42)-board.offset+rotateY);
+                        sb.draw(spr, initx + (cols * 42) + rotateX, inity - (row * 42) - board.offset + rotateY);
                     }
                     //Add exception to above if the block below it is part of the current falling piece
                     else if (row+1 == fallingY1 || row+1 == fallingY2) {
@@ -417,6 +427,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
             }
         }
         prevscore = currscore;
+        lastBoard = board;
     }
 
     @Override

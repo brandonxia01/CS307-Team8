@@ -187,13 +187,14 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
 
         sb.draw(Rpillar2,Lpillar2.getX()+Dfrm.getWidth()/3-14,Rpillar2.getY() +  Dfrm.getHeight()/3,Rpillar.getWidth()/3, Rpillar.getHeight()/3);
         sb.draw(Ufrm2, Dfrm2.getX(), Dfrm2.getY()+  Dfrm.getHeight()/3+Rpillar.getHeight()/3,Ufrm.getWidth()/3, Ufrm.getHeight()/3);
-        sb.draw(frame_block, 0, Ufrm.getY() + Ufrm.getHeight() + 12);
+        sb.draw(frame_block, 50, Ufrm.getY() + Ufrm.getHeight() + 12);
         sb.draw(exo, 300, Ufrm.getY()+Ufrm.getHeight()+120);
 
         renderBoard(sb);
         sb.end();
     }
 
+    String rotateType = "none";
     public void renderBoard(SpriteBatch sb) {
         float initx = Lpillar.getWidth();
         float inity = Lpillar.getHeight()+(42*2);
@@ -211,8 +212,8 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
         board.min = board.elapsed / 60;
         board.sec = board.elapsed % 60;
         timerString = "Time: " + board.min + " : " + board.sec;
-        bfont2.draw(sb, timerString, 70, Ufrm.getY()+Ufrm.getHeight() + 120);
-        bfont.draw(sb, scoreString, 0, Ufrm.getY() + Ufrm.getHeight() + 120);
+        bfont2.draw(sb, timerString, 70, Ufrm.getY()+Ufrm.getHeight() + 150);
+        bfont.draw(sb, scoreString, 5, Ufrm.getY() + Ufrm.getHeight() + 150);
         System.nanoTime();
         if(game.isover){
             gsm.set(new retrystate(gsm));
@@ -285,37 +286,37 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
         }*/
         switch(game.nextp.getA().getColor()) {
             case 0:
-                sb.draw(redblock, 6, Ufrm.getY()+Ufrm.getHeight()+8+12);
+                sb.draw(redblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
                 break;
             case 1:
-                sb.draw(blueblock, 6, Ufrm.getY()+Ufrm.getHeight()+8+12);
+                sb.draw(blueblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
                 break;
             case 2:
-                sb.draw(yellowblock, 6, Ufrm.getY()+Ufrm.getHeight()+8+12);
+                sb.draw(yellowblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
                 break;
             case 3:
-                sb.draw(greenblock, 6, Ufrm.getY()+Ufrm.getHeight()+8+12);
+                sb.draw(greenblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
                 break;
             case 4:
-                sb.draw(purpleblock, 6, Ufrm.getY()+Ufrm.getHeight()+8+12);
+                sb.draw(purpleblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
                 break;
             default:
         }
         switch(game.nextp.getB().getColor()) {
             case 0:
-                sb.draw(redblock,6 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
+                sb.draw(redblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
                 break;
             case 1:
-                sb.draw(blueblock,6 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
+                sb.draw(blueblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
                 break;
             case 2:
-                sb.draw(yellowblock,6 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
+                sb.draw(yellowblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
                 break;
             case 3:
-                sb.draw(greenblock,6 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
+                sb.draw(greenblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
                 break;
             case 4:
-                sb.draw(purpleblock,6 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
+                sb.draw(purpleblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
                 break;
             default:
 
@@ -375,48 +376,83 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
                     if (row == fallingY1) {
                         int bottom = board.getBottom(cols);
                         if (row >= fallingY2) {
-                            sb.draw(guide_spr, initx+(cols*42), inity-(bottom*42));
+                            if (bottom >= row) sb.draw(guide_spr, initx+(cols*42), inity-(bottom*42));
                         }
                         else {
-                            sb.draw(guide_spr, initx+(cols*42), inity-((bottom-1)*42));
+                            if (bottom >= row) sb.draw(guide_spr, initx+(cols*42), inity-((bottom-1)*42));
                         }
                     }
                     else if (row == fallingY2) {
                         int bottom = board.getBottom(cols);
                         if (row >= fallingY1) {
 
-                            sb.draw(guide_spr, initx+(cols*42), inity-(bottom*42));
+                            if (bottom >= row) sb.draw(guide_spr, initx+(cols*42), inity-(bottom*42));
                         }
                         else {
-                            sb.draw(guide_spr, initx+(cols*42), inity-((bottom-1)*42));
+                            if (bottom >= row) sb.draw(guide_spr, initx+(cols*42), inity-((bottom-1)*42));
                         }
                     }
                 }
 
-                if (game.p.currentRotate[0] == fallingX1 || game.p.currentRotate[0] == fallingX2) {
-                    System.out.printf("rotate %d\n", rotatetimer);
-                    //System.out.printf("origin=(%f, %f) outer=(%f, %f)\n", exo.getX(), exo.getX(), ex.getX(), ex.getY());
-                    //ex.setPosition(ex.getX() - 10, ex.getY());
+                if (game.p.currentRotate[0] == fallingX1 || game.p.currentRotate[0] == fallingX2 || game.p.currentRotate[1]==fallingY1 || game.p.currentRotate[1]==fallingY1) {
+                    //System.out.println("rotate state");
+                    float diffX = ex.getX() - exo.getX();
+                    float diffY = ex.getY() - exo.getY();
 
-                    if (rotatetimer < 45) {
-                        int[] pos = rotate((int)ex.getX(), (int)ex.getY(), (int)exo.getX(), (int)exo.getY(), 90);
-                        ex.setPosition(pos[0], pos[1]);
-                        rotatetimer++;
-                    }
-                    else {
-                        game.p.currentRotate[0] = -1;
-                        game.p.currentRotate[1] = -1;
-                        rotatetimer=0;
+
+                    if (rotateType.equals("none")) {
+                        if (diffY == 42) rotateType = "topleft";
+                        else if (diffX == -42) rotateType = "leftbottom";
+                        else if (diffY == -42) rotateType = "bottomright";
+                        else if (diffX == 42) rotateType = "righttop";
                     }
 
-                    //sb.draw(spr, initx+(cols*42)+pos[0], inity+(row*42)+pos[1]-board.offset);
-                    //rotateX=pos[0];
-                    //rotateY=pos[1];
-                    //rotatetimer++;
-                    //if (rotatetimer > 60) {
-
-                    //    rotatetimer=0;
-                    //}
+                    if (rotateType.equals("topleft")) {
+                        if (!(ex.getY()==exo.getY())) {
+                            ex.setPosition(ex.getX()-1, ex.getY()-1);
+                            //set rotX and Y
+                            //rotateX--; rotateY--;
+                        }
+                        if (ex.getY()==exo.getY()) {
+                            System.out.println("reset");
+                            rotateType="none";
+                            game.p.currentRotate[0] = -1;
+                            game.p.currentRotate[1] = -1;
+                        }
+                    }
+                    else if (rotateType.equals("leftbottom")) {
+                        System.out.printf("reset %f %f\n", diffX, diffY);
+                        if (!(ex.getX()==exo.getX())) {
+                            ex.setPosition(ex.getX()+1, ex.getY()-1);
+                        }
+                        else {
+                            rotateType="none";
+                            game.p.currentRotate[0] = -1;
+                            game.p.currentRotate[1] = -1;
+                        }
+                    }
+                    else if (rotateType.equals("bottomright")) {
+                        if (!(ex.getY()==exo.getY())) {
+                            ex.setPosition(ex.getX()+1, ex.getY()+1);
+                        }
+                        else {
+                            System.out.println("reset");
+                            rotateType="none";
+                            game.p.currentRotate[0] = -1;
+                            game.p.currentRotate[1] = -1;
+                        }
+                    }
+                    else if (rotateType.equals("righttop")) {
+                        if (!(ex.getX()==exo.getX())) {
+                            ex.setPosition(ex.getX()-1, ex.getY()+1);
+                        }
+                        else {
+                            System.out.println("reset");
+                            rotateType="none";
+                            game.p.currentRotate[0] = -1;
+                            game.p.currentRotate[1] = -1;
+                        }
+                    }
                 }
 
                 sb.draw(ex, ex.getX(), ex.getY());
