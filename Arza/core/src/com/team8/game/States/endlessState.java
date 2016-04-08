@@ -3,6 +3,7 @@ package com.team8.game.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -23,6 +24,8 @@ public class endlessState extends State implements GestureDetector.GestureListen
     private Sound rightso;
     private Sound downso;
     private Sound scoresound;
+    private Music bgsong;
+    private boolean firsttime = false;
 
     private int prevscore = 0;
     private int currscore = 0;
@@ -61,7 +64,8 @@ public class endlessState extends State implements GestureDetector.GestureListen
 
     protected endlessState(GameStateManager gsm) {
         super(gsm);
-
+        firsttime = false;
+        bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
         scoresound = Gdx.audio.newSound(Gdx.files.internal("Cymatics Weird Snare 2.wav"));
         rightso = Gdx.audio.newSound(Gdx.files.internal("rightgo.mp3"));
         leftso = Gdx.audio.newSound(Gdx.files.internal("leftgo.mp3"));
@@ -110,36 +114,13 @@ public class endlessState extends State implements GestureDetector.GestureListen
         exo.setPosition(300, Ufrm.getY() + Ufrm.getHeight() + 120);
 
         ex.setPosition(300, Ufrm.getY() + Ufrm.getHeight() + 120 + 42);
+        ex.setOrigin(300, Ufrm.getY() + Ufrm.getHeight() + 120 + 42);
         gestureDetector = new GestureDetector(this);
         Gdx.input.setInputProcessor(gestureDetector);
     }
 
     @Override
     public void handleInput() {
-
-//        Gdx.input.setCatchBackKey(true);
-//        if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
-//            // Do something
-//
-//            gsm.set(new Soloscreen(gsm));
-//            dispose();
-//        }
-//        if(Gdx.input.justTouched()){
-//            Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-//            cam.unproject(touchPos.set(Gdx.input.getX(),Gdx.input.getY(),0));
-//            Rectangle LBounds=new Rectangle(0,0,(Gdx.graphics.getWidth()/3)/2,Gdx.graphics.getHeight()/3);
-//            Rectangle RBounds=new Rectangle((Gdx.graphics.getWidth()/3)/2,0,(Gdx.graphics.getWidth()/3)/2,Gdx.graphics.getHeight()/3);
-//            if(LBounds.contains(touchPos.x, touchPos.y )){
-//                System.out.println("left");
-//                //when left side of screen is touched
-//                game.p.moveLeft(board);
-//            }
-//            if(RBounds.contains(touchPos.x, touchPos.y )){
-//                System.out.println("right");
-//                //when right is touched
-//                game.p.moveRight(board);
-//            }
-//        }
 
         Gdx.input.setCatchBackKey(true);
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
@@ -183,6 +164,13 @@ public class endlessState extends State implements GestureDetector.GestureListen
     @Override
     public void update(float dt) {
         board = game.update();
+        if(!firsttime)
+        {
+            bgsong.play();
+            bgsong.setLooping(true);
+            // firsttime = false;
+            firsttime = bgsong.isPlaying();
+        }
         handleInput();
     }
 
@@ -206,15 +194,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
         sb.end();
     }
 
-    public int[] rotate(int x, int y, int cx, int cy, double angle) {
-        angle = (angle * (Math.PI/180));
-        int rotX = (int) (Math.cos(angle) * (x - cx) - Math.sin(angle) * (y-cy) +cx);
-        int rotY = (int) (Math.sin(angle) * (x - cx) + Math.cos(angle) * (y - cy) + cy);
-        int[] r = new int[2];
-        r[0] = rotX;
-        r[1] = rotY;
-        return r;
-    }
+    String rotateType = "none";
 
     public void renderBoard(SpriteBatch sb) {
         float initx = Lpillar.getWidth();
@@ -348,29 +328,60 @@ public class endlessState extends State implements GestureDetector.GestureListen
                 }
 
                 if (game.p.currentRotate[0] == fallingX1 || game.p.currentRotate[0] == fallingX2) {
-                    System.out.printf("rotate %d\n", rotatetimer);
-                    //System.out.printf("origin=(%f, %f) outer=(%f, %f)\n", exo.getX(), exo.getX(), ex.getX(), ex.getY());
-                    //ex.setPosition(ex.getX() - 10, ex.getY());
-
-                    if (rotatetimer < 45) {
-                        int[] pos = rotate((int)ex.getX(), (int)ex.getY(), (int)exo.getX(), (int)exo.getY(), 90);
-                        ex.setPosition(pos[0], pos[1]);
-                        rotatetimer++;
-                    }
-                    else {
-                        game.p.currentRotate[0] = -1;
-                        game.p.currentRotate[1] = -1;
-                        rotatetimer=0;
+                    float diffX = ex.getX() - exo.getX();
+                    float diffY = ex.getY() - exo.getY();
+                    if (rotateType.equals("none")) {
+                        System.out.printf("rotate %f %f\n", diffX, diffY);
+                        if (diffY == 42) rotateType = "topleft";
+                        else if (diffX == -42) rotateType = "leftbottom";
+                        else if (diffY == -42) rotateType = "bottomright";
+                        else if (diffX == 42) rotateType = "righttop";
                     }
 
-                    //sb.draw(spr, initx+(cols*42)+pos[0], inity+(row*42)+pos[1]-board.offset);
-                    //rotateX=pos[0];
-                    //rotateY=pos[1];
-                    //rotatetimer++;
-                    //if (rotatetimer > 60) {
-
-                    //    rotatetimer=0;
-                    //}
+                    if (rotateType.equals("topleft")) {
+                        if (!(ex.getY()==exo.getY())) {
+                            System.out.printf("rotate %f %f\n", diffX, diffY);
+                            System.out.printf("%d %d\n", (int)ex.getX(), (int)ex.getY());
+                            ex.setPosition(ex.getX()-1, ex.getY()-1);
+                        }
+                        else {
+                            rotateType="none";
+                            game.p.currentRotate[0] = -1;
+                            game.p.currentRotate[1] = -1;
+                        }
+                    }
+                    else if (rotateType.equals("leftbottom")) {
+                        if (!(ex.getX()==exo.getX())) {
+                            System.out.printf("rotate %f %f\n", diffX, diffY);
+                            System.out.printf("%d %d\n", (int)ex.getX(), (int)ex.getY());
+                            ex.setPosition(ex.getX()+1, ex.getY()-1);
+                        }
+                        else {
+                            rotateType="none";
+                            game.p.currentRotate[0] = -1;
+                            game.p.currentRotate[1] = -1;
+                        }
+                    }
+                    else if (rotateType.equals("bottomright")) {
+                        if (!(ex.getY()==exo.getY())) {
+                            ex.setPosition(ex.getX()+1, ex.getY()+1);
+                        }
+                        else {
+                            rotateType="none";
+                            game.p.currentRotate[0] = -1;
+                            game.p.currentRotate[1] = -1;
+                        }
+                    }
+                    else if (rotateType.equals("righttop")) {
+                        if (!(ex.getX()==exo.getX())) {
+                            ex.setPosition(ex.getX()-1, ex.getY()+1);
+                        }
+                        else {
+                            rotateType="none";
+                            game.p.currentRotate[0] = -1;
+                            game.p.currentRotate[1] = -1;
+                        }
+                    }
                 }
 
                 sb.draw(ex, ex.getX(), ex.getY());
@@ -417,6 +428,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
         leftso.dispose();
         rightso.dispose();
         downso.dispose();
+        bgsong.dispose();
     }
 
     @Override
@@ -439,14 +451,14 @@ public class endlessState extends State implements GestureDetector.GestureListen
     public boolean fling(float velocityX, float velocityY, int button) {
         Gdx.app.log("GestureDetectorTest", "fling " + velocityX + ", " + velocityY);
 
-        if (velocityX > 0 && velocityX > 3 * velocityY) {
+        if (velocityX > 0 && velocityX > 1.5 * velocityY) {
             game.p.moveRight(board);
             rightso.play(1.0f);
-        } else if (velocityX < 0 && velocityX * - 1 > 3 * velocityY){
+        } else if (velocityX < 0 && velocityX * - 1 > 1.5 * velocityY){
             game.p.moveLeft(board);
             //when left side of screen is touched
             leftso.play(1.0f);
-        } else if (velocityY > 3 * velocityX || velocityY > -3 * velocityX) {
+        } else if (velocityY > 3 * Math.abs((int)velocityX) ) {
             for (int gig = 0; gig < 14; gig++)
                 game.p.singleDrop(board);
             //when down is touched

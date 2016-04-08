@@ -3,6 +3,7 @@ package com.team8.game.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -28,6 +29,7 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
     Sprite blueblock;
     Sprite purpleblock;
     Sprite greenblock;
+    private Music bgsong;
     GestureDetector gestureDetector;
     Sprite frame_block;
     Sprite block_garbage;
@@ -57,6 +59,7 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
     private Texture topbottom;
     Game game = new Game();
     Board board = game.board;
+    Board board2 = game.board2;
     int rotatetimer = 0;
 
 
@@ -67,9 +70,11 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
     Sprite Rpillar2;
     Sprite Ufrm2;
     Sprite Dfrm2;
+
+    private boolean firsttime;
     protected VsaiState(GameStateManager gsm) {
         super(gsm);
-
+        firsttime = false;
         yellow = new Texture("newyellow.png");
         blue = new Texture("newblue.png");
         purple = new Texture("newpurp.png");
@@ -96,7 +101,7 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
         bfont = new BitmapFont();
         bfont2 = new BitmapFont();
 
-
+        bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
         block_garbage = new Sprite(new Texture("block_garbage.png"));
         guideline_blue = new Sprite(new Texture("guideline_blue.png"));
         guideline_red = new Sprite(new Texture("guideline_red.png"));
@@ -147,37 +152,7 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
             dispose();
         }
         if(Gdx.input.justTouched()){
-           /* Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-            cam.unproject(touchPos.set(Gdx.input.getX(),Gdx.input.getY(),0));
-            Rectangle Dbounds = new Rectangle(0,0,(Gdx.graphics.getWidth()/3),Gdx.graphics.getHeight()/3/5);
-            Rectangle LBounds=new Rectangle(0,Gdx.graphics.getHeight()/3/5,(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3- Gdx.graphics.getHeight()/3/3);
-            Rectangle midbound = new Rectangle((Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3/5,(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3-Gdx.graphics.getHeight()/3/5);
-            Rectangle RBounds=new Rectangle(2*(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3/5,(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3-Gdx.graphics.getHeight()/3/5);
-            if(LBounds.contains(touchPos.x, touchPos.y )){
-                System.out.println("left");
-                //when left side of screen is touched
-                game.p.moveLeft(board);
-                leftso.play(1.0f);
-            }
-            if(Dbounds.contains(touchPos.x, touchPos.y )){
-                System.out.println("down");
-                //when down is touched
-                downso.play(1.0f);
-                for (int gig = 0; gig < 10; gig++)
-                    game.p.singleDrop(board);
-            }
-            if(midbound.contains(touchPos.x, touchPos.y )){
-                System.out.println("middle");
-                //when middle of screen is touched
-                game.p.rotateCounter(board);
-            }
-            if(RBounds.contains(touchPos.x, touchPos.y )){
-                System.out.println("right");
-                //when right is touched
-                rightso.play(1.0f);
-                game.p.moveRight(board);
 
-            }*/
         }
 
     }
@@ -185,7 +160,16 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
     @Override
     public void update(float dt) {
         board = game.update();
+        board2= game.updateMini();
+        if(!firsttime)
+        {
+            bgsong.play();
+            bgsong.setLooping(true);
+            // firsttime = false;
+            firsttime = bgsong.isPlaying();
+        }
         handleInput();
+
     }
 
     @Override
@@ -469,8 +453,8 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
         }
         for(int cols = 5; cols >= 0; cols--) {
             for (int row = 13; row >= 2; row--) {
-                if (board.board[row][cols] == null) continue;
-                switch (board.board[row][cols].getColor()) {
+                if (board2.board[row][cols] == null) continue;
+                switch (board2.board[row][cols].getColor()) {
                     case 0: //red
                         sb.draw(redblock, minix+(cols*42/3), miniy-(row*42/3)+42*2/3,redblock.getWidth()/3,redblock.getHeight()/3);
                         break;
@@ -511,6 +495,7 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
         leftso.dispose();
         rightso.dispose();
         downso.dispose();
+        bgsong.dispose();
     }
     public int[] rotate(int x, int y, int cx, int cy, double angle) {
         angle = (angle * (Math.PI/180));
@@ -542,14 +527,14 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
     public boolean fling(float velocityX, float velocityY, int button) {
         Gdx.app.log("GestureDetectorTest", "fling " + velocityX + ", " + velocityY);
 
-        if (velocityX > 0 && velocityX > 3 * velocityY) {
+        if (velocityX > 0 && velocityX > 1.5 * velocityY) {
             game.p.moveRight(board);
             rightso.play(1.0f);
-        } else if (velocityX < 0 && velocityX * - 1 > 3 * velocityY){
+        } else if (velocityX < 0 && velocityX * - 1 > 1.5 * velocityY){
             game.p.moveLeft(board);
             //when left side of screen is touched
             leftso.play(1.0f);
-        } else if (velocityY > 3 * velocityX || velocityY > -3 * velocityX) {
+        } else if (velocityY > 3 * Math.abs((int)velocityX) ) {
             for (int gig = 0; gig < 14; gig++)
                 game.p.singleDrop(board);
             //when down is touched

@@ -3,6 +3,7 @@ package com.team8.game.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -46,7 +47,9 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
     private Sound rightso;
     private Sound downso;
     private Sound scoresound;
-
+    private Music bgsong;
+    private long id = -1;
+    private boolean firsttime = false;
     private Texture bg;
     private Texture yellow;
     private Texture blue;
@@ -57,6 +60,7 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
     private Texture topbottom;
     Game game = new Game();
     Board board = game.board;
+    Board board2 = game.board2;
     int rotatetimer = 0;
 
 
@@ -67,6 +71,7 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
     Sprite Rpillar2;
     Sprite Ufrm2;
     Sprite Dfrm2;
+
     protected VersusGameState(GameStateManager gsm) {
         super(gsm);
 
@@ -77,7 +82,7 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
         green = new Texture("newgreen.png");
         sides = new Texture("sides.png");
         topbottom =new Texture("topbottom.png");
-
+        id = -1;
         frame_block = new Sprite(new Texture("frame_block.png"));
         Lpillar = new Sprite(sides);
         Rpillar = new Sprite(sides);
@@ -87,6 +92,7 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
         Rpillar2 = new Sprite(sides);
         Ufrm2 = new Sprite(topbottom);
         Dfrm2 = new Sprite(topbottom);
+        firsttime = false;
 
         yellowblock = new Sprite(yellow);
         redblock = new Sprite(red);
@@ -113,6 +119,7 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
         rightso = Gdx.audio.newSound(Gdx.files.internal("rightgo.mp3"));
         leftso = Gdx.audio.newSound(Gdx.files.internal("leftgo.mp3"));
         downso = Gdx.audio.newSound(Gdx.files.internal("downgo.mp3"));
+        bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
         cam.setToOrtho(false, Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 3);
 
         Lpillar.setPosition(0, Ufrm.getHeight());
@@ -137,54 +144,34 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
         gestureDetector = new GestureDetector(this);
         Gdx.input.setInputProcessor(gestureDetector);
 
+
     }
 
     @Override
     public void handleInput() {
+
         Gdx.input.setCatchBackKey(true);
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
-            gsm.set(new Soloscreen(gsm));
+            gsm.set(new MenuState(gsm));
             dispose();
         }
         if(Gdx.input.justTouched()){
-           /* Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-            cam.unproject(touchPos.set(Gdx.input.getX(),Gdx.input.getY(),0));
-            Rectangle Dbounds = new Rectangle(0,0,(Gdx.graphics.getWidth()/3),Gdx.graphics.getHeight()/3/5);
-            Rectangle LBounds=new Rectangle(0,Gdx.graphics.getHeight()/3/5,(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3- Gdx.graphics.getHeight()/3/3);
-            Rectangle midbound = new Rectangle((Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3/5,(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3-Gdx.graphics.getHeight()/3/5);
-            Rectangle RBounds=new Rectangle(2*(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3/5,(Gdx.graphics.getWidth()/3)/3,Gdx.graphics.getHeight()/3-Gdx.graphics.getHeight()/3/5);
-            if(LBounds.contains(touchPos.x, touchPos.y )){
-                System.out.println("left");
-                //when left side of screen is touched
-                game.p.moveLeft(board);
-                leftso.play(1.0f);
-            }
-            if(Dbounds.contains(touchPos.x, touchPos.y )){
-                System.out.println("down");
-                //when down is touched
-                downso.play(1.0f);
-                for (int gig = 0; gig < 10; gig++)
-                    game.p.singleDrop(board);
-            }
-            if(midbound.contains(touchPos.x, touchPos.y )){
-                System.out.println("middle");
-                //when middle of screen is touched
-                game.p.rotateCounter(board);
-            }
-            if(RBounds.contains(touchPos.x, touchPos.y )){
-                System.out.println("right");
-                //when right is touched
-                rightso.play(1.0f);
-                game.p.moveRight(board);
-
-            }*/
         }
 
     }
 
     @Override
     public void update(float dt) {
+
         board = game.update();
+        board2= game.updateMini();
+        if(!firsttime)
+        {
+            bgsong.play();
+            bgsong.setLooping(true);
+           // firsttime = false;
+            firsttime = bgsong.isPlaying();
+        }
         handleInput();
     }
 
@@ -194,7 +181,7 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
         sb.begin();
         sb.draw(bg, 0, 0, bg.getWidth() / 3, bg.getHeight() / 2);
         sb.draw(Ufrm, Ufrm.getX(), Ufrm.getY());
-        sb.draw(Dfrm, Dfrm.getX(), Dfrm.getY());
+        sb.draw(Dfrm,Dfrm.getX(),Dfrm.getY());
         sb.draw(Lpillar, Lpillar.getX(), Lpillar.getY());
         sb.draw(Rpillar, Rpillar.getX(), Rpillar.getY());
 
@@ -235,70 +222,7 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
             dispose();
 
 
-        }/*
-        switch(game.nextp.getA().getColor()) {
-            case 0:
-                sb.draw(redblock, 0, Ufrm.getY()+Ufrm.getHeight());
-                break;
-            case 1:
-                sb.draw(blueblock, 0, Ufrm.getY()+Ufrm.getHeight());
-                break;
-            case 2:
-                sb.draw(yellowblock, 0, Ufrm.getY()+Ufrm.getHeight());
-                break;
-            case 3:
-                sb.draw(greenblock, 0, Ufrm.getY()+Ufrm.getHeight());
-                break;
-            case 4:
-                sb.draw(purpleblock, 0, Ufrm.getY()+Ufrm.getHeight());
-                break;
-            default:
-
         }
-        switch(game.nextp.getB().getColor()) {
-            case 0:
-                sb.draw(redblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
-                break;
-            case 1:
-                sb.draw(blueblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
-                break;
-            case 2:
-                sb.draw(yellowblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
-                break;
-            case 3:
-                sb.draw(greenblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
-                break;
-            case 4:
-                sb.draw(purpleblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
-                break;
-            default:
-
-        }
-        for(int cols = 5; cols >= 0; cols--) {
-            for (int row = 13; row >= 2; row--) {
-                if (board.board[row][cols] == null) continue;
-                switch (board.board[row][cols].getColor()) {
-                    case 0: //red
-                        sb.draw(redblock, initx+(cols*42), inity-(row*42)+42*2);
-                        break;
-                    case 1: //blue
-                        sb.draw(blueblock, initx+(cols*42), inity-(row*42)+42*2);
-                        break;
-                    case 2: // yellow
-                        sb.draw(yellowblock, initx+(cols*42), inity-(row*42)+42*2);
-                        break;
-                    case 3: //green
-                        sb.draw(greenblock, initx+(cols*42), inity-(row*42)+42*2);
-                        break;
-                    case 4: // purple
-                        sb.draw(purpleblock, initx+(cols*42), inity-(row*42)+42*2);
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-        }*/
         switch(game.nextp.getA().getColor()) {
             case 0:
                 sb.draw(redblock, 6, Ufrm.getY()+Ufrm.getHeight()+8+12);
@@ -469,8 +393,8 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
         }
         for(int cols = 5; cols >= 0; cols--) {
             for (int row = 13; row >= 2; row--) {
-                if (board.board[row][cols] == null) continue;
-                switch (board.board[row][cols].getColor()) {
+                if (board2.board[row][cols] == null) continue;
+                switch (board2.board[row][cols].getColor()) {
                     case 0: //red
                         sb.draw(redblock, minix+(cols*42/3), miniy-(row*42/3)+42*2/3,redblock.getWidth()/3,redblock.getHeight()/3);
                         break;
@@ -511,6 +435,7 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
         leftso.dispose();
         rightso.dispose();
         downso.dispose();
+        bgsong.dispose();
     }
     public int[] rotate(int x, int y, int cx, int cy, double angle) {
         angle = (angle * (Math.PI/180));
@@ -542,14 +467,14 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
     public boolean fling(float velocityX, float velocityY, int button) {
         Gdx.app.log("GestureDetectorTest", "fling " + velocityX + ", " + velocityY);
 
-        if (velocityX > 0 && velocityX > 3 * velocityY) {
+        if (velocityX > 0 && velocityX > 1.5 * velocityY) {
             game.p.moveRight(board);
             rightso.play(1.0f);
-        } else if (velocityX < 0 && velocityX * - 1 > 3 * velocityY){
+        } else if (velocityX < 0 && velocityX * - 1 > 1.5 * velocityY){
             game.p.moveLeft(board);
             //when left side of screen is touched
             leftso.play(1.0f);
-        } else if (velocityY > 3 * velocityX || velocityY > -3 * velocityX) {
+        } else if (velocityY > 3 * Math.abs((int)velocityX) ) {
             for (int gig = 0; gig < 14; gig++)
                 game.p.singleDrop(board);
             //when down is touched

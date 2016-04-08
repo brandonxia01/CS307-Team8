@@ -25,6 +25,7 @@ public class Soloscreen extends State {
 
     protected Soloscreen(GameStateManager gsm) {
         super(gsm);
+
         gamemode = new Texture("selectgamemode.png");
         endless = new Texture("endless.png");
         vsai = new Texture("vsai.png");
