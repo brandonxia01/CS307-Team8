@@ -27,17 +27,18 @@ public class Game {
 
 	public Board update() {
 		this.framectr++;
-		if (framectr == 32) {
+		if (board.offset < 42) board.offset++;
+		if (framectr == 42) {
 			p.singleDrop(board);
+			board.offset = 0;
 			framectr = 0;
 		}
 
 		if (!p.control) {
 			if (board.isGameOver()) {
 				board.score = 0;
-
 				board.clear();
-				isover = true;
+				isover=true;
 			}
 			while (this.board.findGroups()) {
 				//wait

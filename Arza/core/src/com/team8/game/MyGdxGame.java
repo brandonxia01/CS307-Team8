@@ -2,17 +2,12 @@ package com.team8.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.team8.game.States.GameStateManager;
 import com.team8.game.States.MenuState;
 
@@ -25,9 +20,6 @@ public class MyGdxGame extends ApplicationAdapter {
     public static final String TITLE = "Arza";
     private GameStateManager gsm;
     OrthographicCamera cam;
-    //private Viewport viewport;
-   // private Camera camera;
-
     @Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -35,13 +27,9 @@ public class MyGdxGame extends ApplicationAdapter {
         gsm = new GameStateManager();
 		font = new BitmapFont();
         font.setColor(Color.WHITE);
-        Gdx.input.setInputProcessor(new GestureDetector(new MyGestureListener()));
         cam = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        cam.translate(cam.viewportWidth / 2, cam.viewportHeight / 2);
+        cam.translate(cam.viewportWidth/2,cam.viewportHeight/2);
         cam.update();
-
-        //camera = new PerspectiveCamera();
-       // viewport = new FitViewport(800, 480, camera);
         gsm.push(new MenuState(gsm));
 	}
 
@@ -52,7 +40,7 @@ public class MyGdxGame extends ApplicationAdapter {
         gsm.update(Gdx.graphics.getDeltaTime());
         gsm.render(batch);
        batch.begin();
-
+	//	batch.draw(img, 0, 0);
 	    batch.setProjectionMatrix(cam.combined);
 		batch.end();
 	}

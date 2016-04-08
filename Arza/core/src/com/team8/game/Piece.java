@@ -6,6 +6,8 @@ public class Piece {
 	
 	boolean control;
 	Block blockA, blockB;
+	public int[] currentRotate;
+
 	public Piece() {
 		blockA = new Block();
 		blockB = new Block();
@@ -18,7 +20,9 @@ public class Piece {
 		blockB.setLR(2);
 		blockB.setUD(0);
 		
-		
+		currentRotate = new int[2];
+		currentRotate[0] = -1;
+		currentRotate[1] = -1;
 		
 	}
 	public void putPieceInto(Board board) {
@@ -94,7 +98,8 @@ public class Piece {
 		int ud1 = blockA.getUD();
 		int lr2 = blockB.getLR();
 		int ud2 = blockB.getUD();
-		
+		currentRotate[0] = lr2;
+		currentRotate[1] = ud2;
 		int position = checkBPosition();
 
 			//	  X 1 X
@@ -170,6 +175,8 @@ public class Piece {
 		int ud1 = blockA.getUD();
 		int lr2 = blockB.getLR();
 		int ud2 = blockB.getUD();
+		currentRotate[0] = lr2;
+		currentRotate[1] = ud2;
 		//System.out.println("" + lr1 + " " + ud1 + " " + lr2 + " " + ud2);
 		int position = checkBPosition();
 		//System.out.println(position + "P");

@@ -38,9 +38,9 @@ public class Soloscreen extends State {
         Sgamemode.setPosition(cam.position.x - (Sgamemode.getWidth() / 2),
                 cam.position.y+4*Sgamemode.getHeight());
         Sendless.setPosition(cam.position.x - (Sendless.getWidth() / 2),
-              cam.position.y);
+                cam.position.y);
         Svsai.setPosition(cam.position.x - (Svsai.getWidth() / 2),
-               cam.position.y   - Sendless.getHeight());
+                cam.position.y   - Sendless.getHeight());
     }
 
     @Override

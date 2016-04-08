@@ -12,6 +12,7 @@ public class Board {
 	public long min;
 	public long sec;
 	public long startTime;
+	public int offset;
 
 
 	ArrayList <Integer[]> groups = new ArrayList<Integer[]>();
@@ -19,7 +20,6 @@ public class Board {
 	public Board (int length, int height) { // most likely 6x14
 		// Advice from a web site, the board will be 6x14, the first two rows are "ghost" rows containing the piece
 		// as it spawns
-
 		startTime = System.nanoTime();
 		elapsed = 0;
 		min = 0;
@@ -30,6 +30,13 @@ public class Board {
 		this.height = height;
 	}
 
+	public int getBottom(int col) {
+		int i = 13;
+		while (board[i][col] != null) {
+			i--;
+		}
+		return i;
+	}
 
 	public boolean isGameOver() { // checks if the starting block position is blocked
 		if (board[2][2] != null)
@@ -95,6 +102,7 @@ public class Board {
 								score += 2;
 							}
 							board[groups.get(k)[1]][groups.get(k)[0]] = null;
+							removeGarbage(groups.get(k)[1], groups.get(k)[0]);
 						}
 					}
 					groups.clear();
@@ -124,7 +132,30 @@ public class Board {
 
 	}
 
+	public void removeGarbage(int ud, int lr) {
+		if (lr > 0 && board[ud][lr - 1] != null && board[ud][lr - 1].getColor() == 5)
+		{board[ud][lr - 1] = null; }
+		if (lr < length - 1 && board[ud][lr + 1] != null && board[ud][lr + 1].getColor() == 5)
+		{ board[ud][lr + 1] = null; }
+		if (ud > 0 && board[ud - 1][lr] != null && board[ud - 1][lr].getColor() == 5)
+		{board[ud - 1][lr] = null; }
+		if (ud < height - 1 && board[ud + 1][lr]!= null && board[ud + 1][lr].getColor() == 5)
+		{ board[ud + 1][lr] = null; }
 
+	}
+
+	public void takeGarbage(int num) {
+		for (int i = 0; i < num; ++i) {
+			for (int j = 0; j < 6; ++j) {
+				Block a = new Block (5, 0);
+				if(this.board[0][j] == null) {
+					this.board[0][j] = a;
+				}
+			}
+			this.allDrop();
+//			this.print();
+		}
+	}
 
 	public void allDrop() {
 		int temp;
