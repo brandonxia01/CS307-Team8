@@ -1,12 +1,15 @@
 buildscript {
     repositories {
+        jcenter()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.0.0'
+        classpath "io.realm:realm-gradle-plugin:0.88.3"
     }
 }
+
 
 allprojects {
     apply plugin: "eclipse"
@@ -42,8 +45,9 @@ project(":desktop") {
 }
 
 project(":android") {
-    apply plugin: "android"
 
+    apply plugin: "android"
+    apply plugin: 'realm-android'
     configurations { natives }
 
     dependencies {
@@ -61,6 +65,9 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
         compile 'com.squareup.okhttp3:okhttp:3.2.0'
+        compile 'io.karim:materialtabs:2.0.2'
+        compile 'com.android.support:recyclerview-v7:23.+'
+        compile 'com.android.support:support-v4:23.+'
     }
 }
 
