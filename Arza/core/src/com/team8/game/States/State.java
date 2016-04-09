@@ -13,7 +13,7 @@ public abstract class State {
     protected State(GameStateManager gsm){
         this.gsm = gsm;
         cam = new OrthographicCamera();
-        cam.setToOrtho(false, 240, 400);
+        cam.setToOrtho(false, 100, 100);
     }
 
     public abstract void handleInput();
