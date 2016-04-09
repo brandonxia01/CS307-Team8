@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_id">129334607027</string>
+    <string name="leaderboard">CgkIs_nF5-EDEAIQBA</string>
+    <string name="arza_for_five_minutes">CgkIs_nF5-EDEAIQAw</string>
+    <string name="saved_private_ryan">CgkIs_nF5-EDEAIQCA</string>
+    <string name="double_decap_latte">CgkIs_nF5-EDEAIQCQ</string>
+    <string name="always_remember_your_first">CgkIs_nF5-EDEAIQCg</string>
+    <string name="a_slap_in_the_face">CgkIs_nF5-EDEAIQCw</string>
+    <string name="pressed_start_to_play">CgkIs_nF5-EDEAIQDA</string>
+    <string name="signin_other_error">Sign in error</string>
+    <string name="signin_failure">Failed to sign in</string>
+</resources>

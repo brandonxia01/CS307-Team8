@@ -6,6 +6,8 @@ public class Piece {
 	
 	boolean control;
 	Block blockA, blockB;
+	public int[] currentRotate;
+
 	public Piece() {
 		blockA = new Block();
 		blockB = new Block();
@@ -18,7 +20,9 @@ public class Piece {
 		blockB.setLR(2);
 		blockB.setUD(0);
 		
-		
+		currentRotate = new int[2];
+		currentRotate[0] = -1;
+		currentRotate[1] = -1;
 		
 	}
 	public void putPieceInto(Board board) {
@@ -94,7 +98,8 @@ public class Piece {
 		int ud1 = blockA.getUD();
 		int lr2 = blockB.getLR();
 		int ud2 = blockB.getUD();
-		
+		currentRotate[0] = lr2;
+		currentRotate[1] = ud2;
 		int position = checkBPosition();
 
 			//	  X 1 X
@@ -170,6 +175,8 @@ public class Piece {
 		int ud1 = blockA.getUD();
 		int lr2 = blockB.getLR();
 		int ud2 = blockB.getUD();
+		currentRotate[0] = lr2;
+		currentRotate[1] = ud2;
 		//System.out.println("" + lr1 + " " + ud1 + " " + lr2 + " " + ud2);
 		int position = checkBPosition();
 		//System.out.println(position + "P");
@@ -245,7 +252,7 @@ public class Piece {
 		
 	}
 	public boolean isRightEmpty(Board board) {
-		return (blockA.getLR() < board.getLength() && board.board[blockA.getUD()][blockA.getLR() + 1] == null);
+		return (blockA.getLR() < board.getLength() - 1 && board.board[blockA.getUD()][blockA.getLR() + 1] == null);
 	}
 	public boolean isLeftEmpty(Board board) {
 		return (blockA.getLR() > 0 && board.board[blockA.getUD()][blockA.getLR() - 1] == null);
@@ -322,8 +329,8 @@ public class Piece {
 		else if (blockA.getLR() == blockB.getLR()) { // X X A X X X          X X B X X X	
 			//											X X B X X X    or 	 X X A X X X    
 			// the piece will only move if both can move, and they can move in either order
-			if ((blockB.getLR() != 0 && board.board[blockB.getUD()][blockB.getLR() + 1] == null)) {
-				if (blockA.getLR() != 0 && board.board[blockA.getUD()][blockA.getLR() + 1] == null) {
+			if ((blockB.getLR() != 0 && board.board[blockB.getUD()][blockB.getLR() - 1] == null)) {
+				if (blockA.getLR() != 0 && board.board[blockA.getUD()][blockA.getLR() - 1] == null) {
 					board.moveBlock(blockA.getLR(), blockA.getUD(), blockA.getLR() - 1, blockA.getUD()); 
 					board.moveBlock(blockB.getLR(), blockB.getUD(), blockB.getLR() - 1, blockB.getUD());
 				}

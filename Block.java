@@ -1,5 +1,4 @@
 // Team 8 Arza
-package com.team8.game;
 import java.util.Random;
 
 public class Block {
@@ -17,7 +16,7 @@ public class Block {
 		// 5 = garbage
 
 		color = r.nextInt(5);
-		
+
 		switch (color) {
 			case 0: //red
 				// picturePath = something
