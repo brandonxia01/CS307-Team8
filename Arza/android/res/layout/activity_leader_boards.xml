@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#03a9a5"
+    tools:context="com.team8.game.LeaderBoards">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Player Profile"
+    android:textColor="#000000"
+    android:gravity="center"
+    android:textSize="36sp"
+    android:padding="@dimen/activity_vertical_margin"
+     />
+    <io.karim.MaterialTabs
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/material_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#0D98BA"
+        app:mtSameWeightTabs="true"
+        app:mtPaddingMiddle="false" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:context="com.team8.game.LeaderBoards"/>
+
+
+</LinearLayout>
