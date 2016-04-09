@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,13 +19,20 @@ public class MyGdxGame extends ApplicationAdapter {
     public static final int HEIGHT = 800;
     public static final String TITLE = "Arza";
     private GameStateManager gsm;
+    OrthographicCamera cam;
+    MyGdxGame(GameStateManager gsm){
+        this.gsm = gsm;
+    }
+
     @Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("logo.png");
-        gsm = new GameStateManager();
 		font = new BitmapFont();
         font.setColor(Color.WHITE);
+        cam = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        cam.translate(cam.viewportWidth/2,cam.viewportHeight/2);
+        cam.update();
         gsm.push(new MenuState(gsm));
 	}
 
@@ -34,8 +42,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         gsm.update(Gdx.graphics.getDeltaTime());
         gsm.render(batch);
-      //  batch.begin();
+       batch.begin();
 	//	batch.draw(img, 0, 0);
-		//batch.end();
+	    batch.setProjectionMatrix(cam.combined);
+		batch.end();
 	}
+
 }
