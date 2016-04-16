@@ -20,11 +20,14 @@ public class MyGdxGame extends ApplicationAdapter {
     public static final String TITLE = "Arza";
     private GameStateManager gsm;
     OrthographicCamera cam;
+    MyGdxGame(GameStateManager gsm){
+        this.gsm = gsm;
+    }
+
     @Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("logo.png");
-        gsm = new GameStateManager();
 		font = new BitmapFont();
         font.setColor(Color.WHITE);
         cam = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -44,4 +47,5 @@ public class MyGdxGame extends ApplicationAdapter {
 	    batch.setProjectionMatrix(cam.combined);
 		batch.end();
 	}
+
 }
