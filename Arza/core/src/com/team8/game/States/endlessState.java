@@ -95,12 +95,12 @@ public class endlessState extends State implements GestureDetector.GestureListen
         bfont2 = new BitmapFont();
 
         //cam.translate(-50, -50);
-        cam.setToOrtho(false, Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 3);
+        cam.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() /2);
         float scale = bgtex.getWidth() / Gdx.graphics.getWidth();
         bg.setSize(bg.getWidth() / scale, bg.getHeight() / scale);
-      //  Lpillar.setScale(4*Lpillar.getScaleX(),4*Lpillar.getScaleY());
+        //  Lpillar.setScale(4*Lpillar.getScaleX(),4*Lpillar.getScaleY());
         Lpillar.setPosition(0, Ufrm.getHeight());
-       // Rpillar.setScale(4 * Rpillar.getScaleX(), 4* Rpillar.getScaleY());
+        // Rpillar.setScale(4 * Rpillar.getScaleX(), 4* Rpillar.getScaleY());
         //Rpillar.setPosition(Lpillar.getWidth() * 2 + Lpillar.getWidth() / 2 + 42 * 6, Ufrm.getHeight());
         Rpillar.setPosition(Lpillar.getWidth() + (42 * 6), Ufrm.getHeight());
         //Ufrm.setScale(4 * Ufrm.getScaleX(), 4 * Ufrm.getScaleY());
@@ -137,14 +137,14 @@ public class endlessState extends State implements GestureDetector.GestureListen
             if(LBounds.contains(touchPos.x, touchPos.y )){
                 System.out.println("left");
                 //when left side of screen is touched
-    //            game.p.moveLeft(board);
+                //            game.p.moveLeft(board);
 
             }
             if(Dbounds.contains(touchPos.x, touchPos.y )){
                 System.out.println("down");
                 //when down is touched
- //               for (int gig = 0; gig < 10; gig++)
- //                   game.p.singleDrop(board);
+                //               for (int gig = 0; gig < 10; gig++)
+                //                   game.p.singleDrop(board);
             }
             if(midbound.contains(touchPos.x, touchPos.y )){
                 System.out.println("middle");
@@ -154,7 +154,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
             if(RBounds.contains(touchPos.x, touchPos.y )){
                 System.out.println("right");
                 //when right is touched
-  //              game.p.moveRight(board);
+                //              game.p.moveRight(board);
 
             }
         }
@@ -201,7 +201,6 @@ public class endlessState extends State implements GestureDetector.GestureListen
         float inity = Lpillar.getHeight()+(42*2);
         int rotateX = 0;
         int rotateY = 0;
-        //currently shit looking, will make function to make sprite from color later to replace switch statements
         bfont.setColor(1.0f,1.0f,1.0f,1.0f);
         scoreString = "Score: " + board.score;
 //        timerString = "Time: " + ((System.nanoTime()-startTime)/1000000000);
@@ -428,6 +427,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
         }
         prevscore = currscore;
         lastBoard = board;
+
     }
 
     @Override

@@ -13,6 +13,7 @@ public class Game {
 	public Piece nextp2;
 	public int framectr2;
 	public Board board2;
+	boolean drop=false;
 
 	public Game() {
 		//Create a board, maybe two if vs cpu or other person
@@ -51,9 +52,25 @@ public class Game {
 				board.clear();
 				isover=true;
 			}
-			while (this.board.findGroups()) {
+			boolean found;
+			while (found = board.findGroups() || this.drop == true) {
 				//wait
-				this.board.allDrop();
+				if (found) {
+					try{ Thread.sleep(500);}
+					catch (InterruptedException e) {}
+				}
+				//call all drop on next call
+				if (this.drop) {
+					//System.out.println("REACHEDAAAAAAAAAAAAAAAA");
+					board.allDrop();
+					try{ Thread.sleep(500);}
+					catch (InterruptedException e) {}
+					this.drop = false;
+				}
+				else {
+					this.drop = true;
+					return this.board;
+				}
 			}
 			p = nextp;
 			nextp= new Piece();
