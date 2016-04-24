@@ -1,6 +1,5 @@
 package com.team8.game.States;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
@@ -10,150 +9,136 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.team8.game.Board;
-import com.team8.game.Block;
 import com.team8.game.Game;
-
-
+import java.util.Random;
 
 public class VsaiState extends State implements GestureDetector.GestureListener {
-    Sprite Lpillar;
-    Sprite Rpillar;
-    Sprite Ufrm;
-    Sprite Dfrm;
-    Sprite yellowblock;
-    Sprite redblock;
-    Sprite blueblock;
-    Sprite purpleblock;
-    Sprite greenblock;
-    private Music bgsong;
+
+    Game game = new Game();
+    Board board = game.board;
+    Board board2 = game.board2;
     GestureDetector gestureDetector;
+    private int prevscore = 0;
+    private int currscore = 0;
+    private boolean firsttime = false;
+    public String scoreString;
+    public String timerString;
+    float initx;
+    float inity;
+    float minix;
+    float miniy;
+
+    private Sound leftso;
+    private Sound rightso;
+    private Sound downso;
+    private Sound scoresound;
+    private Music bgsong;
+
+    Sprite background;
+    Texture background_tex;
+    Sprite frame_l;
+    Sprite frame_r;
+    Sprite frame_top;
+    Sprite frame_bot;
     Sprite frame_block;
+    Sprite frame_l_opponent;
+    Sprite frame_r_opponent;
+    Sprite frame_top_opponent;
+    Sprite frame_bot_opponent;
+    Sprite block_red;
+    Sprite block_blue;
+    Sprite block_yellow;
+    Sprite block_green;
+    Sprite block_purple;
     Sprite block_garbage;
     Sprite guideline_red;
     Sprite guideline_blue;
     Sprite guideline_yellow;
     Sprite guideline_purple;
     Sprite guideline_green;
-    Sprite exo;
-    Sprite ex;
-    public String scoreString;
+
     BitmapFont bfont;
     BitmapFont bfont2;
-    public String timerString;
-    private Sound leftso;
-    private Sound rightso;
-    private Sound downso;
-    private Sound scoresound;
 
-    private Texture bg;
-    private Texture yellow;
-    private Texture blue;
-    private Texture purple;
-    private Texture red;
-    private Texture green;
-    private Texture sides;
-    private Texture topbottom;
-    Game game = new Game();
-    Board board = game.board;
-    Board board2 = game.board2;
-    int rotatetimer = 0;
-
-
-    private int prevscore = 0;
-    private int currscore = 0;
-
-    Sprite Lpillar2;
-    Sprite Rpillar2;
-    Sprite Ufrm2;
-    Sprite Dfrm2;
-
-    private boolean firsttime;
     protected VsaiState(GameStateManager gsm) {
+
         super(gsm);
         firsttime = false;
-        yellow = new Texture("newyellow.png");
-        blue = new Texture("newblue.png");
-        purple = new Texture("newpurp.png");
-        red = new Texture("newred.png");
-        green = new Texture("newgreen.png");
-        sides = new Texture("sides.png");
-        topbottom =new Texture("topbottom.png");
-
-        frame_block = new Sprite(new Texture("frame_block.png"));
-        Lpillar = new Sprite(sides);
-        Rpillar = new Sprite(sides);
-        Ufrm = new Sprite(topbottom);
-        Dfrm = new Sprite(topbottom);
-        Lpillar2 = new Sprite(sides);
-        Rpillar2 = new Sprite(sides);
-        Ufrm2 = new Sprite(topbottom);
-        Dfrm2 = new Sprite(topbottom);
-
-        yellowblock = new Sprite(yellow);
-        redblock = new Sprite(red);
-        blueblock = new Sprite(blue);
-        purpleblock = new Sprite(purple);
-        greenblock = new Sprite(green);
-        bfont = new BitmapFont();
-        bfont2 = new BitmapFont();
-
-        bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
-        block_garbage = new Sprite(new Texture("block_garbage.png"));
-        guideline_blue = new Sprite(new Texture("guideline_blue.png"));
-        guideline_red = new Sprite(new Texture("guideline_red.png"));
-        guideline_yellow = new Sprite(new Texture("guideline_yellow.png"));
-        guideline_green = new Sprite(new Texture("guideline_green.png"));
-        guideline_purple = new Sprite(new Texture("guideline_purple.png"));
-        ex = new Sprite(blueblock);
-        exo = new Sprite(redblock);
-
-
-        bg = new Texture("bg.png");
-        scoresound = Gdx.audio.newSound(Gdx.files.internal("Cymatics Weird Snare 2.wav"));
-
-        rightso = Gdx.audio.newSound(Gdx.files.internal("rightgo.mp3"));
-        leftso = Gdx.audio.newSound(Gdx.files.internal("leftgo.mp3"));
-        downso = Gdx.audio.newSound(Gdx.files.internal("downgo.mp3"));
-        cam.setToOrtho(false, Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 3);
-
-        Lpillar.setPosition(0, Ufrm.getHeight());
-
-        Rpillar.setPosition(Lpillar.getWidth() + (42 * 6), Ufrm.getHeight());
-
-        Ufrm.setPosition(0, 13 * 42);
-
-        Dfrm.setPosition(0, 0);
-
-
-        Lpillar2.setPosition(Ufrm.getWidth() + 32, Lpillar.getHeight() + Ufrm.getHeight() + 32);
-
-        Rpillar2.setPosition(Ufrm.getWidth() + 32 + Lpillar.getWidth() + (42 * 6), Lpillar.getHeight() + Ufrm.getHeight() + 32);
-
-        Ufrm2.setPosition(Ufrm.getWidth() + 32, Lpillar.getHeight() + Ufrm.getHeight() + 32 + 12 * 42);
-
-        Dfrm2.setPosition(Ufrm.getWidth() + 32, Lpillar.getHeight() + Ufrm.getHeight() + 32);
-        exo.setPosition(300, Ufrm.getY() + Ufrm.getHeight() + 120);
-
-        ex.setPosition(300, Ufrm.getY() + Ufrm.getHeight() + 120 + 42);
+        cam.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         gestureDetector = new GestureDetector(this);
         Gdx.input.setInputProcessor(gestureDetector);
 
-    }
+        //Initialize sounds
+        bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
+        scoresound = Gdx.audio.newSound(Gdx.files.internal("Cymatics Weird Snare 2.wav"));
+        rightso = Gdx.audio.newSound(Gdx.files.internal("rightgo.mp3"));
+        leftso = Gdx.audio.newSound(Gdx.files.internal("leftgo.mp3"));
+        downso = Gdx.audio.newSound(Gdx.files.internal("downgo.mp3"));
 
-    @Override
-    public void handleInput() {
-        Gdx.input.setCatchBackKey(true);
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
-            gsm.set(new Soloscreen(gsm));
-            dispose();
+        //Initialize sprites
+        //Pick random background
+        Random ran = new Random();
+        int bg_pick = ran.nextInt(3);
+        switch(bg_pick) {
+            case 0:
+                background_tex = new Texture("background1.png");
+                break;
+            case 1:
+                background_tex = new Texture("background2.png");
+                break;
+            case 2:
+                background_tex = new Texture("background3.png");
+                break;
+            default:
+                background_tex = new Texture("background2.png");
         }
-        if(Gdx.input.justTouched()){
+        background = new Sprite(background_tex);
 
-        }
+        frame_l = new Sprite(new Texture("frame_side.png"));
+        frame_r = new Sprite(new Texture("frame_side.png"));
+        frame_top = new Sprite(new Texture("frame_top.png"));
+        frame_bot = new Sprite(new Texture("frame_bottom.png"));
+        frame_block = new Sprite(new Texture("frame_block.png"));
+
+        frame_l_opponent = new Sprite(new Texture("frame_side.png"));
+        frame_r_opponent = new Sprite(new Texture("frame_side.png"));
+        frame_top_opponent = new Sprite(new Texture("frame_top.png"));
+        frame_bot_opponent = new Sprite(new Texture("frame_bottom.png"));
+
+        block_red = new Sprite(new Texture("block_red.png"));
+        block_blue = new Sprite(new Texture("block_blue.png"));
+        block_yellow = new Sprite(new Texture("block_yellow.png"));
+        block_green = new Sprite(new Texture("block_green.png"));
+        block_purple = new Sprite(new Texture("block_purple.png"));
+        block_garbage = new Sprite(new Texture("block_garbage.png"));
+
+        guideline_red = new Sprite(new Texture("guideline_red.png"));
+        guideline_blue = new Sprite(new Texture("guideline_blue.png"));
+        guideline_yellow = new Sprite(new Texture("guideline_yellow.png"));
+        guideline_green = new Sprite(new Texture("guideline_green.png"));
+        guideline_purple = new Sprite(new Texture("guideline_purple.png"));
+
+        bfont = new BitmapFont();
+        bfont2 = new BitmapFont();
+        bfont.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+        //Initialize constant sprite positions
+        frame_l.setPosition(0, frame_top.getHeight());
+        frame_r.setPosition(frame_l.getWidth() + (42 * 6) - 1, frame_top.getHeight());
+        frame_top.setPosition(0, frame_bot.getHeight() + (12 * 42));
+        frame_bot.setPosition(0, 0);
+
+        frame_l_opponent.setPosition(frame_top.getWidth() + 32, frame_l.getHeight() + frame_top.getHeight() + 32);
+        frame_r_opponent.setPosition(frame_top.getWidth() + 32 + frame_l.getWidth() + (42 * 6), frame_l.getHeight() + frame_top.getHeight() + 32);
+        frame_top_opponent.setPosition(frame_top.getWidth() + 32, frame_l.getHeight() + frame_top.getHeight() + 32 + 12 * 42);
+        frame_bot_opponent.setPosition(frame_top.getWidth() + 32, frame_l.getHeight() + frame_top.getHeight() + 32);
+
+        initx = frame_l.getWidth();
+        inity = frame_l.getHeight()+(42*2);
+        minix = frame_top.getWidth() + 32+frame_l.getWidth()/3;
+        miniy = frame_bot_opponent.getY()+  frame_bot.getHeight()/3+frame_r.getHeight()/3-42/3;
 
     }
 
@@ -169,347 +154,189 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
             firsttime = bgsong.isPlaying();
         }
         handleInput();
+    }
 
+    public void drawBlock(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_purple, x, y);
+                break;
+            case 5:
+                sb.draw(block_garbage, x, y);
+                break;
+            default:
+        }
+    }
+
+    public void drawGuide(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(guideline_red, x, y);
+                break;
+            case 1:
+                sb.draw(guideline_blue, x, y);
+                break;
+            case 2:
+                sb.draw(guideline_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(guideline_green, x, y);
+                break;
+            case 4:
+                sb.draw(guideline_purple, x, y);
+                break;
+            default:
+        }
     }
 
     @Override
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(bg, 0, 0, bg.getWidth() / 3, bg.getHeight() / 2);
-        sb.draw(Ufrm, Ufrm.getX(), Ufrm.getY());
-        sb.draw(Dfrm,Dfrm.getX(),Dfrm.getY());
-        sb.draw(Lpillar, Lpillar.getX(), Lpillar.getY());
-        sb.draw(Rpillar, Rpillar.getX(), Rpillar.getY());
 
-        sb.draw(Dfrm2,Dfrm2.getX(),Dfrm2.getY(),Dfrm.getWidth()/3, Dfrm.getHeight()/3);
-        sb.draw(Lpillar2,Lpillar2.getX() ,Lpillar2.getY()+  Dfrm.getHeight()/3,Lpillar.getWidth()/3, Lpillar.getHeight()/3);
+        sb.draw(background, background.getX(), background.getY(),Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/2);
+        sb.draw(frame_top, frame_top.getX(), frame_top.getY());
+        sb.draw(frame_bot, frame_bot.getX(), frame_bot.getY());
+        sb.draw(frame_l, frame_l.getX(), frame_l.getY());
+        sb.draw(frame_r, frame_r.getX(), frame_r.getY());
+        sb.draw(frame_block, 50, frame_top.getY() + frame_top.getHeight() + 12);
 
-        sb.draw(Rpillar2,Lpillar2.getX()+Dfrm.getWidth()/3-14,Rpillar2.getY() +  Dfrm.getHeight()/3,Rpillar.getWidth()/3, Rpillar.getHeight()/3);
-        sb.draw(Ufrm2, Dfrm2.getX(), Dfrm2.getY()+  Dfrm.getHeight()/3+Rpillar.getHeight()/3,Ufrm.getWidth()/3, Ufrm.getHeight()/3);
-        sb.draw(frame_block, 50, Ufrm.getY() + Ufrm.getHeight() + 12);
-        sb.draw(exo, 300, Ufrm.getY()+Ufrm.getHeight()+120);
+        sb.draw(frame_bot_opponent,frame_bot_opponent.getX(),frame_bot_opponent.getY(),frame_bot.getWidth()/3, frame_bot.getHeight()/3);
+        sb.draw(frame_l_opponent,frame_l_opponent.getX() ,frame_l_opponent.getY()+  frame_bot.getHeight()/3,frame_l.getWidth()/3, frame_l.getHeight()/3);
+        sb.draw(frame_r_opponent,frame_l_opponent.getX()+frame_bot.getWidth()/3-14,frame_r_opponent.getY() +  frame_bot.getHeight()/3,frame_r.getWidth()/3, frame_r.getHeight()/3);
+        sb.draw(frame_top_opponent, frame_bot_opponent.getX(), frame_bot_opponent.getY()+  frame_bot.getHeight()/3+frame_r.getHeight()/3,frame_top.getWidth()/3, frame_top.getHeight()/3);
 
         renderBoard(sb);
         sb.end();
     }
 
-    String rotateType = "none";
     public void renderBoard(SpriteBatch sb) {
-        float initx = Lpillar.getWidth();
-        float inity = Lpillar.getHeight()+(42*2);
-        float minix = Ufrm.getWidth() + 32+Lpillar.getWidth()/3;
-        float miniy = Dfrm2.getY()+  Dfrm.getHeight()/3+Rpillar.getHeight()/3-42/3; //Lpillar.getHeight() + Ufrm.getHeight() + 32;
-        //currently shit looking, will make function to make sprite from color later to replace switch statements
-        bfont.setColor(1.0f,1.0f,1.0f,1.0f);
-        currscore = board.score;
-        if(currscore != prevscore){
-            scoresound.play(1.0f);
-        }
-        scoreString = "Score: " + board.score;
-//        timerString = "Time: " + ((System.nanoTime()-startTime)/1000000000);
-        board.elapsed = (System.nanoTime()-board.startTime)/1000000000;
-        board.min = board.elapsed / 60;
-        board.sec = board.elapsed % 60;
-        timerString = "Time: " + board.min + " : " + board.sec;
-        bfont2.draw(sb, timerString, 70, Ufrm.getY()+Ufrm.getHeight() + 150);
-        bfont.draw(sb, scoreString, 5, Ufrm.getY() + Ufrm.getHeight() + 150);
-        System.nanoTime();
-        if(game.isover){
-            gsm.set(new retrystate(gsm));
-            dispose();
-
-
-        }/*
-        switch(game.nextp.getA().getColor()) {
-            case 0:
-                sb.draw(redblock, 0, Ufrm.getY()+Ufrm.getHeight());
-                break;
-            case 1:
-                sb.draw(blueblock, 0, Ufrm.getY()+Ufrm.getHeight());
-                break;
-            case 2:
-                sb.draw(yellowblock, 0, Ufrm.getY()+Ufrm.getHeight());
-                break;
-            case 3:
-                sb.draw(greenblock, 0, Ufrm.getY()+Ufrm.getHeight());
-                break;
-            case 4:
-                sb.draw(purpleblock, 0, Ufrm.getY()+Ufrm.getHeight());
-                break;
-            default:
-
-        }
-        switch(game.nextp.getB().getColor()) {
-            case 0:
-                sb.draw(redblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
-                break;
-            case 1:
-                sb.draw(blueblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
-                break;
-            case 2:
-                sb.draw(yellowblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
-                break;
-            case 3:
-                sb.draw(greenblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
-                break;
-            case 4:
-                sb.draw(purpleblock,0 ,Ufrm.getY()+Ufrm.getHeight() + 42);
-                break;
-            default:
-
-        }
-        for(int cols = 5; cols >= 0; cols--) {
-            for (int row = 13; row >= 2; row--) {
-                if (board.board[row][cols] == null) continue;
-                switch (board.board[row][cols].getColor()) {
-                    case 0: //red
-                        sb.draw(redblock, initx+(cols*42), inity-(row*42)+42*2);
-                        break;
-                    case 1: //blue
-                        sb.draw(blueblock, initx+(cols*42), inity-(row*42)+42*2);
-                        break;
-                    case 2: // yellow
-                        sb.draw(yellowblock, initx+(cols*42), inity-(row*42)+42*2);
-                        break;
-                    case 3: //green
-                        sb.draw(greenblock, initx+(cols*42), inity-(row*42)+42*2);
-                        break;
-                    case 4: // purple
-                        sb.draw(purpleblock, initx+(cols*42), inity-(row*42)+42*2);
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-        }*/
-        switch(game.nextp.getA().getColor()) {
-            case 0:
-                sb.draw(redblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
-                break;
-            case 1:
-                sb.draw(blueblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
-                break;
-            case 2:
-                sb.draw(yellowblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
-                break;
-            case 3:
-                sb.draw(greenblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
-                break;
-            case 4:
-                sb.draw(purpleblock, 56, Ufrm.getY()+Ufrm.getHeight()+8+12);
-                break;
-            default:
-        }
-        switch(game.nextp.getB().getColor()) {
-            case 0:
-                sb.draw(redblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
-                break;
-            case 1:
-                sb.draw(blueblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
-                break;
-            case 2:
-                sb.draw(yellowblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
-                break;
-            case 3:
-                sb.draw(greenblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
-                break;
-            case 4:
-                sb.draw(purpleblock,56 ,Ufrm.getY()+Ufrm.getHeight() + 42+8+12);
-                break;
-            default:
-
-        }
+        //Get coordinates in board for current controlled pieces
         int fallingX1 = game.p.getA().getLR();
         int fallingY1 = game.p.getA().getUD();
         int fallingX2 = game.p.getB().getLR();
         int fallingY2 = game.p.getB().getUD();
 
-        Sprite spr;
-        Sprite guide_spr;
+        //Go to retry screen if game over
+        if(game.isover){
+            gsm.set(new retrystate(gsm));
+            dispose();
+        }
 
-        boolean draw = true;
+        //Draw score and time
+        scoreString = "Score: " + board.score;
+        currscore = board.score;
+        if(currscore != prevscore){
+            scoresound.play(1.0f);
+        }
+        board.elapsed = (System.nanoTime()-board.startTime)/1000000000;
+        board.min = board.elapsed / 60;
+        board.sec = board.elapsed % 60;
+        timerString = "Time: " + board.min + " : " + board.sec;
+        bfont.draw(sb, scoreString, 5, frame_top.getY()+frame_top.getHeight() + 150);
+        bfont2.draw(sb, timerString, 75, frame_top.getY() + frame_top.getHeight() + 150);
+        System.nanoTime();
 
-        int rotateX = 0;
-        int rotateY = 0;
+        //Draw next block preview
+        drawBlock(game.nextp.getA().getColor(), 56, frame_top.getY()+frame_top.getHeight()+ 8+12, sb);
+        drawBlock(game.nextp.getB().getColor(), 56, frame_top.getY()+frame_top.getHeight()+ 42+8+12, sb);
+
+        //Draw each space in the board if it contains a block
         for(int cols = 5; cols >= 0; cols--) {
             for (int row = 13; row >= 2; row--) {
-
-                draw = true;
                 if (board.board[row][cols] == null) continue;
-                switch (board.board[row][cols].getColor()) {
-                    case 0: //red
-                        spr = redblock;
-                        guide_spr = guideline_red;
-                        break;
-                    case 1: //blue
-                        spr = blueblock;
-                        guide_spr = guideline_blue;
-                        break;
-                    case 2: // yellow
-                        spr = yellowblock;
-                        guide_spr = guideline_yellow;
-                        break;
-                    case 3: //green
-                        spr = greenblock;
-                        guide_spr = guideline_green;
-                        break;
-                    case 4: // purple
-                        spr = purpleblock;
-                        guide_spr = guideline_purple;
-                        break;
-                    case 5: // garbage
-                        spr = block_garbage;
-                        guide_spr = guideline_red;
-                        break;
-                    default:
-                        spr = redblock;
-                        guide_spr = guideline_red;
-                        draw=false;
-                        break;
-                }
-                if (!draw) continue;
+                int color = board.board[row][cols].getColor();
 
-                //Print guidelines if block is part of falling piece
+                //Draw guidelines if block is part of falling piece
                 if ((row == fallingY1 && cols == fallingX1) || (row == fallingY2 && cols == fallingX2)) {
                     if (row == fallingY1) {
                         int bottom = board.getBottom(cols);
                         if (row >= fallingY2) {
-                            if (bottom >= row) sb.draw(guide_spr, initx+(cols*42), inity-(bottom*42));
-                        }
-                        else {
-                            if (bottom >= row) sb.draw(guide_spr, initx+(cols*42), inity-((bottom-1)*42));
+                            if (bottom >= row) drawGuide(color, initx + (cols * 42), inity - (bottom * 42), sb);
+                        } else {
+                            if (bottom >= row) drawGuide(color, initx + (cols * 42), inity - ((bottom - 1) * 42), sb);
                         }
                     }
                     else if (row == fallingY2) {
                         int bottom = board.getBottom(cols);
                         if (row >= fallingY1) {
 
-                            if (bottom >= row) sb.draw(guide_spr, initx+(cols*42), inity-(bottom*42));
-                        }
-                        else {
-                            if (bottom >= row) sb.draw(guide_spr, initx+(cols*42), inity-((bottom-1)*42));
-                        }
-                    }
-                }
-
-                if (game.p.currentRotate[0] == fallingX1 || game.p.currentRotate[0] == fallingX2 || game.p.currentRotate[1]==fallingY1 || game.p.currentRotate[1]==fallingY1) {
-                    //System.out.println("rotate state");
-                    float diffX = ex.getX() - exo.getX();
-                    float diffY = ex.getY() - exo.getY();
-
-
-                    if (rotateType.equals("none")) {
-                        if (diffY == 42) rotateType = "topleft";
-                        else if (diffX == -42) rotateType = "leftbottom";
-                        else if (diffY == -42) rotateType = "bottomright";
-                        else if (diffX == 42) rotateType = "righttop";
-                    }
-
-                    if (rotateType.equals("topleft")) {
-                        if (!(ex.getY()==exo.getY())) {
-                            ex.setPosition(ex.getX()-1, ex.getY()-1);
-                            //set rotX and Y
-                            //rotateX--; rotateY--;
-                        }
-                        if (ex.getY()==exo.getY()) {
-                            System.out.println("reset");
-                            rotateType="none";
-                            game.p.currentRotate[0] = -1;
-                            game.p.currentRotate[1] = -1;
-                        }
-                    }
-                    else if (rotateType.equals("leftbottom")) {
-                        System.out.printf("reset %f %f\n", diffX, diffY);
-                        if (!(ex.getX()==exo.getX())) {
-                            ex.setPosition(ex.getX()+1, ex.getY()-1);
-                        }
-                        else {
-                            rotateType="none";
-                            game.p.currentRotate[0] = -1;
-                            game.p.currentRotate[1] = -1;
-                        }
-                    }
-                    else if (rotateType.equals("bottomright")) {
-                        if (!(ex.getY()==exo.getY())) {
-                            ex.setPosition(ex.getX()+1, ex.getY()+1);
-                        }
-                        else {
-                            System.out.println("reset");
-                            rotateType="none";
-                            game.p.currentRotate[0] = -1;
-                            game.p.currentRotate[1] = -1;
-                        }
-                    }
-                    else if (rotateType.equals("righttop")) {
-                        if (!(ex.getX()==exo.getX())) {
-                            ex.setPosition(ex.getX()-1, ex.getY()+1);
-                        }
-                        else {
-                            System.out.println("reset");
-                            rotateType="none";
-                            game.p.currentRotate[0] = -1;
-                            game.p.currentRotate[1] = -1;
+                            if (bottom >= row) drawGuide(color, initx + (cols * 42), inity - (bottom * 42), sb);
+                        } else {
+                            if (bottom >= row) drawGuide(color, initx + (cols * 42), inity - ((bottom - 1) * 42), sb);
                         }
                     }
                 }
 
-                sb.draw(ex, ex.getX(), ex.getY());
                 //Offset is used to give smooth falling animation. Only want it to apply to current falling piece
                 //If block has reached the bottom don't apply offset
                 if (row == 13) {
-                    sb.draw(spr, initx+(cols*42)+rotateX, inity-(row*42)+rotateY);
+                    drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
                 }
                 //If the current location is part of the current falling piece...
                 else if ((row == fallingY1 && cols == fallingX1) || (row == fallingY2 && cols == fallingX2)) {
                     //Apply offset if there's empty space below it
-                    if (board.board[row+1][cols] == null) {
-                        sb.draw(spr, initx+(cols*42)+rotateX, inity-(row*42)-board.offset+rotateY);
+                    if (board.board[row + 1][cols] == null) {
+                        drawBlock(color, initx + (cols * 42), inity - (row * 42) - board.offset, sb);
                     }
                     //Add exception to above if the block below it is part of the current falling piece
                     else if (row+1 == fallingY1 || row+1 == fallingY2) {
                         //Exception for if moving piece below has met an immovable block
                         if (row >= 12) { //immovable against bottom
-                            sb.draw(spr, initx+(cols*42)+rotateX, inity-(row*42)+rotateY);
+                            drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
                         }
-                        else if ((board.board[row+2][cols] != null) && (row+2 != fallingY1 || row+2 != fallingY2)) {
-                            sb.draw(spr, initx+(cols*42)+rotateX, inity-(row*42)+rotateY);
-                        }
-                        else sb.draw(spr, initx+(cols*42)+rotateX, inity-(row*42)-board.offset+rotateY);
-                    }
-                    else {
-                        sb.draw(spr, initx+(cols*42)+rotateX, inity-(row*42)+rotateY);
+                        else if ((board.board[row+2][cols] != null) && (row + 2 != fallingY1 || row + 2 != fallingY2)) {
+                            drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
+                        } else drawBlock(color, initx + (cols * 42), inity - (row * 42) - board.offset, sb);
+                    } else {
+                        drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
                     }
                 }
                 else {
-                    sb.draw(spr, initx+(cols*42)+rotateX, inity-(row*42)+rotateY);
+                    drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
                 }
             }
         }
+
+        //Draw opponent's board
         for(int cols = 5; cols >= 0; cols--) {
             for (int row = 13; row >= 2; row--) {
                 if (board2.board[row][cols] == null) continue;
+                //drawBlock(board2.board[row][cols].getColor(), minix+(cols*42/3), miniy-(row*42/3)+42*2/3, redblock.getWidth()/3,redblock.getHeight()/3, sb);
                 switch (board2.board[row][cols].getColor()) {
                     case 0: //red
-                        sb.draw(redblock, minix+(cols*42/3), miniy-(row*42/3)+42*2/3,redblock.getWidth()/3,redblock.getHeight()/3);
+                        sb.draw(block_red, minix+(cols*42/3), miniy-(row*42/3)+42*2/3, block_red.getWidth()/3, block_red.getHeight()/3);
                         break;
                     case 1: //blue
-                        sb.draw(blueblock, minix+(cols*42/3), miniy-(row*42/3)+42*2/3,blueblock.getWidth()/3,blueblock.getHeight()/3);
+                        sb.draw(block_blue, minix+(cols*42/3), miniy-(row*42/3)+42*2/3, block_blue.getWidth()/3, block_blue.getHeight()/3);
                         break;
                     case 2: // yellow
-                        sb.draw(yellowblock, minix+(cols*42/3), miniy-(row*42/3)+42*2/3, yellowblock.getWidth()/3,yellowblock.getHeight()/3);
+                        sb.draw(block_yellow, minix+(cols*42/3), miniy-(row*42/3)+42*2/3, block_yellow.getWidth()/3, block_yellow.getHeight()/3);
                         break;
                     case 3: //green
-                        sb.draw(greenblock, minix+(cols*42/3), miniy-(row*42/3)+42*2/3,greenblock.getWidth()/3,greenblock.getHeight()/3);
+                        sb.draw(block_green, minix+(cols*42/3), miniy-(row*42/3)+42*2/3, block_green.getWidth()/3, block_green.getHeight()/3);
                         break;
                     case 4: // purple
-                        sb.draw(purpleblock,  minix+(cols*42/3), miniy-(row*42/3)+42*2/3,purpleblock.getWidth()/3,purpleblock.getHeight()/3);
+                        sb.draw(block_purple, minix+(cols*42/3), miniy-(row*42/3)+42*2/3, block_purple.getWidth()/3, block_purple.getHeight()/3);
+                        break;
+                    case 5:
+                        sb.draw(block_garbage, minix+(cols*42/3), miniy-(row*42/3)+42*2/3, block_garbage.getWidth()/3, block_garbage.getHeight()/3);
                         break;
                     default:
                         break;
                 }
-
             }
         }
         prevscore = currscore;
@@ -520,27 +347,20 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
         rightso.dispose();
         leftso.dispose();
         downso.dispose();
-        yellow.dispose();
-        blue.dispose();
-        green.dispose();
-        red.dispose();
-        purple.dispose();
-        sides.dispose();
-        topbottom.dispose();
         scoresound.dispose();
         leftso.dispose();
         rightso.dispose();
         downso.dispose();
         bgsong.dispose();
     }
-    public int[] rotate(int x, int y, int cx, int cy, double angle) {
-        angle = (angle * (Math.PI/180));
-        int rotX = (int) (Math.cos(angle) * (x - cx) - Math.sin(angle) * (y-cy) +cx);
-        int rotY = (int) (Math.sin(angle) * (x - cx) + Math.cos(angle) * (y - cy) + cy);
-        int[] r = new int[2];
-        r[0] = rotX;
-        r[1] = rotY;
-        return r;
+
+    @Override
+    public void handleInput() {
+        Gdx.input.setCatchBackKey(true);
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            gsm.set(new Soloscreen(gsm));
+            dispose();
+        }
     }
 
     @Override

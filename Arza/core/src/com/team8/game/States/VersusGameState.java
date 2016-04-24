@@ -1,6 +1,5 @@
 package com.team8.game.States;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
@@ -16,8 +15,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.team8.game.Board;
 import com.team8.game.Block;
 import com.team8.game.Game;
-
-
 
 public class VersusGameState extends State implements GestureDetector.GestureListener {
     Sprite Lpillar;
@@ -62,7 +59,6 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
     Board board = game.board;
     Board board2 = game.board2;
     int rotatetimer = 0;
-
 
     private int prevscore = 0;
     private int currscore = 0;
