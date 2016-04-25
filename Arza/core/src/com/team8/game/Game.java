@@ -14,6 +14,7 @@ public class Game {
 	public int framectr2;
 	public Board board2;
 	boolean drop=false;
+<<<<<<< HEAD
 	int garbcount1=0;
 	int garbcount2=0;
 	int turncount1=1;
@@ -22,6 +23,10 @@ public class Game {
 	boolean endless = false;
 
 	public Game(int state) {
+=======
+
+	public Game() {
+>>>>>>> origin/EddieBranch
 		//Create a board, maybe two if vs cpu or other person
 		board = new Board(6,14); // 6x14 is the generic measurements
 		board2 = new Board(6,14);
@@ -37,7 +42,11 @@ public class Game {
 		p = new Piece();
 		p2 = new Piece();
 		nextp2 = new Piece();
+<<<<<<< HEAD
 		nextp = nextp2;
+=======
+		nextp = new Piece();
+>>>>>>> origin/EddieBranch
 		p.putPieceInto(board);
 		p2.putPieceInto(board2);
 	}
@@ -65,7 +74,10 @@ public class Game {
 				if (found) {
 					try{ Thread.sleep(500);}
 					catch (InterruptedException e) {}
+<<<<<<< HEAD
 					garbcount1++;
+=======
+>>>>>>> origin/EddieBranch
 				}
 				//call all drop on next call
 				if (this.drop) {
@@ -79,6 +91,7 @@ public class Game {
 					this.drop = true;
 					return this.board;
 				}
+<<<<<<< HEAD
 			}
 			if (garbcount1 > 0) {
 				//System.out.println("super before---");
@@ -89,6 +102,8 @@ public class Game {
 			}
 			if (endless && turncount1%5==0) {
 				board.takeGarbage(1);
+=======
+>>>>>>> origin/EddieBranch
 			}
 			p = nextp;
 			nextp= new Piece();
@@ -118,6 +133,7 @@ public class Game {
 			}
 			while (this.board2.findGroups()) {
 				//wait
+<<<<<<< HEAD
 				garbcount1++;
 				this.board2.allDrop();
 			}
@@ -125,11 +141,18 @@ public class Game {
 				board.takeGarbage(garbcount2);
 				garbcount2=0;
 			}
+=======
+				this.board2.allDrop();
+			}
+>>>>>>> origin/EddieBranch
 			p2 = nextp2;
 			nextp2 = new Piece();
 			p2.putPieceInto(board2);
 			framectr2 = 0;
+<<<<<<< HEAD
 			turncount2++;
+=======
+>>>>>>> origin/EddieBranch
 		}
 		Random r = new Random();
 		int x = r.nextInt(200);

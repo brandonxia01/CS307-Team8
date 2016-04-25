@@ -162,7 +162,11 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
         {
             bgsong.play();
             bgsong.setLooping(true);
+<<<<<<< HEAD
             // firsttime = false;
+=======
+           // firsttime = false;
+>>>>>>> origin/EddieBranch
             firsttime = bgsong.isPlaying();
         }
         handleInput();

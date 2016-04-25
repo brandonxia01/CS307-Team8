@@ -45,7 +45,7 @@ public class retrystate extends State {
             if(textureBounds.contains(touchPos.x, touchPos.y )){
                 click.play(1.0f);
                 System.out.println("reset");
-                gsm.set(new endlessState(gsm));
+                gsm.set(new VsaiState(gsm));
                 dispose();
                 //when left side of screen is touched
                 //game.p.moveLeft(board);

@@ -16,7 +16,11 @@ import java.util.Random;
 
 public class endlessState extends State implements GestureDetector.GestureListener {
 
+<<<<<<< HEAD
     Game game = new Game(1);
+=======
+    Game game = new Game();
+>>>>>>> origin/EddieBranch
     Board board = game.board;
     GestureDetector gestureDetector;
     private int prevscore = 0;
@@ -211,6 +215,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
             gsm.set(new retrystate(gsm));
             dispose();
         }
+<<<<<<< HEAD
 
         //Draw score and time
         scoreString = "Score: " + board.score;
@@ -230,6 +235,27 @@ public class endlessState extends State implements GestureDetector.GestureListen
         drawBlock(game.nextp.getA().getColor(), 56, frame_top.getY()+frame_top.getHeight()+ 8+12, sb);
         drawBlock(game.nextp.getB().getColor(), 56, frame_top.getY()+frame_top.getHeight()+ 42+8+12, sb);
 
+=======
+
+        //Draw score and time
+        scoreString = "Score: " + board.score;
+        currscore = board.score;
+        if(currscore != prevscore){
+            scoresound.play(1.0f);
+        }
+        board.elapsed = (System.nanoTime()-board.startTime)/1000000000;
+        board.min = board.elapsed / 60;
+        board.sec = board.elapsed % 60;
+        timerString = "Time: " + board.min + " : " + board.sec;
+        bfont.draw(sb, scoreString, 5, frame_top.getY()+frame_top.getHeight() + 150);
+        bfont2.draw(sb, timerString, 75, frame_top.getY() + frame_top.getHeight() + 150);
+        System.nanoTime();
+
+        //Draw next block preview
+        drawBlock(game.nextp.getA().getColor(), 56, frame_top.getY()+frame_top.getHeight()+ 8+12, sb);
+        drawBlock(game.nextp.getB().getColor(), 56, frame_top.getY()+frame_top.getHeight()+ 42+8+12, sb);
+
+>>>>>>> origin/EddieBranch
         //Draw each space in the board if it contains a block
         for(int cols = 5; cols >= 0; cols--) {
             for (int row = 13; row >= 2; row--) {
