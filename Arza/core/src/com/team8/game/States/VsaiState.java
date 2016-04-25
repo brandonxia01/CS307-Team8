@@ -80,7 +80,7 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
         //Initialize sprites
         //Pick random background
         Random ran = new Random();
-        int bg_pick = ran.nextInt(3);
+        int bg_pick = ran.nextInt(4);
         switch(bg_pick) {
             case 0:
                 background_tex = new Texture("background1.png");
@@ -90,6 +90,9 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
                 break;
             case 2:
                 background_tex = new Texture("background3.png");
+                break;
+            case 3:
+                background_tex = new Texture("background4.png");
                 break;
             default:
                 background_tex = new Texture("background2.png");

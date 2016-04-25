@@ -116,6 +116,7 @@ public class Board {
 	public void searchGroup(int lr, int ud, int color) {
 		if (board[ud][lr] == null) { return; }
 		if (board[ud][lr].getColor() != color) { return; }
+		if (board[ud][lr].getColor() == 5) { return; }
 
 		for (int i = 0; i < groups.size(); ++i) {
 			if (groups.get(i)[0] == lr && groups.get(i)[1] == ud) {
@@ -128,7 +129,6 @@ public class Board {
 		if (lr < length - 1) { searchGroup(lr + 1, ud, color); }
 		if (ud > 0) { searchGroup(lr, ud - 1, color); }
 		if (ud < height - 1) { searchGroup(lr, ud + 1, color); }
-
 
 	}
 

@@ -40,17 +40,32 @@ public class endlessState extends State implements GestureDetector.GestureListen
     Sprite frame_top;
     Sprite frame_bot;
     Sprite frame_block;
+
     Sprite block_red;
     Sprite block_blue;
     Sprite block_yellow;
     Sprite block_green;
     Sprite block_purple;
     Sprite block_garbage;
+
+    Sprite block_2horz_red;
+    Sprite block_2horz_blue;
+    Sprite block_2horz_yellow;
+    Sprite block_2horz_green;
+    Sprite block_2horz_purple;
+
+    Sprite block_2vert_red;
+    Sprite block_2vert_blue;
+    Sprite block_2vert_yellow;
+    Sprite block_2vert_green;
+    Sprite block_2vert_purple;
+
     Sprite guideline_red;
     Sprite guideline_blue;
     Sprite guideline_yellow;
     Sprite guideline_purple;
     Sprite guideline_green;
+
 
     BitmapFont bfont;
     BitmapFont bfont2;
@@ -73,7 +88,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
         //Initialize sprites
         //Pick random background
         Random ran = new Random();
-        int bg_pick = ran.nextInt(3);
+        int bg_pick = ran.nextInt(4);
         switch(bg_pick) {
             case 0:
                 background_tex = new Texture("background1.png");
@@ -83,6 +98,9 @@ public class endlessState extends State implements GestureDetector.GestureListen
                 break;
             case 2:
                 background_tex = new Texture("background3.png");
+                break;
+            case 3:
+                background_tex = new Texture("background4.png");
                 break;
             default:
                 background_tex = new Texture("background2.png");
@@ -101,6 +119,18 @@ public class endlessState extends State implements GestureDetector.GestureListen
         block_green = new Sprite(new Texture("block_green.png"));
         block_purple = new Sprite(new Texture("block_purple.png"));
         block_garbage = new Sprite(new Texture("block_garbage.png"));
+
+        block_2horz_blue = new Sprite(new Texture("block_2horz_blue.png"));
+        block_2horz_red = new Sprite(new Texture("block_2horz_red.png"));
+        block_2horz_yellow = new Sprite(new Texture("block_2horz_yellow.png"));
+        block_2horz_green = new Sprite(new Texture("block_2horz_green.png"));
+        block_2horz_purple = new Sprite(new Texture("block_2horz_purple.png"));
+
+        block_2vert_blue = new Sprite(new Texture("block_2vert_blue.png"));
+        block_2vert_red = new Sprite(new Texture("block_2vert_red.png"));
+        block_2vert_yellow = new Sprite(new Texture("block_2vert_yellow.png"));
+        block_2vert_green = new Sprite(new Texture("block_2vert_green.png"));
+        block_2vert_purple = new Sprite(new Texture("block_2vert_purple.png"));
 
         guideline_red = new Sprite(new Texture("guideline_red.png"));
         guideline_blue = new Sprite(new Texture("guideline_blue.png"));
@@ -183,6 +213,48 @@ public class endlessState extends State implements GestureDetector.GestureListen
         }
     }
 
+    public void drawHorz(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_2horz_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_2horz_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_2horz_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_2horz_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_2horz_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+    public void drawVert(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_2vert_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_2vert_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_2vert_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_2vert_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_2vert_purple, x, y);
+                break;
+            default:
+        }
+    }
+
     @Override
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
@@ -229,7 +301,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
         drawBlock(game.nextp.getA().getColor(), 56, frame_top.getY()+frame_top.getHeight()+ 8+12, sb);
         drawBlock(game.nextp.getB().getColor(), 56, frame_top.getY()+frame_top.getHeight()+ 42+8+12, sb);
 
-        //Draw each space in the board if it contains a block
+        //Draw each space in the board if it contains a block and hasnt already been drawn
         for(int cols = 5; cols >= 0; cols--) {
             for (int row = 13; row >= 2; row--) {
                 if (board.board[row][cols] == null) continue;
@@ -257,12 +329,8 @@ public class endlessState extends State implements GestureDetector.GestureListen
                 }
 
                 //Offset is used to give smooth falling animation. Only want it to apply to current falling piece
-                //If block has reached the bottom don't apply offset
-                if (row == 13) {
-                    drawBlock(color, initx+(cols*42), inity-(row*42), sb);
-                }
                 //If the current location is part of the current falling piece...
-                else if ((row == fallingY1 && cols == fallingX1) || (row == fallingY2 && cols == fallingX2)) {
+                if (((row == fallingY1 && cols == fallingX1) || (row == fallingY2 && cols == fallingX2)) && row != 13) {
                     //Apply offset if there's empty space below it
                     if (board.board[row + 1][cols] == null) {
                         drawBlock(color, initx + (cols * 42), inity - (row * 42) - board.offset, sb);
@@ -281,7 +349,32 @@ public class endlessState extends State implements GestureDetector.GestureListen
                     }
                 }
                 else {
-                    drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    //if block to right is same color
+                    if (cols != 5) {
+                        if (board.board[row][cols+1] == null) {
+                            //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                        }
+                        else if (board.board[row][cols+1].getColor() == color && color != 5) {
+                            drawHorz(color, initx + (cols*42), inity-row*42, sb);
+                            continue;
+                        }
+                        else {
+                            drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                        }
+                    }
+                    //if block below is same color
+                    if (row != 13) {
+                        if (board.board[row+1][cols] == null) {
+                            //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                        }
+                        else if (board.board[row+1][cols].getColor() == color && color != 5) {
+                            drawVert(color, initx+(cols*42), inity-(row+1)*42, sb);
+                        }
+                        else {
+                            drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                        }
+                    }
+                    else drawBlock(color, initx+(cols*42), inity-(row*42), sb);
                 }
             }
         }
