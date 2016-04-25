@@ -52,7 +52,7 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
     private Texture green;
     private Texture sides;
     private Texture topbottom;
-    Game game = new Game();
+    Game game = new Game(0);
     Board board = game.board;
     Board board2 = game.board2;
     int rotatetimer = 0;

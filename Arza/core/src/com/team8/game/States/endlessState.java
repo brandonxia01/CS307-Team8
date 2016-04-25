@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class endlessState extends State implements GestureDetector.GestureListener {
 
-    Game game = new Game();
+    Game game = new Game(1);
     Board board = game.board;
     GestureDetector gestureDetector;
     private int prevscore = 0;

@@ -63,11 +63,11 @@ public class Soloscreen extends State {
                     (int)Svsai.getWidth(),(int)Svsai.getHeight());
             click.play(1.0f);
             if(textureBounds.contains(touchPos.x, touchPos.y )){
-                System.out.println("touched");
+                //System.out.println("touched");
                 gsm.set(new endlessState(gsm));
                 dispose();}
             if(AiBounds.contains(touchPos.x, touchPos.y )){
-                System.out.println("touched");
+                //System.out.println("touched");
                 gsm.set(new VsaiState(gsm));
                 dispose();}
         }

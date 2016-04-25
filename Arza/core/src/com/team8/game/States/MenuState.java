@@ -86,20 +86,20 @@ public class MenuState extends State {
             Rectangle profileBounds=new Rectangle((int)(Sprofilebtn.getX()),(int)Sprofilebtn.getY(),
                     (int)Sprofilebtn.getWidth(),(int)Sprofilebtn.getHeight());
             if(textureBounds.contains(touchPos.x,touchPos.y)){// + Ssolobtn.getHeight()+Ssolobtn.getHeight()/2)){
-                System.out.println("touched");
+                //System.out.println("touched");
                 gsm.set(new Soloscreen(gsm));
                 dispose();}
             if(profileBounds.contains(touchPos.x,touchPos.y)){
-                System.out.println("touched");
+                //System.out.println("touched");
                 gsm.myGameCallback.onStartActivityLeaderboard();
                 dispose();
             }
             if(VersusBounds.contains(touchPos.x,touchPos.y)){// + Ssolobtn.getHeight()+Ssolobtn.getHeight()/2)){
-                System.out.println("touched");
+                //System.out.println("touched");
                 gsm.set(new VersusState(gsm));
                 dispose();}
             if(SettingsBounds.contains(touchPos.x,touchPos.y)){
-                System.out.println("touched");
+                //System.out.println("touched");
                 gsm.set(new SettingsState(gsm));
                 dispose();
             }

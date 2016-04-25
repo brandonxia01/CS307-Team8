@@ -147,14 +147,17 @@ public class Board {
 	public void takeGarbage(int num) {
 		for (int i = 0; i < num; ++i) {
 			for (int j = 0; j < 6; ++j) {
-				Block a = new Block (5, 0);
-				if(this.board[0][j] == null) {
-					this.board[0][j] = a;
+				Block a = new Block (5);
+				if(this.board[1][j] == null) {
+					this.board[1][j] = a;
 				}
 			}
-			this.allDrop();
-//			this.print();
+
+			//this.print();
 		}
+		this.allDrop();
+		//System.out.println("after---");
+		//this.print();
 	}
 
 	public void allDrop() {
