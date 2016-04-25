@@ -1,13 +1,11 @@
 package com.team8.game.States;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.team8.game.MyGdxGame;
 
 //import java.awt.Rectangle;
 
@@ -93,7 +91,7 @@ public class MenuState extends State {
                 dispose();}
             if(profileBounds.contains(touchPos.x,touchPos.y)){
                 System.out.println("touched");
-                gsm.set(new ProfileState(gsm));
+                gsm.myGameCallback.onStartActivityLeaderboard();
                 dispose();
             }
             if(VersusBounds.contains(touchPos.x,touchPos.y)){// + Ssolobtn.getHeight()+Ssolobtn.getHeight()/2)){
