@@ -1,3 +1,8 @@
+UPDATE 4/25/2016
+not using HTTP reqs, just a simple socket.
+look at the ServerTester.java file for example.
+
+
 get reqs
 
 1. n/a

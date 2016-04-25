@@ -1,46 +1,26 @@
-from http.server import BaseHTTPRequestHandler
-from urllib.parse import parse_qs
-from mySqlHandler import SqlHandler
+import socketserver
+import ast
+from MySqlHandler import SqlHandler
 
 
-class MyHTTPRequestHandler(BaseHTTPRequestHandler):
+class MyRequestHandler(socketserver.BaseRequestHandler):
     sql = SqlHandler()
 
-    def do_GET(self):
-        tuples = self.performGetAction()
-        response = ""
-        for x in range(tuples.__len__()):
-            for y in range(tuples[x].__len__()):
-                response += str(tuples[x][y])
-                response += ","
-            response = response[:response.__len__() - 1]
-            response += ";"
-        response = response[:response.__len__() - 1]
-        self.send_response(200)
-        self.send_header("Content-type", "text/plain")
-        self.end_headers()
-        self.wfile.write(bytes(response, "utf-8"))
-
-    def do_POST(self):
-        content_len = int(self.headers.get('Content-Length', 0))
-        post_body = self.rfile.read(content_len).decode("utf-8")
-        result = parse_qs(post_body)
-        for k in result:
-            print(result[k])
-        self.performPostAction(result)
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.end_headers()
-        self.wfile.write(bytes("sample response", "utf-8"))
-
-    def performGetAction(self):
-        reqType = int(self.headers['reqType'])
-        argument = self.headers['argument']
-        print('reqType', reqType, 'argument', argument)
-        return self.sql.getTuple(reqType, argument)
+    def handle(self):
+        type = int(self.request.recv(1))
+        reqType = int(self.request.recv(2))
+        print(reqType)
+        if type == 1:
+            argument = str(self.request.recv(1024), 'ascii')
+            print(argument)
+            response = bytes(str(self.sql.getTuple(reqType, argument)), 'ascii')
+        else:
+            argument = ast.literal_eval(str(self.request.recv(1024), 'ascii'))
+            print(argument)
+            response = bytes(str(self.sql.performAction(reqType, argument)), 'ascii')
+        self.request.sendall(response)
+        self.request.close()
 
 
-    def performPostAction(self, bodyContent):
-        reqType = self.headers['reqType']
-        argument = self.headers['argument']
-        return self.sql.performAction(reqType, argument, bodyContent)
+class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    pass
