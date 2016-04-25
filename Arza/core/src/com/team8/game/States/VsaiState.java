@@ -16,11 +16,7 @@ import java.util.Random;
 
 public class VsaiState extends State implements GestureDetector.GestureListener {
 
-<<<<<<< HEAD
     Game game = new Game(0);
-=======
-    Game game = new Game();
->>>>>>> origin/EddieBranch
     Board board = game.board;
     Board board2 = game.board2;
     GestureDetector gestureDetector;

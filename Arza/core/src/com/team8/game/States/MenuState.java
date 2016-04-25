@@ -1,11 +1,8 @@
 package com.team8.game.States;
 
 import com.badlogic.gdx.Gdx;
-<<<<<<< HEAD
-=======
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
->>>>>>> origin/EddieBranch
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
