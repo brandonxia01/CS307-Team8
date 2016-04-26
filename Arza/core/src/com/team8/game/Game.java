@@ -5,7 +5,7 @@ import java.util.Random;
 public class Game {
 
 	public Board board;
-	int framectr;
+	public int framectr;
 	public Piece p;
 	public Piece nextp;
 	public boolean isover;
@@ -20,6 +20,8 @@ public class Game {
 	int turncount2=1;
 	int endlessgarbctr=5;
 	boolean endless = false;
+	public float speed = 42;
+	public float currentspeed=42;
 
 	public Game(int state) {
 		//Create a board, maybe two if vs cpu or other person
@@ -45,14 +47,24 @@ public class Game {
 
 	public Board update() {
 		this.framectr++;
-		if (board.offset < 42) board.offset++;
-		if (framectr == 42) {
+		/*
+		if (fastfall && board.offset<42) board.offset+=(42/4);
+		else if (board.offset < 42) board.offset++;
+
+		if ((fastfall && framectr==4) || framectr == 42) {
 			p.singleDrop(board);
 			board.offset = 0;
 			framectr = 0;
 		}
+		 */
+		if (board.offset<42) board.offset+=(42/speed);
+		System.out.println(board.offset);
 
-
+		if (framectr==speed) {
+			p.singleDrop(board);
+			board.offset = 0;
+			framectr = 0;
+		}
 
 		if (!p.control) {
 			if (board.isGameOver()) {
@@ -64,15 +76,14 @@ public class Game {
 			while (found = board.findGroups() || this.drop == true) {
 				//wait
 				if (found) {
-					try{ Thread.sleep(500);}
+					try{ Thread.sleep(300);}
 					catch (InterruptedException e) {}
 					garbcount1++;
 				}
 				//call all drop on next call
 				if (this.drop) {
-					//System.out.println("REACHEDAAAAAAAAAAAAAAAA");
 					board.allDrop();
-					try{ Thread.sleep(500);}
+					try{ Thread.sleep(300);}
 					catch (InterruptedException e) {}
 					this.drop = false;
 				}
@@ -82,21 +93,25 @@ public class Game {
 				}
 			}
 			if (garbcount1 > 0) {
-				//System.out.println("super before---");
-				//board.print();
-				//System.out.println("before---");
+				try{ Thread.sleep(300);}
+				catch (InterruptedException e) {}
 				board2.takeGarbage(garbcount1);
 				garbcount1=0;
 			}
-			if (endless && turncount1%5==0) {
+			//Every 10 turns receive garbage
+			if (endless && turncount1%10==0) {
 				board.takeGarbage(1);
+			}
+			//Every 15 turns increase speed
+			if (endless && turncount1%15==0) {
+				if (currentspeed > 21) currentspeed-=8;
 			}
 			p = nextp;
 			nextp= new Piece();
 			p.putPieceInto(board);
 			framectr = 0;
 			turncount1++;
-			System.out.printf("turn count %d turn count mod %d\n", turncount1, turncount1%5);
+			speed=currentspeed;
 		}
 
 		return this.board;

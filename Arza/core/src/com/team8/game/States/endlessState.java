@@ -354,7 +354,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
                         if (board.board[row][cols+1] == null) {
                             //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
                         }
-                        else if (board.board[row][cols+1].getColor() == color && color != 5) {
+                        else if (board.board[row][cols+1].getColor() == color && color != 5 && !((row == fallingY1 && cols == fallingX1) || (row == fallingY2 && cols == fallingX2)) && !((row == fallingY1 && cols+1 == fallingX1) || (row == fallingY2 && cols+1 == fallingX2))) {
                             drawHorz(color, initx + (cols*42), inity-row*42, sb);
                             continue;
                         }
@@ -367,7 +367,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
                         if (board.board[row+1][cols] == null) {
                             //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
                         }
-                        else if (board.board[row+1][cols].getColor() == color && color != 5) {
+                        else if (board.board[row+1][cols].getColor() == color && color != 5 && !((row == fallingY1 && cols == fallingX1) || (row == fallingY2 && cols == fallingX2)) && !((row+1 == fallingY1 && cols == fallingX1) || (row+1 == fallingY2 && cols == fallingX2))) {
                             drawVert(color, initx+(cols*42), inity-(row+1)*42, sb);
                         }
                         else {
@@ -430,8 +430,10 @@ public class endlessState extends State implements GestureDetector.GestureListen
             //when left side of screen is touched
             leftso.play(1.0f);
         } else if (velocityY > 3 * Math.abs((int)velocityX) ) {
-            for (int gig = 0; gig < 14; gig++)
-                game.p.singleDrop(board);
+            game.speed=4;
+            game.framectr=0;
+            //for (int gig = 0; gig < 14; gig++)
+                //game.p.singleDrop(board);
             //when down is touched
             downso.play(1.0f);
         }

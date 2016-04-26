@@ -12,7 +12,7 @@ public class Board {
 	public long min;
 	public long sec;
 	public long startTime;
-	public int offset;
+	public float offset;
 
 
 	ArrayList <Integer[]> groups = new ArrayList<Integer[]>();
