@@ -58,7 +58,6 @@ public class Game {
 		}
 		 */
 		if (board.offset<42) board.offset+=(42/speed);
-		System.out.println(board.offset);
 
 		if (framectr==speed) {
 			p.singleDrop(board);
