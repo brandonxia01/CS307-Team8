@@ -22,6 +22,7 @@ public class Game {
 	boolean endless = false;
 	public float speed = 42;
 	public float currentspeed=42;
+	boolean found = false;
 
 	public Game(int state) {
 		//Create a board, maybe two if vs cpu or other person
@@ -57,13 +58,7 @@ public class Game {
 			framectr = 0;
 		}
 		 */
-		if (board.offset<42) board.offset+=(42/speed);
 
-		if (framectr==speed) {
-			p.singleDrop(board);
-			board.offset = 0;
-			framectr = 0;
-		}
 
 		if (!p.control) {
 			if (board.isGameOver()) {
@@ -71,20 +66,28 @@ public class Game {
 				board.clear();
 				isover=true;
 			}
-			boolean found;
-			while (found = board.findGroups() || this.drop == true) {
-				//wait
+			try{ Thread.sleep(300);}
+			catch (InterruptedException e) {}
+			found = board.findGroups();
+			if (found || this.drop == true) {
+				System.out.println("While loop");
+				try{ Thread.sleep(300);}
+				catch (InterruptedException e) {}
+
 				if (found) {
+					System.out.println("Wait: found group = true");
 					try{ Thread.sleep(300);}
 					catch (InterruptedException e) {}
 					garbcount1++;
 				}
-				//call all drop on next call
+				//If combo is found, blocks have been broken. Draw board in current state and drop on next call
 				if (this.drop) {
 					board.allDrop();
+					System.out.println("Wait: drop = true");
 					try{ Thread.sleep(300);}
 					catch (InterruptedException e) {}
 					this.drop = false;
+					return this.board;
 				}
 				else {
 					this.drop = true;
@@ -112,7 +115,13 @@ public class Game {
 			turncount1++;
 			speed=currentspeed;
 		}
+		if (board.offset<42) board.offset+=(42/speed);
 
+		if (framectr>=speed ) {
+			p.singleDrop(board);
+			board.offset = 0;
+			framectr = 0;
+		}
 		return this.board;
 	}
 
