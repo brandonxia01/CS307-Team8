@@ -546,14 +546,18 @@ public class endlessState extends State implements GestureDetector.GestureListen
                     } else {
                         drawBlock(color, initx+(cols*42), inity-(row*42), sb);
                     }
+                    continue;
                 }
                 else {
+
+                    //print merged blocks
+
                     //if two blocks to right are same color
                     try {
                         if (board.board[row][cols + 2] == null || board.board[row][cols + 1] == null) {
 
                         }
-                        else if (board.board[row][cols + 1].getColor() == color && board.board[row][cols + 2].getColor() == color && color != 5) {
+                        else if (board.board[row][cols + 1].getColor() == color && board.board[row][cols + 2].getColor() == color && color != 5 && !((row == fallingY1 && cols+2 == fallingX1) || (row == fallingY2 && cols+2 == fallingX2))) {
                             draw3Horz(color,  initx + (cols * 42), inity - row * 42, sb);
                             continue;
                         }
@@ -566,7 +570,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
                         if (board.board[row+2][cols] == null || board.board[row+1][cols] == null) {
 
                         }
-                        else if (board.board[row+2][cols].getColor() == color && board.board[row+1][cols].getColor() == color && color != 5) {
+                        else if (board.board[row+2][cols].getColor() == color && board.board[row+1][cols].getColor() == color && color != 5 && !((row + 2 == fallingY1 && cols == fallingX1) || (row + 2 == fallingY2 && cols == fallingX2))) {
                             draw3Vert(color,  initx + (cols * 42), inity - (row+2) * 42, sb);
                             continue;
                         }
@@ -579,7 +583,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
                         if (board.board[row+1][cols] == null || board.board[row][cols+1] == null) {
 
                         }
-                        else if (board.board[row+1][cols].getColor() == color && board.board[row][cols+1].getColor() == color && color != 5) {
+                        else if (board.board[row+1][cols].getColor() == color && board.board[row][cols+1].getColor() == color && color != 5 && !((row+1 == fallingY1 && cols == fallingX1) || (row+1 == fallingY2 && cols == fallingX2)) && !((row == fallingY1 && cols+1 == fallingX1) || (row  == fallingY2 && cols+1 == fallingX2))) {
                             draw123(color, initx + (cols * 42), inity - (row + 1) * 42, sb);
                             continue;
                         }
@@ -592,7 +596,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
                         if (board.board[row][cols+1] == null || board.board[row+1][cols+1] == null) {
 
                         }
-                        else if (board.board[row][cols+1].getColor() == color && board.board[row+1][cols+1].getColor() == color && color != 5) {
+                        else if (board.board[row][cols+1].getColor() == color && board.board[row+1][cols+1].getColor() == color && color != 5 && !((row == fallingY1 && cols+1 == fallingX1) || (row == fallingY2 && cols+1 == fallingX2)) && !((row+1 == fallingY1 && cols+1 == fallingX1) || (row + 1 == fallingY2 && cols+1 == fallingX2))) {
                             draw124(color, initx + (cols * 42), inity - (row + 1) * 42, sb);
                             continue;
                         }
@@ -605,7 +609,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
                         if (board.board[row+1][cols] == null || board.board[row+1][cols+1] == null) {
 
                         }
-                        else if (board.board[row+1][cols].getColor() == color && board.board[row+1][cols+1].getColor() == color && color != 5) {
+                        else if (board.board[row+1][cols].getColor() == color && board.board[row+1][cols+1].getColor() == color && color != 5 && !((row+1 == fallingY1 && cols == fallingX1) || (row+1 == fallingY2 && cols == fallingX2)) && !((row + 1 == fallingY1 && cols+1 == fallingX1) || (row + 1 == fallingY2 && cols+1 == fallingX2))) {
                             draw134(color, initx + (cols * 42), inity - (row + 1) * 42, sb);
                             continue;
                         }
@@ -618,7 +622,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
                         if (board.board[row][cols+1] == null || board.board[row-1][cols+1] == null) {
 
                         }
-                        else if (board.board[row][cols+1].getColor() == color && board.board[row-1][cols+1].getColor() == color && color != 5) {
+                        else if (board.board[row][cols+1].getColor() == color && board.board[row-1][cols+1].getColor() == color && color != 5 && !((row == fallingY1 && cols+1 == fallingX1) || (row == fallingY2 && cols+1 == fallingX2)) && !((row-1 == fallingY1 && cols+1 == fallingX1) || (row - 1 == fallingY2 && cols+1 == fallingX2))) {
                             draw234(color, initx + ((cols) * 42), inity - (row) * 42, sb);
                             continue;
                         }
@@ -631,7 +635,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
                         if (board.board[row][cols + 1] == null) {
                             drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
                         }
-                        else if (board.board[row][cols + 1].getColor() == color && color != 5 && !((row == fallingY1 && cols == fallingX1) || (row == fallingY2 && cols == fallingX2)) && !((row == fallingY1 && cols + 1 == fallingX1) || (row == fallingY2 && cols + 1 == fallingX2))) {
+                        else if (board.board[row][cols + 1].getColor() == color && color != 5 && !((row == fallingY1 && cols+1 == fallingX1) || (row == fallingY2 && cols+1 == fallingX2))) {
                             drawHorz(color, initx + (cols * 42), inity - row * 42, sb);
                             continue;
                         }
@@ -647,7 +651,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
                         if (board.board[row + 1][cols] == null) {
                             drawBlock(color, initx+(cols*42), inity-(row*42), sb);
                         }
-                        else if (board.board[row + 1][cols].getColor() == color && color != 5 && !((row == fallingY1 && cols == fallingX1) || (row == fallingY2 && cols == fallingX2)) && !((row + 1 == fallingY1 && cols == fallingX1) || (row + 1 == fallingY2 && cols == fallingX2))) {
+                        else if (board.board[row + 1][cols].getColor() == color && color != 5 && !((row + 1 == fallingY1 && cols == fallingX1) || (row + 1 == fallingY2 && cols == fallingX2))) {
                             drawVert(color, initx + (cols * 42), inity - (row + 1) * 42, sb);
                         }
                         else {
