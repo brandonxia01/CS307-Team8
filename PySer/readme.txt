@@ -1,3 +1,4 @@
+the server is ArzaServer.py
 simple socket. connnection - look at the ServerTester.java file for example.
 
 
@@ -41,3 +42,33 @@ TABLE user (username text primary key, achievement integer)
 TABLE userStat (username text primary key, signupDate text, numberOfAyush integer)
 TABLE follower (username text, followerName text, PRIMARY KEY (username, followerName))
 TABLE highScore (username text primary key, gameMode integer, scoreValue integer)
+
+
+type = 3
+	multiplayer connection.
+	all data send and received after the initial type = 3 should follow this format
+		1. 4 digit data length
+		2. data
+		ex. "0039" "Connected to server, looking for match."
+
+	A typical sequence of event:
+	1.		client connect to server - "0039" "Connected to server, looking for match."
+	2.		match found - "0012" "Match found!"
+	3.		while game is going on - "????" "GAME DATA"
+	4.		when a player dies
+	 a.		if opponent dies, receive from server - "0004" "dead"
+	 b.		if self dies, send to server - "0004" "dead"
+	5.		decision point, both players need to send to server, one of the following
+	 a.			"0001" 0" if user choose to not have a rematch
+	 b.			"0001" 1" if user choose to have a rematch
+	6.
+	 a.		if both player choose to have a rematch server perform step 2
+	 b.		server sends "0003" "end"
+
+	refer to test.py for example on how client side should send and receive data.
+	probably use a input stream and output stream on separate threads
+	
+	this is what i discussed with brandon, but feel free to do whatever else
+	"you keep calling ayush.getData and it returns either null or data"
+	so maybe you have a thread pulling data, and a variable in the network class that holds it,
+	after brandon calls ayush.getData you set the variable back to null
