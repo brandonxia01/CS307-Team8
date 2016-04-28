@@ -65,7 +65,7 @@ type = 3
 	 a.		if both player choose to have a rematch server perform step 2
 	 b.		server sends "0003" "end"
 
-	refer to test.py for example on how client side should send and receive data.
+	refer to clientTester.py for example on how client side should send and receive data.
 	probably use a input stream and output stream on separate threads
 	
 	this is what i discussed with brandon, but feel free to do whatever else
