@@ -16,10 +16,8 @@ public class Soloscreen extends State {
     private Sprite Sgamemode;
     private Sprite Sendless;
     private Sprite Svsai;
-    private Sprite Shard;
     private Texture gamemode;
     private Texture endless;
-    private Texture hardEndless;
     private Texture vsai;
     private Sound click;
     private Sound backclick;
@@ -30,11 +28,9 @@ public class Soloscreen extends State {
 
         gamemode = new Texture("selectgamemode.png");
         endless = new Texture("endless.png");
-        hardEndless = new Texture("hardEndless.png");
         vsai = new Texture("vsai.png");
         Sgamemode = new Sprite(gamemode);
         Sendless = new Sprite(endless);
-        Shard = new Sprite(hardEndless);
         Svsai = new Sprite(vsai);
         click = Gdx.audio.newSound(Gdx.files.internal("button-3.mp3"));
         backclick = Gdx.audio.newSound(Gdx.files.internal("button-09.mp3"));
@@ -46,8 +42,6 @@ public class Soloscreen extends State {
                 cam.position.y);
         Svsai.setPosition(cam.position.x - (Svsai.getWidth() / 2),
                 cam.position.y   - Sendless.getHeight());
-        Shard.setPosition(cam.position.x - (Shard.getWidth() / 2),
-                cam.position.y - 2 * Shard.getHeight());
     }
 
     @Override
@@ -68,24 +62,15 @@ public class Soloscreen extends State {
                     (int)Sendless.getWidth(),(int)Sendless.getHeight());
             Rectangle AiBounds=new Rectangle((int)(Svsai.getX()),(int)Svsai.getY(),
                     (int)Svsai.getWidth(),(int)Svsai.getHeight());
-            Rectangle HardBounds=new Rectangle((int)(Shard.getX()), (int)Shard.getY(),
-                    (int)Shard.getWidth(),(int)Shard.getHeight());
             click.play(1.0f);
             if(textureBounds.contains(touchPos.x, touchPos.y )){
                 //System.out.println("touched");
-                endlessState.mode = 1;
                 gsm.set(new endlessState(gsm));
                 dispose();}
             if(AiBounds.contains(touchPos.x, touchPos.y )){
                 //System.out.println("touched");
                 gsm.set(new VsaiState(gsm));
                 dispose();}
-            if(HardBounds.contains(touchPos.x, touchPos.y )){
-                //System.out.println("touched");
-                endlessState.mode = 2;
-                gsm.set(new endlessState(gsm));
-                dispose();}
-
         }
 
     }
@@ -102,7 +87,6 @@ public class Soloscreen extends State {
         sb.draw(Sgamemode,Sgamemode.getX(),Sgamemode.getY());
         sb.draw(Sendless,Sendless.getX(),Sendless.getY());
         sb.draw(Svsai, Svsai.getX(),Svsai.getY());
-        sb.draw(Shard, Shard.getX(),Shard.getY());
         sb.end();
     }
 
