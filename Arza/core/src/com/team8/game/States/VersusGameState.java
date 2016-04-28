@@ -66,7 +66,7 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
 
         super(gsm);
         firsttime = false;
-        cam.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        cam.setToOrtho(false, Gdx.graphics.getWidth() / 3, Gdx.graphics.getHeight() / 3);
         gestureDetector = new GestureDetector(this);
         Gdx.input.setInputProcessor(gestureDetector);
 
@@ -223,7 +223,7 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
 
-        sb.draw(background, background.getX(), background.getY(),Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/2);
+        sb.draw(background, background.getX(), background.getY(),Gdx.graphics.getWidth()/3 , Gdx.graphics.getHeight()/3);
         sb.draw(frame_top, frame_top.getX(), frame_top.getY());
         sb.draw(frame_bot, frame_bot.getX(), frame_bot.getY());
         sb.draw(frame_l, frame_l.getX(), frame_l.getY());
