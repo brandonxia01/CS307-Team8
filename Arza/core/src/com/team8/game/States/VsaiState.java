@@ -787,8 +787,10 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
             //when left side of screen is touched
             leftso.play(1.0f);
         } else if (velocityY > 3 * Math.abs((int)velocityX) ) {
-            for (int gig = 0; gig < 14; gig++)
-                game.p.singleDrop(board);
+            game.speed=4;
+            game.framectr=0;
+            //for (int gig = 0; gig < 14; gig++)
+            //game.p.singleDrop(board);
             //when down is touched
             downso.play(1.0f);
         }
