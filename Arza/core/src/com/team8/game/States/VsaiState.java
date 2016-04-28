@@ -566,11 +566,11 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
 
                 //Offset is used to give smooth falling animation. Only want it to apply to current falling piece
                 //If block has reached the bottom don't apply offset
-                if (row == 13) {
-                    drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
-                }
+                //if (row == 13) {
+                //    drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
+                //}
                 //If the current location is part of the current falling piece...
-                else if ((row == fallingY1 && cols == fallingX1) || (row == fallingY2 && cols == fallingX2)) {
+                if (((row == fallingY1 && cols == fallingX1) || (row == fallingY2 && cols == fallingX2)) && row != 13) {
                     //Apply offset if there's empty space below it
                     if (board.board[row + 1][cols] == null) {
                         drawBlock(color, initx + (cols * 42), inity - (row * 42) - board.offset, sb);
