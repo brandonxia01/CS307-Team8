@@ -1,5 +1,6 @@
 package com.team8.game;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,7 +9,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager.LayoutParams;
+import android.widget.EditText;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.team8.game.dummy.DummyContent;
 
 import io.karim.MaterialTabs;
@@ -18,6 +25,11 @@ public class LeaderBoards extends FragmentActivity implements ScoresFragment.OnL
     final static String url = "";*/
 
     private MaterialTabs tabs;
+    private FloatingActionButton fab;
+    private View dialogView;
+    private EditText password;
+    private EditText passwordVerification;
+    private EditText username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +40,29 @@ public class LeaderBoards extends FragmentActivity implements ScoresFragment.OnL
         pager.setAdapter(adapter);
         tabs = (MaterialTabs)findViewById(R.id.material_tabs);
         tabs.setViewPager(pager);
+        LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+        dialogView = inflater.inflate(R.layout.dialog_view,null,false);
+        password = (EditText) dialogView.findViewById(R.id.password);
+        passwordVerification = (EditText)dialogView.findViewById(R.id.password_verification);
+        username = (EditText)dialogView.findViewById(R.id.user_name);
+        fab = (FloatingActionButton)findViewById(R.id.fab);
+        final AlertDialog builder = new AlertDialog.Builder(LeaderBoards.this).create();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                builder.show();
+                Window win = builder.getWindow();
+                win.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                builder.setCanceledOnTouchOutside(true);
+                builder.setCancelable(true);
+                win.setContentView(dialogView);
+                if(password.getText().length()!=0 && password.getText() == passwordVerification.getText()){
+                    builder.dismiss();
+                }
+            }
 
+        });
     }
 
     @Override

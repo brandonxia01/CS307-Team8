@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
@@ -37,8 +36,6 @@ public class ScoresFragment extends Fragment {
     private RecyclerView recyclerView;
     private MyItemRecyclerViewAdapter recyclerAdapter;
     int mode;
-    static ArrayList<String> ITEMS1;
-    static ArrayList<String> ITEMS2;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
