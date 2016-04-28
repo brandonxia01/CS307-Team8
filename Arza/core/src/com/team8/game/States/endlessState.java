@@ -16,8 +16,7 @@ import java.util.Random;
 
 public class endlessState extends State implements GestureDetector.GestureListener {
 
-    static int mode;
-    Game game = new Game(mode);
+    Game game = new Game(1);
     Board board = game.board;
     GestureDetector gestureDetector;
     private int prevscore = 0;
@@ -111,7 +110,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
 
         super(gsm);
         firsttime = false;
-        cam.setToOrtho(false, Gdx.graphics.getWidth() / 2,Gdx.graphics.getHeight() / 2);
+        cam.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         gestureDetector = new GestureDetector(this);
         Gdx.input.setInputProcessor(gestureDetector);
 
