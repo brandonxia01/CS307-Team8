@@ -47,10 +47,18 @@ public class LeaderBoards extends FragmentActivity implements ScoresFragment.OnL
         @Override
         public Fragment getItem(int position) {
             if(position==0){
-                return new ScoresFragment();
+                Bundle args = new Bundle();
+                args.putInt("mode", 1);
+                ScoresFragment frag =  new ScoresFragment();
+                frag.setArguments(args);
+                return frag;
             }
             if(position==1){
-                return new ScoresFragment();
+                Bundle args = new Bundle();
+                args.putInt("mode", 2);
+                ScoresFragment frag =  new ScoresFragment();
+                frag.setArguments(args);
+                return frag;
             }
             else {
                 return new FriendsList();
