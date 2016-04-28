@@ -20,7 +20,6 @@ public class Game {
 	int turncount2=1;
 	int endlessgarbctr=5;
 	boolean endless = false;
-	boolean hard = false;
 	public float speed = 42;
 	public float currentspeed=42;
 	boolean found = false;
@@ -35,9 +34,6 @@ public class Game {
 		if (state==1) endless=true;
 		System.out.printf("Begin game state %b\n", endless);
 
-		if (state == 2) {
-			hard = true;
-		}
 		isover = false;
 
 		framectr = 0;
@@ -105,11 +101,11 @@ public class Game {
 				garbcount1=0;
 			}
 			//Every 10 turns receive garbage
-			if (hard && turncount1%10==0) {
+			if (endless && turncount1%10==0) {
 				board.takeGarbage(1);
 			}
 			//Every 15 turns increase speed
-			if (hard && turncount1%15==0) {
+			if (endless && turncount1%15==0) {
 				if (currentspeed > 21) currentspeed-=8;
 			}
 			p = nextp;
