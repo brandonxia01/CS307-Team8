@@ -116,7 +116,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
         Gdx.input.setInputProcessor(gestureDetector);
 
         // Initialize sounds
-        bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
+
         scoresound = Gdx.audio.newSound(Gdx.files.internal("Cymatics Weird Snare 2.wav"));
         rightso = Gdx.audio.newSound(Gdx.files.internal("rightgo.mp3"));
         leftso = Gdx.audio.newSound(Gdx.files.internal("leftgo.mp3"));
@@ -125,6 +125,22 @@ public class endlessState extends State implements GestureDetector.GestureListen
         //Initialize sprites
         //Pick random background
         Random ran = new Random();
+        int mus_pick = ran.nextInt(3);
+        switch(mus_pick) {
+            case 0:
+                bgsong =Gdx.audio.newMusic(Gdx.files.internal("song1.wav"));
+                break;
+            case 1:
+                bgsong =Gdx.audio.newMusic(Gdx.files.internal("song2.wav"));
+                break;
+            case 2:
+                bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
+                break;
+            default:
+                bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
+        }
+
+
         int bg_pick = ran.nextInt(4);
         switch(bg_pick) {
             case 0:
@@ -678,6 +694,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
         rightso.dispose();
         downso.dispose();
         bgsong.dispose();
+        background_tex.dispose();
     }
 
     @Override
