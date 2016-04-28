@@ -53,6 +53,55 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
     Sprite block_green;
     Sprite block_purple;
     Sprite block_garbage;
+
+    Sprite block_2horz_red;
+    Sprite block_2horz_blue;
+    Sprite block_2horz_yellow;
+    Sprite block_2horz_green;
+    Sprite block_2horz_purple;
+
+    Sprite block_2vert_red;
+    Sprite block_2vert_blue;
+    Sprite block_2vert_yellow;
+    Sprite block_2vert_green;
+    Sprite block_2vert_purple;
+
+    Sprite block_3horz_red;
+    Sprite block_3horz_blue;
+    Sprite block_3horz_yellow;
+    Sprite block_3horz_green;
+    Sprite block_3horz_purple;
+
+    Sprite block_3vert_red;
+    Sprite block_3vert_blue;
+    Sprite block_3vert_yellow;
+    Sprite block_3vert_green;
+    Sprite block_3vert_purple;
+
+    Sprite block_3_123_red;
+    Sprite block_3_123_blue;
+    Sprite block_3_123_yellow;
+    Sprite block_3_123_green;
+    Sprite block_3_123_purple;
+
+    Sprite block_3_124_red;
+    Sprite block_3_124_blue;
+    Sprite block_3_124_yellow;
+    Sprite block_3_124_green;
+    Sprite block_3_124_purple;
+
+    Sprite block_3_134_red;
+    Sprite block_3_134_blue;
+    Sprite block_3_134_yellow;
+    Sprite block_3_134_green;
+    Sprite block_3_134_purple;
+
+    Sprite block_3_234_red;
+    Sprite block_3_234_blue;
+    Sprite block_3_234_yellow;
+    Sprite block_3_234_green;
+    Sprite block_3_234_purple;
+
     Sprite guideline_red;
     Sprite guideline_blue;
     Sprite guideline_yellow;
@@ -130,6 +179,54 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
         block_green = new Sprite(new Texture("block_green.png"));
         block_purple = new Sprite(new Texture("block_purple.png"));
         block_garbage = new Sprite(new Texture("block_garbage.png"));
+
+        block_2horz_blue = new Sprite(new Texture("block_2horz_blue.png"));
+        block_2horz_red = new Sprite(new Texture("block_2horz_red.png"));
+        block_2horz_yellow = new Sprite(new Texture("block_2horz_yellow.png"));
+        block_2horz_green = new Sprite(new Texture("block_2horz_green.png"));
+        block_2horz_purple = new Sprite(new Texture("block_2horz_purple.png"));
+
+        block_2vert_blue = new Sprite(new Texture("block_2vert_blue.png"));
+        block_2vert_red = new Sprite(new Texture("block_2vert_red.png"));
+        block_2vert_yellow = new Sprite(new Texture("block_2vert_yellow.png"));
+        block_2vert_green = new Sprite(new Texture("block_2vert_green.png"));
+        block_2vert_purple = new Sprite(new Texture("block_2vert_purple.png"));
+
+        block_3horz_blue = new Sprite(new Texture("block_3horz_blue.png"));
+        block_3horz_red = new Sprite(new Texture("block_3horz_red.png"));
+        block_3horz_yellow = new Sprite(new Texture("block_3horz_yellow.png"));
+        block_3horz_green = new Sprite(new Texture("block_3horz_green.png"));
+        block_3horz_purple = new Sprite(new Texture("block_3horz_purple.png"));
+
+        block_3vert_blue = new Sprite(new Texture("block_3vert_blue.png"));
+        block_3vert_red = new Sprite(new Texture("block_3vert_red.png"));
+        block_3vert_yellow = new Sprite(new Texture("block_3vert_yellow.png"));
+        block_3vert_green = new Sprite(new Texture("block_3vert_green.png"));
+        block_3vert_purple = new Sprite(new Texture("block_3vert_purple.png"));
+
+        block_3_123_blue = new Sprite(new Texture("block_3_123_blue.png"));
+        block_3_123_red = new Sprite(new Texture("block_3_123_red.png"));
+        block_3_123_yellow = new Sprite(new Texture("block_3_123_yellow.png"));
+        block_3_123_green = new Sprite(new Texture("block_3_123_green.png"));
+        block_3_123_purple = new Sprite(new Texture("block_3_123_purple.png"));
+
+        block_3_124_blue = new Sprite(new Texture("block_3_124_blue.png"));
+        block_3_124_red = new Sprite(new Texture("block_3_124_red.png"));
+        block_3_124_yellow = new Sprite(new Texture("block_3_124_yellow.png"));
+        block_3_124_green = new Sprite(new Texture("block_3_124_green.png"));
+        block_3_124_purple = new Sprite(new Texture("block_3_124_purple.png"));
+
+        block_3_134_blue = new Sprite(new Texture("block_3_134_blue.png"));
+        block_3_134_red = new Sprite(new Texture("block_3_134_red.png"));
+        block_3_134_yellow = new Sprite(new Texture("block_3_134_yellow.png"));
+        block_3_134_green = new Sprite(new Texture("block_3_134_green.png"));
+        block_3_134_purple = new Sprite(new Texture("block_3_134_purple.png"));
+
+        block_3_234_blue = new Sprite(new Texture("block_3_234_blue.png"));
+        block_3_234_red = new Sprite(new Texture("block_3_234_red.png"));
+        block_3_234_yellow = new Sprite(new Texture("block_3_234_yellow.png"));
+        block_3_234_green = new Sprite(new Texture("block_3_234_green.png"));
+        block_3_234_purple = new Sprite(new Texture("block_3_234_purple.png"));
 
         guideline_red = new Sprite(new Texture("guideline_red.png"));
         guideline_blue = new Sprite(new Texture("guideline_blue.png"));
@@ -217,6 +314,176 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
             default:
         }
     }
+
+    public void drawHorz(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_2horz_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_2horz_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_2horz_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_2horz_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_2horz_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+    public void drawVert(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_2vert_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_2vert_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_2vert_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_2vert_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_2vert_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+    public void draw3Horz(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_3horz_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_3horz_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_3horz_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_3horz_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_3horz_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+    public void draw3Vert(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_3vert_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_3vert_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_3vert_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_3vert_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_3vert_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+    public void draw123(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_3_123_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_3_123_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_3_123_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_3_123_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_3_123_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+
+    public void draw124(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_3_124_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_3_124_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_3_124_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_3_124_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_3_124_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+    public void draw134(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_3_134_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_3_134_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_3_134_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_3_134_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_3_134_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+    public void draw234(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_3_234_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_3_234_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_3_234_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_3_234_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_3_234_purple, x, y);
+                break;
+            default:
+        }
+    }
+
 
     @Override
     public void render(SpriteBatch sb) {
@@ -320,9 +587,121 @@ public class VsaiState extends State implements GestureDetector.GestureListener 
                     } else {
                         drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
                     }
+		    continue;
                 }
                 else {
-                    drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
+                   
+                    //print merged blocks
+
+                    //if two blocks to right are same color
+                    try {
+                        if (board.board[row][cols + 2] == null || board.board[row][cols + 1] == null) {
+
+                        }
+                        else if (board.board[row][cols + 1].getColor() == color && board.board[row][cols + 2].getColor() == color && color != 5 && !((row == fallingY1 && cols+2 == fallingX1) || (row == fallingY2 && cols+2 == fallingX2))) {
+                            draw3Horz(color,  initx + (cols * 42), inity - row * 42, sb);
+                            continue;
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
+                    //if two blocks below are same color
+                    try {
+                        if (board.board[row+2][cols] == null || board.board[row+1][cols] == null) {
+
+                        }
+                        else if (board.board[row+2][cols].getColor() == color && board.board[row+1][cols].getColor() == color && color != 5 && !((row + 2 == fallingY1 && cols == fallingX1) || (row + 2 == fallingY2 && cols == fallingX2))) {
+                            draw3Vert(color,  initx + (cols * 42), inity - (row+2) * 42, sb);
+                            continue;
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
+                    //if one to right and one below
+                    try {
+                        if (board.board[row+1][cols] == null || board.board[row][cols+1] == null) {
+
+                        }
+                        else if (board.board[row+1][cols].getColor() == color && board.board[row][cols+1].getColor() == color && color != 5 && !((row+1 == fallingY1 && cols == fallingX1) || (row+1 == fallingY2 && cols == fallingX2)) && !((row == fallingY1 && cols+1 == fallingX1) || (row  == fallingY2 && cols+1 == fallingX2))) {
+                            draw123(color, initx + (cols * 42), inity - (row + 1) * 42, sb);
+                            continue;
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
+                    // if 124 formation
+                    try {
+                        if (board.board[row][cols+1] == null || board.board[row+1][cols+1] == null) {
+
+                        }
+                        else if (board.board[row][cols+1].getColor() == color && board.board[row+1][cols+1].getColor() == color && color != 5 && !((row == fallingY1 && cols+1 == fallingX1) || (row == fallingY2 && cols+1 == fallingX2)) && !((row+1 == fallingY1 && cols+1 == fallingX1) || (row + 1 == fallingY2 && cols+1 == fallingX2))) {
+                            draw124(color, initx + (cols * 42), inity - (row + 1) * 42, sb);
+                            continue;
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
+                    //if 134 formation
+                    try {
+                        if (board.board[row+1][cols] == null || board.board[row+1][cols+1] == null) {
+
+                        }
+                        else if (board.board[row+1][cols].getColor() == color && board.board[row+1][cols+1].getColor() == color && color != 5 && !((row+1 == fallingY1 && cols == fallingX1) || (row+1 == fallingY2 && cols == fallingX2)) && !((row + 1 == fallingY1 && cols+1 == fallingX1) || (row + 1 == fallingY2 && cols+1 == fallingX2))) {
+                            draw134(color, initx + (cols * 42), inity - (row + 1) * 42, sb);
+                            continue;
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
+                    //if 234
+                    try {
+                        if (board.board[row][cols+1] == null || board.board[row-1][cols+1] == null) {
+
+                        }
+                        else if (board.board[row][cols+1].getColor() == color && board.board[row-1][cols+1].getColor() == color && color != 5 && !((row == fallingY1 && cols+1 == fallingX1) || (row == fallingY2 && cols+1 == fallingX2)) && !((row-1 == fallingY1 && cols+1 == fallingX1) || (row - 1 == fallingY2 && cols+1 == fallingX2))) {
+                            draw234(color, initx + ((cols) * 42), inity - (row) * 42, sb);
+                            continue;
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
+                    //if block to right is same color
+                    try {
+                        if (board.board[row][cols + 1] == null) {
+                            drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
+                        }
+                        else if (board.board[row][cols + 1].getColor() == color && color != 5 && !((row == fallingY1 && cols+1 == fallingX1) || (row == fallingY2 && cols+1 == fallingX2))) {
+                            drawHorz(color, initx + (cols * 42), inity - row * 42, sb);
+                            continue;
+                        }
+                        else {
+                            drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
+                    //if block below is same color
+                    try {
+                        if (board.board[row + 1][cols] == null) {
+                            drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                        }
+                        else if (board.board[row + 1][cols].getColor() == color && color != 5 && !((row + 1 == fallingY1 && cols == fallingX1) || (row + 1 == fallingY2 && cols == fallingX2))) {
+                            drawVert(color, initx + (cols * 42), inity - (row + 1) * 42, sb);
+                        }
+                        else {
+                            drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
                 }
             }
         }
