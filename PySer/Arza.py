@@ -17,7 +17,7 @@ server_thread = threading.Thread(target=t_server.serve_forever)
 server_thread.daemon = False
 server_thread.start()
 
-# client(test_ip, test_port, 2, "first")
+# client(test_ip, test_port, 1, "first")
 # client(test_ip, test_port, 2, "second")
 # client(test_ip, test_port, 3, "third")
 # client(test_ip, test_port, 4, "fourth")

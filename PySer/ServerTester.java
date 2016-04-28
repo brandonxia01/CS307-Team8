@@ -5,20 +5,20 @@ import java.net.Socket;
 
 public class ServerTester {
 	public static void main(String[] args) {
-		sendGetReq(1, 2, "ayushVijayjayjay");
-		sendGetReq(1, 3, "ayushVijayjayjay");
-		sendGetReq(1, 4, "ayushVijayjayjay");
-		sendGetReq(1, 5, "ayushVijayjayjay");
-		sendGetReq(1, 6, "ayushVijayjayjay");
-		sendGetReq(1, 7, "ayushVijayjayjay");
-		sendGetReq(1, 8, "1");
+		sendData(1, 2, "ayushVijayjayjay");
+		sendData(1, 3, "ayushVijayjayjay");
+		sendData(1, 4, "ayushVijayjayjay");
+		sendData(1, 5, "ayushVijayjayjay");
+		sendData(1, 6, "ayushVijayjayjay");
+		sendData(1, 7, "ayushVijayjayjay");
+		sendData(1, 8, "1");
 
-		sendGetReq(2, 1, "{'username':'ayeshEatsEggs'}");
-		sendGetReq(2, 2, "{'username':'ayeshEatsEggs', 'gamemode':1, 'score':159357}");
-		sendGetReq(2, 4, "{'followingName':'ayushVijayjayjay', 'followerName':'ayeshEatsEggs'}");
+		sendData(2, 1, "{'username':'ayeshEatsEggs'}");
+		sendData(2, 2, "{'username':'ayeshEatsEggs', 'gamemode':1, 'score':159357}");
+		sendData(2, 4, "{'followingName':'ayushVijayjayjay', 'followerName':'ayeshEatsEggs'}");
 	}
 	
-	public static void sendGetReq(int type, int reqType, String arg) {
+	public static void sendData(int type, int reqType, String arg) {
 		try {
 			Socket echoSocket = new Socket("localhost", 9000);
 			PrintWriter out = new PrintWriter(echoSocket.getOutputStream(), true);
@@ -33,5 +33,9 @@ public class ServerTester {
 			echoSocket.close();
 		} catch (Exception e) {}
 		System.out.println();
+	}
+	
+	public static void mutiplayerTest() {
+		//TODO 
 	}
 }

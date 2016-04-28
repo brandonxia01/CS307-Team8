@@ -14,12 +14,15 @@ class MyRequestHandler(socketserver.BaseRequestHandler):
             argument = str(self.request.recv(1024), 'ascii')
             print(argument)
             response = bytes(str(self.sql.getTuple(reqType, argument)), 'ascii')
-        else:
+        elif type == 2:
             argument = ast.literal_eval(str(self.request.recv(1024), 'ascii'))
             print(argument)
             response = bytes(str(self.sql.performAction(reqType, argument)), 'ascii')
         self.request.sendall(response)
         self.request.close()
+
+    def doMultiplayerWork(self):
+        pass
 
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
