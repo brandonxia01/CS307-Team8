@@ -41,6 +41,7 @@ public class ScoresFragment extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public ScoresFragment() {
+
     }
 
     // TODO: Customize parameter initialization
