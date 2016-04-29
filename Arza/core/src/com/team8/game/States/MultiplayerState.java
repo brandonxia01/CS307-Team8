@@ -1,5 +1,6 @@
 package com.team8.game.States;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
@@ -10,15 +11,18 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
-import com.team8.game.Board;
-import com.team8.game.Game;
+import com.team8.game.*;
+
 import java.util.Random;
 
-public class VersusGameState extends State implements GestureDetector.GestureListener {
+
+public class MultiplayerState extends State implements GestureDetector.GestureListener  {
 
     Game game = new Game(0);
     Board board = game.board;
     Board board2 = game.board2;
+
+
     GestureDetector gestureDetector;
     private int prevscore = 0;
     private int currscore = 0;
@@ -62,7 +66,16 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
     BitmapFont bfont;
     BitmapFont bfont2;
 
-    protected VersusGameState(GameStateManager gsm) {
+    protected MultiplayerState(GameStateManager gsm) {
+        // send something to server like 1
+        /*
+            while (1) {
+                // send something to server like 1
+                // receive something from server
+                if (something != null)
+                    break;
+            }
+         */
 
         super(gsm);
         firsttime = false;
@@ -71,7 +84,7 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
         Gdx.input.setInputProcessor(gestureDetector);
 
         //Initialize sounds
-        //bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
+        bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
         scoresound = Gdx.audio.newSound(Gdx.files.internal("Cymatics Weird Snare 2.wav"));
         rightso = Gdx.audio.newSound(Gdx.files.internal("rightgo.mp3"));
         leftso = Gdx.audio.newSound(Gdx.files.internal("leftgo.mp3"));
@@ -80,20 +93,6 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
         //Initialize sprites
         //Pick random background
         Random ran = new Random();
-        int mus_pick = ran.nextInt(3);
-        switch(mus_pick) {
-            case 0:
-                bgsong =Gdx.audio.newMusic(Gdx.files.internal("song1.wav"));
-                break;
-            case 1:
-                bgsong =Gdx.audio.newMusic(Gdx.files.internal("song2.wav"));
-                break;
-            case 2:
-                bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
-                break;
-            default:
-                bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
-        }
         int bg_pick = ran.nextInt(4);
         switch(bg_pick) {
             case 0:
@@ -162,7 +161,7 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
     @Override
     public void update(float dt) {
         board = game.update();
-        board2= game.updateMini();
+        board2= game.updateMulti();
         if(!firsttime)
         {
             bgsong.play();
@@ -223,7 +222,7 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
 
-        sb.draw(background, background.getX(), background.getY(),Gdx.graphics.getWidth()/3 , Gdx.graphics.getHeight()/3);
+        sb.draw(background, background.getX(), background.getY(),Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/2);
         sb.draw(frame_top, frame_top.getX(), frame_top.getY());
         sb.draw(frame_bot, frame_bot.getX(), frame_bot.getY());
         sb.draw(frame_l, frame_l.getX(), frame_l.getY());
@@ -402,14 +401,17 @@ public class VersusGameState extends State implements GestureDetector.GestureLis
 
         if (velocityX > 0 && velocityX > 1.5 * velocityY) {
             game.p.moveRight(board);
+            //send to server game.board.getClean();
             rightso.play(1.0f);
         } else if (velocityX < 0 && velocityX * - 1 > 1.5 * velocityY){
             game.p.moveLeft(board);
+            //send to server game.board.getClean();
             //when left side of screen is touched
             leftso.play(1.0f);
         } else if (velocityY > 3 * Math.abs((int)velocityX) ) {
             for (int gig = 0; gig < 14; gig++)
                 game.p.singleDrop(board);
+            //send to server game.board.getClean();
             //when down is touched
             downso.play(1.0f);
         }

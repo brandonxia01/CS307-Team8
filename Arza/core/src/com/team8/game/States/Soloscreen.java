@@ -38,7 +38,7 @@ public class Soloscreen extends State {
         Svsai = new Sprite(vsai);
         click = Gdx.audio.newSound(Gdx.files.internal("button-3.mp3"));
         backclick = Gdx.audio.newSound(Gdx.files.internal("button-09.mp3"));
-        cam.setToOrtho(false,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
+        cam.setToOrtho(false,Gdx.graphics.getWidth()/1.5f,Gdx.graphics.getHeight()/1.5f);
 
         Sgamemode.setPosition(cam.position.x - (Sgamemode.getWidth() / 2),
                 cam.position.y+4*Sgamemode.getHeight());

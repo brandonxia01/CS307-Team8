@@ -123,10 +123,21 @@ public class Game {
 
 		if (framectr>=speed ) {
 			p.singleDrop(board);
+
 			board.offset = 0;
 			framectr = 0;
 		}
+		//send to server this.board.getClean();
 		return this.board;
+	}
+	public Board updateMulti() {
+		/*receive from server most recent clean board
+		int [][] b = server
+		if (b != null) {
+			this.board2 = this.board2.getDirty(b);
+		}
+		*/
+		return this.board2;
 	}
 
 	public Board updateMini() {
@@ -169,9 +180,11 @@ public class Game {
 				break;
 			case 2: p2.rotateCounter(board2);
 				break;
-			case 3: p2.singleDrop(board2);
-				break;
-
+		}
+		int mmm = r.nextInt(1000);
+		if (mmm == 69) {
+			for (int gig = 0; gig < 14; gig++)
+				p2.singleDrop(board2);
 		}
 
 

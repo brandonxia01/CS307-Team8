@@ -22,7 +22,7 @@ public class retrystate extends State {
         retrybtn = new Texture("retrybtn.png");
         click = Gdx.audio.newSound(Gdx.files.internal("button-3.mp3"));
         retrysprite = new Sprite(retrybtn);
-        cam.setToOrtho(false,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
+        cam.setToOrtho(false,Gdx.graphics.getWidth()/1.3f,Gdx.graphics.getHeight()/1.3f);
         logo = new Texture("logoimp.png");
         Slogo = new Sprite(logo);
         Slogo.setPosition(cam.position.x - Slogo.getWidth() / 2, cam.position.y + Slogo.getHeight());

@@ -33,7 +33,7 @@ public class ProfileState extends State {
     @Override
     public void render(SpriteBatch sb) {
        sb.begin();
-        sb.draw(barabuttlas,(Gdx.graphics.getWidth() / 2) - (barabuttlas.getWidth() / 2),
+        sb.draw(barabuttlas,(Gdx.graphics.getWidth() / 1.5f) - (barabuttlas.getWidth() / 1.5f),
                 Gdx.graphics.getHeight()  - barabuttlas.getHeight()-100);
         sb.end();
     }

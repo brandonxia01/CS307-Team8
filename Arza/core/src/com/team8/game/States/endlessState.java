@@ -111,7 +111,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
 
         super(gsm);
         firsttime = false;
-        cam.setToOrtho(false, Gdx.graphics.getWidth() / 3,Gdx.graphics.getHeight() / 3);
+        cam.setToOrtho(false, Gdx.graphics.getWidth() / 1.5f,Gdx.graphics.getHeight() / 1.5f);
         gestureDetector = new GestureDetector(this);
         Gdx.input.setInputProcessor(gestureDetector);
 

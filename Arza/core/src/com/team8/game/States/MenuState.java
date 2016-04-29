@@ -44,7 +44,7 @@ public class MenuState extends State {
         Ssettingsbtn = new Sprite(settingsbtn);
         Sprofilebtn = new Sprite(profilebtn);
         click = Gdx.audio.newSound(Gdx.files.internal("button-3.mp3"));
-        cam.setToOrtho(false,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2);
+        cam.setToOrtho(false,Gdx.graphics.getWidth()/1.2f,Gdx.graphics.getHeight()/1.2f);
 
         Ssolobtn.setPosition(cam.position.x - (Ssolobtn.getWidth() / 2),cam.position.y);
         Svsbtn.setPosition(cam.position.x - (Svsbtn.getWidth() / 2),
@@ -95,7 +95,8 @@ public class MenuState extends State {
             }
             if(VersusBounds.contains(touchPos.x,touchPos.y)){// + Ssolobtn.getHeight()+Ssolobtn.getHeight()/2)){
                 //System.out.println("touched");
-                gsm.set(new VersusState(gsm));
+               // gsm.set(new VersusState(gsm));
+                gsm.set(new MultiplayerState(gsm));
                 dispose();}
             if(SettingsBounds.contains(touchPos.x,touchPos.y)){
                 //System.out.println("touched");

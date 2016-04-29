@@ -13,7 +13,7 @@ public class SettingsState extends State {
     protected SettingsState(GameStateManager gsm) {
         super(gsm);
         soon = new BitmapFont();
-        cam.setToOrtho(false, Gdx.graphics.getWidth()/4,Gdx.graphics.getHeight()/4);
+        cam.setToOrtho(false, Gdx.graphics.getWidth()/1.5f,Gdx.graphics.getHeight()/1.5f);
     }
 
     @Override
