@@ -15,17 +15,20 @@ class  StartMultiPlayer extends AsyncTask<String,Void,Object> {
     /*
     * req:
     *       1 startSocket
-    *       2 startConnection
-    *       3 isMatchFound
-    *       4 getData
-    *       5 sendData
-    *       new StartMultiPlayer().execute("whatever");
-    *       //if result is null
+    *       2 sendData
+    *
+    *       new StartMultiPlayer().execute("startSocket"); will update incoming string
+    *       result will be false, or will go in infinite loop
+    *
+    *       new StartMultiPlayer().execute("sendData","Whatever data you want to send"); will also change result
+    *       //if result is false, means it failed to send data to server.
+    *       Major issue, startSocket and sendData, both should be logically synchronized otherwise.....GG RIP
     *
     * */
     public static boolean startSocket(){
         try{
             echoSocket = new Socket("ec2-52-34-71-58.us-west-2.compute.amazonaws.com", 9000);
+            Log.i("Socket","Started");
             return true;
         }
         catch (Exception e){
@@ -42,13 +45,16 @@ class  StartMultiPlayer extends AsyncTask<String,Void,Object> {
             String str = in.readLine();
             Log.i("CHECK",str+"");
             in.close();
+            Log.i("CHECK",str+"");
             if(str.equals("0039")){
+                Log.i("CHECK",str+"");
                 return true;
             }
 
         } catch (Exception e) {
             Log.i("CHECK","ERROR");
         }
+        Log.i("CHECK","FALSE");
         return false;
     }
     public static boolean isMatchFound() {
@@ -81,12 +87,12 @@ class  StartMultiPlayer extends AsyncTask<String,Void,Object> {
         }
         return null;
     }
-    public static boolean sendData() {
+    public static boolean sendData(String send) {
         try {
             PrintWriter out = new PrintWriter(echoSocket.getOutputStream(), true);
-            out.write(incoming.length()+"");
+            out.write(send.length()+"");
             out.flush();
-            out.write(incoming);
+            out.write(send);
             out.flush();
             return true;
 
@@ -99,24 +105,28 @@ class  StartMultiPlayer extends AsyncTask<String,Void,Object> {
     @Override
     protected Object doInBackground(String... params) {
         if(params[0].equals("startSocket")){
-            return startSocket();
-        }
-        else if(params[0].equals("startConnection")){
-            return startConnection();
-        }
-        else if(params[0].equals("isMatchFound")){
-            return isMatchFound();
-        }
-        else if(params[0].equals("getData")){
-            return getData();
+            if(startSocket()){
+                if(startConnection()){
+                    while (!isMatchFound()){
+                        String str;
+                        while ((str = getData())!=null){
+                            incoming = str;
+                        }
+                        return false;
+                    }
+                }
+            }
+            return false;
         }
         else {
-            return sendData();
+            return sendData(params[1]);
         }
     }
     @Override
     protected void onPostExecute(Object obj){
         result = obj;
+        Log.i("result",result+"");
+
     }
     @Override
     protected void onCancelled() {

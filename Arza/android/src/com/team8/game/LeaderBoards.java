@@ -12,7 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager.LayoutParams;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -53,13 +53,16 @@ public class LeaderBoards extends FragmentActivity implements ScoresFragment.OnL
 
                 builder.show();
                 Window win = builder.getWindow();
-                win.setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                win.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                 builder.setCanceledOnTouchOutside(true);
                 builder.setCancelable(true);
                 win.setContentView(dialogView);
                 if(password.getText().length()!=0 && password.getText() == passwordVerification.getText()){
                     builder.dismiss();
                 }
+
+                //new StartMultiPlayer().execute("startConnection");
+                //new StartMultiPlayer().execute("isMatchFound");
             }
 
         });

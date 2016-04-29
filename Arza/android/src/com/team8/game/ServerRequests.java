@@ -10,6 +10,9 @@ import java.net.Socket;
 /**
  * Created by ayushnvijay on 4/28/16.
  */
+
+//Just blueprint
+//Dont use it, see StartMultiplayer.java
 public class ServerRequests {
     public static boolean startSocket(Socket socket){
         try{

@@ -113,6 +113,11 @@ public class ScoresFragment extends Fragment {
 
     @Override
     public void onDetach() {
+        /*try {
+            StartMultiPlayer.echoSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
         super.onDetach();
         mListener = null;
     }
