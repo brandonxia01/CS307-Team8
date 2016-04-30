@@ -36,6 +36,7 @@ public class GameStateManager {
     public void setMyGameCallback(MyGameCallback callback) {
         myGameCallback = callback;
     }
+
     public interface MyGameCallback {
         void onStartActivityLeaderboard();
 

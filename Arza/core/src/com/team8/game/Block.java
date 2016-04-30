@@ -42,7 +42,6 @@ public class Block {
 	public Block(int garbage) {
 		// overload constructor (garbage is a special type of block);
 		color = 5;
-		// picturePath = something
 
 	}
 

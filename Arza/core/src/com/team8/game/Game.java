@@ -5,7 +5,7 @@ import java.util.Random;
 public class Game {
 
 	public Board board;
-	int framectr;
+	public int framectr;
 	public Piece p;
 	public Piece nextp;
 	public boolean isover;
@@ -14,22 +14,37 @@ public class Game {
 	public int framectr2;
 	public Board board2;
 	boolean drop=false;
+	int garbcount1=0;
+	int garbcount2=0;
+	int turncount1=1;
+	int turncount2=1;
+	int endlessgarbctr=5;
+	boolean endless = false;
+	boolean hard = false;
+	public float speed = 42;
+	public float currentspeed=42;
+	boolean found = false;
 
-	public Game() {
+	public Game(int state) {
 		//Create a board, maybe two if vs cpu or other person
 		board = new Board(6,14); // 6x14 is the generic measurements
 		board2 = new Board(6,14);
 		// only the rows 2-13 are visible to the user
 		// rows 0, 1 are ghostly
 
-		//one thread that draws the board and polls input every 60ms
-		//another thread that reads input and changes board
+		if (state==1) endless=true;
+		System.out.printf("Begin game state %b\n", endless);
+
+		if (state == 2) {
+			hard = true;
+		}
 		isover = false;
 
 		framectr = 0;
 		p = new Piece();
 		p2 = new Piece();
 		nextp2 = new Piece();
+		nextp = nextp2;
 		nextp = new Piece();
 		p.putPieceInto(board);
 		p2.putPieceInto(board2);
@@ -37,13 +52,16 @@ public class Game {
 
 	public Board update() {
 		this.framectr++;
-		if (board.offset < 42) board.offset++;
-		if (framectr == 42) {
+		/*
+		if (fastfall && board.offset<42) board.offset+=(42/4);
+		else if (board.offset < 42) board.offset++;
+
+		if ((fastfall && framectr==4) || framectr == 42) {
 			p.singleDrop(board);
 			board.offset = 0;
 			framectr = 0;
 		}
-
+		 */
 
 
 		if (!p.control) {
@@ -52,33 +70,74 @@ public class Game {
 				board.clear();
 				isover=true;
 			}
-			boolean found;
-			while (found = board.findGroups() || this.drop == true) {
-				//wait
+			try{ Thread.sleep(300);}
+			catch (InterruptedException e) {}
+			found = board.findGroups();
+			if (found || this.drop == true) {
+				System.out.println("While loop");
+				try{ Thread.sleep(300);}
+				catch (InterruptedException e) {}
+
 				if (found) {
-					try{ Thread.sleep(500);}
+					System.out.println("Wait: found group = true");
+					try{ Thread.sleep(300);}
 					catch (InterruptedException e) {}
+					garbcount1++;
 				}
-				//call all drop on next call
+				//If combo is found, blocks have been broken. Draw board in current state and drop on next call
 				if (this.drop) {
-					//System.out.println("REACHEDAAAAAAAAAAAAAAAA");
 					board.allDrop();
-					try{ Thread.sleep(500);}
+					System.out.println("Wait: drop = true");
+					try{ Thread.sleep(300);}
 					catch (InterruptedException e) {}
 					this.drop = false;
+					return this.board;
 				}
 				else {
 					this.drop = true;
 					return this.board;
 				}
 			}
+			if (garbcount1 > 0) {
+				try{ Thread.sleep(300);}
+				catch (InterruptedException e) {}
+				board2.takeGarbage(garbcount1);
+				garbcount1=0;
+			}
+			//Every 10 turns receive garbage
+			if (hard && turncount1%10==0) {
+				board.takeGarbage(1);
+			}
+			//Every 15 turns increase speed
+			if (hard && turncount1%15==0) {
+				if (currentspeed > 21) currentspeed-=8;
+			}
 			p = nextp;
 			nextp= new Piece();
 			p.putPieceInto(board);
 			framectr = 0;
+			turncount1++;
+			speed=currentspeed;
 		}
+		if (board.offset<42) board.offset+=(42/speed);
 
+		if (framectr>=speed ) {
+			p.singleDrop(board);
+
+			board.offset = 0;
+			framectr = 0;
+		}
+		//send to server this.board.getClean();
 		return this.board;
+	}
+	public Board updateMulti() {
+		/*receive from server most recent clean board
+		int [][] b = server
+		if (b != null) {
+			this.board2 = this.board2.getDirty(b);
+		}
+		*/
+		return this.board2;
 	}
 
 	public Board updateMini() {
@@ -98,12 +157,19 @@ public class Game {
 			}
 			while (this.board2.findGroups()) {
 				//wait
+				garbcount1++;
 				this.board2.allDrop();
 			}
+			if (garbcount2 > 0) {
+				board.takeGarbage(garbcount2);
+				garbcount2=0;
+			}
+			this.board2.allDrop();
 			p2 = nextp2;
 			nextp2 = new Piece();
 			p2.putPieceInto(board2);
 			framectr2 = 0;
+			turncount2++;
 		}
 		Random r = new Random();
 		int x = r.nextInt(200);
@@ -114,9 +180,11 @@ public class Game {
 				break;
 			case 2: p2.rotateCounter(board2);
 				break;
-			case 3: p2.singleDrop(board2);
-				break;
-
+		}
+		int mmm = r.nextInt(1000);
+		if (mmm == 69) {
+			for (int gig = 0; gig < 14; gig++)
+				p2.singleDrop(board2);
 		}
 
 

@@ -16,7 +16,8 @@ import java.util.Random;
 
 public class endlessState extends State implements GestureDetector.GestureListener {
 
-    Game game = new Game();
+    static int mode;
+    Game game = new Game(mode);
     Board board = game.board;
     GestureDetector gestureDetector;
     private int prevscore = 0;
@@ -40,17 +41,68 @@ public class endlessState extends State implements GestureDetector.GestureListen
     Sprite frame_top;
     Sprite frame_bot;
     Sprite frame_block;
+
     Sprite block_red;
     Sprite block_blue;
     Sprite block_yellow;
     Sprite block_green;
     Sprite block_purple;
     Sprite block_garbage;
+
+    Sprite block_2horz_red;
+    Sprite block_2horz_blue;
+    Sprite block_2horz_yellow;
+    Sprite block_2horz_green;
+    Sprite block_2horz_purple;
+
+    Sprite block_2vert_red;
+    Sprite block_2vert_blue;
+    Sprite block_2vert_yellow;
+    Sprite block_2vert_green;
+    Sprite block_2vert_purple;
+
+    Sprite block_3horz_red;
+    Sprite block_3horz_blue;
+    Sprite block_3horz_yellow;
+    Sprite block_3horz_green;
+    Sprite block_3horz_purple;
+
+    Sprite block_3vert_red;
+    Sprite block_3vert_blue;
+    Sprite block_3vert_yellow;
+    Sprite block_3vert_green;
+    Sprite block_3vert_purple;
+
+    Sprite block_3_123_red;
+    Sprite block_3_123_blue;
+    Sprite block_3_123_yellow;
+    Sprite block_3_123_green;
+    Sprite block_3_123_purple;
+
+    Sprite block_3_124_red;
+    Sprite block_3_124_blue;
+    Sprite block_3_124_yellow;
+    Sprite block_3_124_green;
+    Sprite block_3_124_purple;
+
+    Sprite block_3_134_red;
+    Sprite block_3_134_blue;
+    Sprite block_3_134_yellow;
+    Sprite block_3_134_green;
+    Sprite block_3_134_purple;
+
+    Sprite block_3_234_red;
+    Sprite block_3_234_blue;
+    Sprite block_3_234_yellow;
+    Sprite block_3_234_green;
+    Sprite block_3_234_purple;
+
     Sprite guideline_red;
     Sprite guideline_blue;
     Sprite guideline_yellow;
     Sprite guideline_purple;
     Sprite guideline_green;
+
 
     BitmapFont bfont;
     BitmapFont bfont2;
@@ -59,12 +111,12 @@ public class endlessState extends State implements GestureDetector.GestureListen
 
         super(gsm);
         firsttime = false;
-        cam.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        cam.setToOrtho(false, Gdx.graphics.getWidth() / 1.5f,Gdx.graphics.getHeight() / 1.5f);
         gestureDetector = new GestureDetector(this);
         Gdx.input.setInputProcessor(gestureDetector);
 
         // Initialize sounds
-        bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
+
         scoresound = Gdx.audio.newSound(Gdx.files.internal("Cymatics Weird Snare 2.wav"));
         rightso = Gdx.audio.newSound(Gdx.files.internal("rightgo.mp3"));
         leftso = Gdx.audio.newSound(Gdx.files.internal("leftgo.mp3"));
@@ -73,7 +125,23 @@ public class endlessState extends State implements GestureDetector.GestureListen
         //Initialize sprites
         //Pick random background
         Random ran = new Random();
-        int bg_pick = ran.nextInt(3);
+        int mus_pick = ran.nextInt(3);
+        switch(mus_pick) {
+            case 0:
+                bgsong =Gdx.audio.newMusic(Gdx.files.internal("song1.wav"));
+                break;
+            case 1:
+                bgsong =Gdx.audio.newMusic(Gdx.files.internal("song2.wav"));
+                break;
+            case 2:
+                bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
+                break;
+            default:
+                bgsong =Gdx.audio.newMusic(Gdx.files.internal("testristemp.mp3"));
+        }
+
+
+        int bg_pick = ran.nextInt(4);
         switch(bg_pick) {
             case 0:
                 background_tex = new Texture("background1.png");
@@ -83,6 +151,9 @@ public class endlessState extends State implements GestureDetector.GestureListen
                 break;
             case 2:
                 background_tex = new Texture("background3.png");
+                break;
+            case 3:
+                background_tex = new Texture("background4.png");
                 break;
             default:
                 background_tex = new Texture("background2.png");
@@ -101,6 +172,54 @@ public class endlessState extends State implements GestureDetector.GestureListen
         block_green = new Sprite(new Texture("block_green.png"));
         block_purple = new Sprite(new Texture("block_purple.png"));
         block_garbage = new Sprite(new Texture("block_garbage.png"));
+
+        block_2horz_blue = new Sprite(new Texture("block_2horz_blue.png"));
+        block_2horz_red = new Sprite(new Texture("block_2horz_red.png"));
+        block_2horz_yellow = new Sprite(new Texture("block_2horz_yellow.png"));
+        block_2horz_green = new Sprite(new Texture("block_2horz_green.png"));
+        block_2horz_purple = new Sprite(new Texture("block_2horz_purple.png"));
+
+        block_2vert_blue = new Sprite(new Texture("block_2vert_blue.png"));
+        block_2vert_red = new Sprite(new Texture("block_2vert_red.png"));
+        block_2vert_yellow = new Sprite(new Texture("block_2vert_yellow.png"));
+        block_2vert_green = new Sprite(new Texture("block_2vert_green.png"));
+        block_2vert_purple = new Sprite(new Texture("block_2vert_purple.png"));
+
+        block_3horz_blue = new Sprite(new Texture("block_3horz_blue.png"));
+        block_3horz_red = new Sprite(new Texture("block_3horz_red.png"));
+        block_3horz_yellow = new Sprite(new Texture("block_3horz_yellow.png"));
+        block_3horz_green = new Sprite(new Texture("block_3horz_green.png"));
+        block_3horz_purple = new Sprite(new Texture("block_3horz_purple.png"));
+
+        block_3vert_blue = new Sprite(new Texture("block_3vert_blue.png"));
+        block_3vert_red = new Sprite(new Texture("block_3vert_red.png"));
+        block_3vert_yellow = new Sprite(new Texture("block_3vert_yellow.png"));
+        block_3vert_green = new Sprite(new Texture("block_3vert_green.png"));
+        block_3vert_purple = new Sprite(new Texture("block_3vert_purple.png"));
+
+        block_3_123_blue = new Sprite(new Texture("block_3_123_blue.png"));
+        block_3_123_red = new Sprite(new Texture("block_3_123_red.png"));
+        block_3_123_yellow = new Sprite(new Texture("block_3_123_yellow.png"));
+        block_3_123_green = new Sprite(new Texture("block_3_123_green.png"));
+        block_3_123_purple = new Sprite(new Texture("block_3_123_purple.png"));
+
+        block_3_124_blue = new Sprite(new Texture("block_3_124_blue.png"));
+        block_3_124_red = new Sprite(new Texture("block_3_124_red.png"));
+        block_3_124_yellow = new Sprite(new Texture("block_3_124_yellow.png"));
+        block_3_124_green = new Sprite(new Texture("block_3_124_green.png"));
+        block_3_124_purple = new Sprite(new Texture("block_3_124_purple.png"));
+
+        block_3_134_blue = new Sprite(new Texture("block_3_134_blue.png"));
+        block_3_134_red = new Sprite(new Texture("block_3_134_red.png"));
+        block_3_134_yellow = new Sprite(new Texture("block_3_134_yellow.png"));
+        block_3_134_green = new Sprite(new Texture("block_3_134_green.png"));
+        block_3_134_purple = new Sprite(new Texture("block_3_134_purple.png"));
+
+        block_3_234_blue = new Sprite(new Texture("block_3_234_blue.png"));
+        block_3_234_red = new Sprite(new Texture("block_3_234_red.png"));
+        block_3_234_yellow = new Sprite(new Texture("block_3_234_yellow.png"));
+        block_3_234_green = new Sprite(new Texture("block_3_234_green.png"));
+        block_3_234_purple = new Sprite(new Texture("block_3_234_purple.png"));
 
         guideline_red = new Sprite(new Texture("guideline_red.png"));
         guideline_blue = new Sprite(new Texture("guideline_blue.png"));
@@ -183,12 +302,181 @@ public class endlessState extends State implements GestureDetector.GestureListen
         }
     }
 
+    public void drawHorz(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_2horz_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_2horz_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_2horz_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_2horz_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_2horz_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+    public void drawVert(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_2vert_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_2vert_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_2vert_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_2vert_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_2vert_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+    public void draw3Horz(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_3horz_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_3horz_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_3horz_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_3horz_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_3horz_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+    public void draw3Vert(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_3vert_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_3vert_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_3vert_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_3vert_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_3vert_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+    public void draw123(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_3_123_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_3_123_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_3_123_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_3_123_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_3_123_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+
+    public void draw124(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_3_124_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_3_124_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_3_124_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_3_124_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_3_124_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+    public void draw134(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_3_134_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_3_134_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_3_134_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_3_134_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_3_134_purple, x, y);
+                break;
+            default:
+        }
+    }
+
+    public void draw234(int color, float x, float y, SpriteBatch sb) {
+        switch (color) {
+            case 0:
+                sb.draw(block_3_234_red, x, y);
+                break;
+            case 1:
+                sb.draw(block_3_234_blue, x, y);
+                break;
+            case 2:
+                sb.draw(block_3_234_yellow, x, y);
+                break;
+            case 3:
+                sb.draw(block_3_234_green, x, y);
+                break;
+            case 4:
+                sb.draw(block_3_234_purple, x, y);
+                break;
+            default:
+        }
+    }
+
     @Override
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
 
-        sb.draw(background, background.getX(), background.getY(),Gdx.graphics.getWidth()/2 , Gdx.graphics.getHeight()/2);
+        sb.draw(background, background.getX(), background.getY(),Gdx.graphics.getWidth()/3 , Gdx.graphics.getHeight()/3);
         sb.draw(frame_top, frame_top.getX(), frame_top.getY());
         sb.draw(frame_bot, frame_bot.getX(), frame_bot.getY());
         sb.draw(frame_l, frame_l.getX(), frame_l.getY());
@@ -211,7 +499,6 @@ public class endlessState extends State implements GestureDetector.GestureListen
             gsm.set(new retrystate(gsm));
             dispose();
         }
-
         //Draw score and time
         scoreString = "Score: " + board.score;
         currscore = board.score;
@@ -230,7 +517,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
         drawBlock(game.nextp.getA().getColor(), 56, frame_top.getY()+frame_top.getHeight()+ 8+12, sb);
         drawBlock(game.nextp.getB().getColor(), 56, frame_top.getY()+frame_top.getHeight()+ 42+8+12, sb);
 
-        //Draw each space in the board if it contains a block
+        //Draw each space in the board if it contains a block and hasnt already been drawn
         for(int cols = 5; cols >= 0; cols--) {
             for (int row = 13; row >= 2; row--) {
                 if (board.board[row][cols] == null) continue;
@@ -258,12 +545,8 @@ public class endlessState extends State implements GestureDetector.GestureListen
                 }
 
                 //Offset is used to give smooth falling animation. Only want it to apply to current falling piece
-                //If block has reached the bottom don't apply offset
-                if (row == 13) {
-                    drawBlock(color, initx+(cols*42), inity-(row*42), sb);
-                }
                 //If the current location is part of the current falling piece...
-                else if ((row == fallingY1 && cols == fallingX1) || (row == fallingY2 && cols == fallingX2)) {
+                if (((row == fallingY1 && cols == fallingX1) || (row == fallingY2 && cols == fallingX2)) && row != 13) {
                     //Apply offset if there's empty space below it
                     if (board.board[row + 1][cols] == null) {
                         drawBlock(color, initx + (cols * 42), inity - (row * 42) - board.offset, sb);
@@ -280,9 +563,121 @@ public class endlessState extends State implements GestureDetector.GestureListen
                     } else {
                         drawBlock(color, initx+(cols*42), inity-(row*42), sb);
                     }
+                    continue;
                 }
                 else {
-                    drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+
+                    //print merged blocks
+
+                    //if two blocks to right are same color
+                    try {
+                        if (board.board[row][cols + 2] == null || board.board[row][cols + 1] == null) {
+
+                        }
+                        else if (board.board[row][cols + 1].getColor() == color && board.board[row][cols + 2].getColor() == color && color != 5 && !((row == fallingY1 && cols+2 == fallingX1) || (row == fallingY2 && cols+2 == fallingX2))) {
+                            draw3Horz(color,  initx + (cols * 42), inity - row * 42, sb);
+                            continue;
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
+                    //if two blocks below are same color
+                    try {
+                        if (board.board[row+2][cols] == null || board.board[row+1][cols] == null) {
+
+                        }
+                        else if (board.board[row+2][cols].getColor() == color && board.board[row+1][cols].getColor() == color && color != 5 && !((row + 2 == fallingY1 && cols == fallingX1) || (row + 2 == fallingY2 && cols == fallingX2))) {
+                            draw3Vert(color,  initx + (cols * 42), inity - (row+2) * 42, sb);
+                            continue;
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
+                    //if one to right and one below
+                    try {
+                        if (board.board[row+1][cols] == null || board.board[row][cols+1] == null) {
+
+                        }
+                        else if (board.board[row+1][cols].getColor() == color && board.board[row][cols+1].getColor() == color && color != 5 && !((row+1 == fallingY1 && cols == fallingX1) || (row+1 == fallingY2 && cols == fallingX2)) && !((row == fallingY1 && cols+1 == fallingX1) || (row  == fallingY2 && cols+1 == fallingX2))) {
+                            draw123(color, initx + (cols * 42), inity - (row + 1) * 42, sb);
+                            continue;
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
+                    // if 124 formation
+                    try {
+                        if (board.board[row][cols+1] == null || board.board[row+1][cols+1] == null) {
+
+                        }
+                        else if (board.board[row][cols+1].getColor() == color && board.board[row+1][cols+1].getColor() == color && color != 5 && !((row == fallingY1 && cols+1 == fallingX1) || (row == fallingY2 && cols+1 == fallingX2)) && !((row+1 == fallingY1 && cols+1 == fallingX1) || (row + 1 == fallingY2 && cols+1 == fallingX2))) {
+                            draw124(color, initx + (cols * 42), inity - (row + 1) * 42, sb);
+                            continue;
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
+                    //if 134 formation
+                    try {
+                        if (board.board[row+1][cols] == null || board.board[row+1][cols+1] == null) {
+
+                        }
+                        else if (board.board[row+1][cols].getColor() == color && board.board[row+1][cols+1].getColor() == color && color != 5 && !((row+1 == fallingY1 && cols == fallingX1) || (row+1 == fallingY2 && cols == fallingX2)) && !((row + 1 == fallingY1 && cols+1 == fallingX1) || (row + 1 == fallingY2 && cols+1 == fallingX2))) {
+                            draw134(color, initx + (cols * 42), inity - (row + 1) * 42, sb);
+                            continue;
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
+                    //if 234
+                    try {
+                        if (board.board[row][cols+1] == null || board.board[row-1][cols+1] == null) {
+
+                        }
+                        else if (board.board[row][cols+1].getColor() == color && board.board[row-1][cols+1].getColor() == color && color != 5 && !((row == fallingY1 && cols+1 == fallingX1) || (row == fallingY2 && cols+1 == fallingX2)) && !((row-1 == fallingY1 && cols+1 == fallingX1) || (row - 1 == fallingY2 && cols+1 == fallingX2))) {
+                            draw234(color, initx + ((cols) * 42), inity - (row) * 42, sb);
+                            continue;
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        //drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
+                    //if block to right is same color
+                    try {
+                        if (board.board[row][cols + 1] == null) {
+                            drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
+                        }
+                        else if (board.board[row][cols + 1].getColor() == color && color != 5 && !((row == fallingY1 && cols+1 == fallingX1) || (row == fallingY2 && cols+1 == fallingX2))) {
+                            drawHorz(color, initx + (cols * 42), inity - row * 42, sb);
+                            continue;
+                        }
+                        else {
+                            drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
+                    //if block below is same color
+                    try {
+                        if (board.board[row + 1][cols] == null) {
+                            drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                        }
+                        else if (board.board[row + 1][cols].getColor() == color && color != 5 && !((row + 1 == fallingY1 && cols == fallingX1) || (row + 1 == fallingY2 && cols == fallingX2))) {
+                            drawVert(color, initx + (cols * 42), inity - (row + 1) * 42, sb);
+                        }
+                        else {
+                            drawBlock(color, initx + (cols * 42), inity - (row * 42), sb);
+                        }
+                    }
+                    catch (ArrayIndexOutOfBoundsException e) {
+                        drawBlock(color, initx+(cols*42), inity-(row*42), sb);
+                    }
                 }
             }
         }
@@ -299,6 +694,7 @@ public class endlessState extends State implements GestureDetector.GestureListen
         rightso.dispose();
         downso.dispose();
         bgsong.dispose();
+        background_tex.dispose();
     }
 
     @Override
@@ -338,8 +734,10 @@ public class endlessState extends State implements GestureDetector.GestureListen
             //when left side of screen is touched
             leftso.play(1.0f);
         } else if (velocityY > 3 * Math.abs((int)velocityX) ) {
-            for (int gig = 0; gig < 14; gig++)
-                game.p.singleDrop(board);
+            game.speed=4;
+            game.framectr=0;
+            //for (int gig = 0; gig < 14; gig++)
+            //game.p.singleDrop(board);
             //when down is touched
             downso.play(1.0f);
         }

@@ -12,7 +12,7 @@ public class Board {
 	public long min;
 	public long sec;
 	public long startTime;
-	public int offset;
+	public float offset;
 
 
 	ArrayList <Integer[]> groups = new ArrayList<Integer[]>();
@@ -99,7 +99,7 @@ public class Board {
 						for (int k = 0; k < groups.size(); ++k) {
 							score += 1;
 							if (k > 4) {
-								score += 2;
+								score += k;
 							}
 							board[groups.get(k)[1]][groups.get(k)[0]] = null;
 							removeGarbage(groups.get(k)[1], groups.get(k)[0]);
@@ -116,6 +116,7 @@ public class Board {
 	public void searchGroup(int lr, int ud, int color) {
 		if (board[ud][lr] == null) { return; }
 		if (board[ud][lr].getColor() != color) { return; }
+		if (board[ud][lr].getColor() == 5) { return; }
 
 		for (int i = 0; i < groups.size(); ++i) {
 			if (groups.get(i)[0] == lr && groups.get(i)[1] == ud) {
@@ -128,7 +129,6 @@ public class Board {
 		if (lr < length - 1) { searchGroup(lr + 1, ud, color); }
 		if (ud > 0) { searchGroup(lr, ud - 1, color); }
 		if (ud < height - 1) { searchGroup(lr, ud + 1, color); }
-
 
 	}
 
@@ -147,14 +147,17 @@ public class Board {
 	public void takeGarbage(int num) {
 		for (int i = 0; i < num; ++i) {
 			for (int j = 0; j < 6; ++j) {
-				Block a = new Block (5, 0);
-				if(this.board[0][j] == null) {
-					this.board[0][j] = a;
+				Block a = new Block (5);
+				if(this.board[1][j] == null) {
+					this.board[1][j] = a;
 				}
 			}
-			this.allDrop();
-//			this.print();
+
+			//this.print();
 		}
+		this.allDrop();
+		//System.out.println("after---");
+		//this.print();
 	}
 
 	public void allDrop() {
