@@ -1,9 +1,7 @@
 package com.team8.game.dummy;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Helper class for providing sample content for user interfaces created by
@@ -16,29 +14,35 @@ public class DummyContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+    public static  List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+    public static  List<DummyItem> ITEMS2 = new ArrayList<DummyItem>();
+
+
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
+    //public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
+    //public static final Map<String, DummyItem> ITEM_MAP2 = new HashMap<String, DummyItem>();
 
     private static final int COUNT = 25;
 
     static {
         // Add some sample items.
+
         for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
+            addItem(createDummyItem(i,"Achievements"),ITEMS);
+            addItem(createDummyItem(i,"Players"),ITEMS2);
         }
     }
 
-    private static void addItem(DummyItem item) {
+    public static void addItem(DummyItem item, List<DummyItem> ITEMS) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
+        //ITEM_MAP.put(item.id, item);
     }
 
-    private static DummyItem createDummyItem(int position) {
-        return new DummyItem(String.valueOf(position), "Player " + position, makeDetails(position));
+    public static DummyItem createDummyItem(int position, String str) {
+        return new DummyItem(String.valueOf(position), str + position, makeDetails(position));
     }
 
     private static String makeDetails(int position) {

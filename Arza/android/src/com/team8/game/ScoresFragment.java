@@ -1,17 +1,24 @@
 package com.team8.game;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.team8.game.dummy.DummyContent;
 import com.team8.game.dummy.DummyContent.DummyItem;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 
 /**
  * A fragment representing a list of Items.
@@ -26,12 +33,15 @@ public class ScoresFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-
+    private RecyclerView recyclerView;
+    private MyItemRecyclerViewAdapter recyclerAdapter;
+    int mode;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public ScoresFragment() {
+
     }
 
     // TODO: Customize parameter initialization
@@ -57,18 +67,35 @@ public class ScoresFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_score, container, false);
+        Bundle bundle = getArguments();
 
-        // Set the adapter
+
+        recyclerView = (RecyclerView) view;
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+
         }
+
+        if((mode = bundle.getInt("mode")) == 1){
+            Log.i("Mode"," 1");
+            recyclerAdapter = new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener);
+
+        }
+        else{
+            mode = 2;
+            Log.i("Mode"," 2");
+            recyclerAdapter = new MyItemRecyclerViewAdapter(DummyContent.ITEMS2, mListener);
+        }
+        recyclerView.setAdapter(recyclerAdapter);
+
+        // Set the adapter
+        new DoNetworking().execute();
         return view;
     }
 
@@ -86,6 +113,11 @@ public class ScoresFragment extends Fragment {
 
     @Override
     public void onDetach() {
+        /*try {
+            StartMultiPlayer.echoSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
         super.onDetach();
         mListener = null;
     }
@@ -103,5 +135,63 @@ public class ScoresFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(DummyItem item);
+    }
+    public static String sendGetReq(int type, int reqType, String arg) {
+        try {
+            Socket echoSocket = new Socket("ec2-52-34-71-58.us-west-2.compute.amazonaws.com", 9000);
+            PrintWriter out = new PrintWriter(echoSocket.getOutputStream(), true);
+            out.write("" + type);
+            out.flush();
+            out.write("0" + reqType);
+            out.flush();
+            out.write(arg);
+            out.flush();
+            BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
+            String str = in.readLine();
+            Log.i("CHECK",str+"");
+            in.close();
+            echoSocket.close();
+            return str;
+
+        } catch (Exception e) {
+            Log.i("CHECK","ERROR");
+        }
+        return null;
+    }
+    class DoNetworking extends AsyncTask<Void,Void,String> {
+
+        private DoNetworking() {
+            super();
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String str = sendGetReq(1, 8, "1");
+            Log.i("Top Scorers",str+"");
+            return str;
+        }
+        @Override
+        protected void onPostExecute(String str){
+            //Parse it here
+            if(mode == 2){
+                DummyContent.ITEMS2.clear();
+                int i = 0;
+                for (String retval: str.split(";")){
+                    String newString[] = retval.split(",");
+                    DummyContent.addItem(DummyContent.createDummyItem(i,newString[0]+"\n"+newString[1]),DummyContent.ITEMS2);
+                    i++;
+                }
+                recyclerAdapter = new MyItemRecyclerViewAdapter(DummyContent.ITEMS2, mListener);
+                recyclerView.setAdapter(recyclerAdapter);
+            }
+            else{
+
+            }
+
+        }
+
+
     }
 }
